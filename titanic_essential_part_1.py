@@ -21,7 +21,7 @@ features_all = ['Parch', 'Fare', 'Embarked', 'Sex', 'Name']
 features_categorical = ['Embarked', 'Sex']
 features_text = 'Name'
 target = 'Survived'
-# Import the training data set
+# Import the training data set into a DataFrame
 df = pd.read_csv('http://bit.ly/kaggletrain', nrows=10)
 # Create a DataFrame of the features for the training data set
 X = df[features_all]
