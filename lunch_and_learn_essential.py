@@ -308,7 +308,7 @@ print(pipe.named_steps.regressor.coef_.round(3))
 # Cross-validate the updated pipeline
 print()
 print('Cross-validation score')
-print(cross_val_score(pipe, X_train, y_train, cv=5).mean().round(3))
+print(cross_val_score(pipe, X_train, y_train, cv=5, n_jobs=-1).mean().round(3))
 
 
 # Set the hyperparameters for optimization
@@ -482,11 +482,11 @@ print(pipe.named_steps.linearregression.intercept_.round(3))
 print()
 print('Cross-validation score')
 print(cross_val_score(
-    pipe, X_train, y_train, cv=5,
+    pipe, X_train, y_train, cv=5, n_jobs=-1,
     scoring='r2'
 ).mean().round(3))
 # Calculate predicted values
-predicted = cross_val_predict(pipe, X_all, y_all, cv=5)
+predicted = cross_val_predict(pipe, X_all, y_all, cv=5, n_jobs=-1)
 mse = mean_squared_error(y_all, predicted)
 print()
 print('Mean squared error')
