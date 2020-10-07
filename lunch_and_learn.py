@@ -1,7 +1,5 @@
 #! /usr/bin/env python3
-
-
-'''
+"""
 Python scikit-learn Machine Learning Workflow
 
 In this example I use a simulated data set that has seven features (X1-X7)
@@ -25,22 +23,22 @@ time -f '%e' ./lunch_and_learn.py | tee lunch_and_learn.txt
 time -f '%e' ./lunch_and_learn.py > lunch_and_learn.txt
 ./lunch_and_learn.py > lunch_and_learn.txt
 ./lunch_and_learn.py
-'''
-
+"""
 
 from datetime import datetime
-import numpy as np
-import pandas as pd
-from sklearn.compose import make_column_transformer
+
 from sklearn.feature_selection import SelectFromModel
-from sklearn.impute import SimpleImputer
+from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import\
         cross_val_score,\
         GridSearchCV,\
         train_test_split
 from sklearn.pipeline import make_pipeline
+from sklearn.impute import SimpleImputer
 import datasense as ds
+import pandas as pd
+import numpy as np
 
 
 pd.options.display.max_rows = None
@@ -49,8 +47,6 @@ filename = 'lunch_and_learn.csv'
 target = 'Y'
 features = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7',
             'X8', 'X9', 'X10', 'X11', 'X12', 'X13']
-
-
 data = pd.read_csv(filename)
 print('Determine the number of rows and columns\n')
 print(data.shape)
