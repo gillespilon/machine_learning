@@ -1,7 +1,5 @@
 #! /usr/bin/env python3
-
-
-'''
+"""
 Overview of scikit-learn for supervised machine learning
 Create training and testing data sets
 Create a workflow pipeline
@@ -16,8 +14,7 @@ time -f '%e' ./lunch_and_learn_essential.py | tee lunch_and_learn_essential.txt
 time -f '%e' ./lunch_and_learn_essential.py > lunch_and_learn_essential.txt
 ./lunch_and_learn_essential.py > lunch_and_learn_essential.txt
 ./lunch_and_learn_essential.py
-'''
-
+"""
 
 from typing import List, Tuple
 import math
@@ -36,11 +33,11 @@ from xgboost import XGBRegressor
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 from sklearn import set_config
-import matplotlib.cm as cm
 import pandas as pd
 import numpy as np
 
-
+colour1 = '#0077bb'
+colour2 = '#33bbee'
 pd.options.display.max_rows = None
 pd.options.display.max_columns = None
 file_name = 'lunch_and_learn.csv'
@@ -53,7 +50,6 @@ features = [
 ]
 percent_empty_features = 60.0
 set_config(display='diagram')
-c = cm.Paired.colors
 label_predicted = 'Predicted'
 label_measured = 'Measured'
 title = 'Predicted versus Measured'
@@ -100,7 +96,7 @@ def plot_time_series(
     '''
     fig = plt.figure(figsize=figwh)
     ax = fig.add_subplot(111)
-    ax.plot(yvals, marker='.', linestyle='', color=c[1])
+    ax.plot(yvals, marker='.', linestyle='', color=colour1)
     ax.set_ylabel(ytext)
     ax.set_ylabel(ytext)
     ax.set_title('Time Series')
@@ -127,9 +123,9 @@ def plot_scatter_line(
     '''
     fig = plt.figure(figsize=figwh)
     ax = fig.add_subplot(111)
-    ax.plot(yvals, xvals, marker='.', linestyle='', color=c[1])
+    ax.plot(yvals, xvals, marker='.', linestyle='', color=colour1)
     ax.plot([yvals.min(), yvals.max()], [yvals.min(), yvals.max()],
-            marker=None, linestyle='-', color=c[5])
+            marker=None, linestyle='-', color=colour2)
     ax.set_ylabel(ytext)
     ax.set_xlabel(xtext)
     ax.set_title(titletext)
@@ -153,11 +149,11 @@ def plot_line_line(
     ax = fig.add_subplot(111)
     ax.plot(
         yvals1, marker='.', linestyle='-',
-        color=c[0], label=yvals1text
+        color=colour1, label=yvals1text
     )
     ax.plot(
         yvals2, marker='.', linestyle='-',
-        color=c[1], label=yvals2text
+        color=colour2, label=yvals2text
     )
     ax.set_title(titletext)
     ax.legend(frameon=False)
