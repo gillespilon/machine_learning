@@ -33,6 +33,7 @@ from xgboost import XGBRegressor
 import matplotlib.pyplot as plt
 import matplotlib.axes as axes
 from sklearn import set_config
+import datasense as ds
 import pandas as pd
 import numpy as np
 
@@ -42,7 +43,7 @@ pd.options.display.max_rows = None
 pd.options.display.max_columns = None
 file_name = 'lunch_and_learn.csv'
 graph_name = 'predicted_versus_measured'
-number_rows = 5000
+nrows = 5000
 target = 'Y'
 features = [
     'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7',
@@ -165,7 +166,10 @@ def plot_line_line(
 # Data should be cleaned before fitting a model. A simple example of graphing
 # each feature in sample order and replacing outliers with NaN is shown.
 # Read the data file into a pandas DataFrame
-data = pd.read_csv(file_name, nrows=number_rows)
+data = ds.read_file(
+    file_name=file_name,
+    # nrows=nrows
+)
 
 
 # Plot target versus features
