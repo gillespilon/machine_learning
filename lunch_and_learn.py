@@ -41,13 +41,13 @@ import pandas as pd
 import numpy as np
 
 
-pd.options.display.max_rows = None
 pd.options.display.max_columns = None
-filename = 'lunch_and_learn.csv'
+pd.options.display.max_rows = None
+file_name = 'lunch_and_learn_clean.csv'
 target = 'Y'
 features = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7',
             'X8', 'X9', 'X10', 'X11', 'X12', 'X13']
-data = pd.read_csv(filename)
+data = ds.read_file(file_name=file_name)
 print('Determine the number of rows and columns\n')
 print(data.shape)
 print('\nCheck for missing values in the data set\n')
