@@ -54,7 +54,7 @@ set_config(display='diagram')
 title = 'Predicted versus Measured'
 label_predicted = 'Predicted'
 label_measured = 'Measured'
-figure_width_height = (8, 6)
+figure_width_height = (8, 4.5)
 percent_empty_features = 60.0
 colour1 = '#0077bb'
 colour2 = '#33bbee'
@@ -156,6 +156,7 @@ original_stdout = ds.html_begin(
     headertitle=header_title,
     headerid=header_id
 )
+ds.page_break()
 print('<pre style="white-space: pre-wrap;">')
 # Cleaning the data
 # Data should be cleaned before fitting a model. A simple example of graphing
@@ -210,6 +211,7 @@ features = ds.feature_percent_empty(
     columns=features,
     limit=percent_empty_features
 )
+ds.page_break()
 print('Features')
 print(features)
 
@@ -436,7 +438,7 @@ print(grid.best_params_)
 
 
 # Workflow 2
-print()
+ds.page_break()
 print('Workflow 2')
 # Impute using the mean
 # Select features using SelectFromModel(LassoCV())
