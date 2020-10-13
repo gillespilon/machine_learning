@@ -58,6 +58,9 @@ figure_width_height = (8, 6)
 percent_empty_features = 60.0
 colour1 = '#0077bb'
 colour2 = '#33bbee'
+output_url = 'lunch_and_learn_essential.html'
+header_title = 'lunch_and_learn_essential'
+header_id = 'lunch-and-learn-essential'
 
 
 def plot_time_series(
@@ -77,6 +80,10 @@ def plot_time_series(
     ax.set_title('Time Series')
     ds.despine(ax)
     plt.savefig(f'{graphname}_time_series_{ytext}.svg')
+    print(
+        f'<p><img src="{graphname}_time_series_{ytext}.svg"'
+        f'alt="{graphname}_time_series_{ytext}.svg"></p>'
+    )
     # If you wish to see the graphs inline,
     # comment the next line
     # Otherwise graph files are saved to the current working directory
@@ -106,6 +113,10 @@ def plot_scatter_line(
     ax.set_title(titletext)
     ds.despine(ax)
     plt.savefig(f'{graphname}_scatter.svg')
+    print(
+        f'<p><img src="{graphname}_scatter.svg"'
+        f'alt="{graphname}_scatter.svg"></p>'
+    )
 
 
 def plot_line_line(
@@ -134,8 +145,18 @@ def plot_line_line(
     ax.legend(frameon=False)
     ds.despine(ax)
     plt.savefig(f'{graphname}_lines.svg')
+    print(
+        f'<p><img src="{graphname}_lines.svg"'
+        f'alt="{graphname}_lines.svg"></p>'
+    )
 
 
+original_stdout = ds.html_begin(
+    outputurl=output_url,
+    headertitle=header_title,
+    headerid=header_id
+)
+print('<pre style="white-space: pre-wrap;">')
 # Cleaning the data
 # Data should be cleaned before fitting a model. A simple example of graphing
 # each feature in sample order and replacing outliers with NaN is shown.
@@ -485,3 +506,9 @@ plot_scatter_line(
 # Plot predicted versus measured
 plot_line_line(y_all, predicted, label_measured, label_predicted, title,
                figure_width_height, graph_name)
+
+print('</pre>')
+ds.html_end(
+    originalstdout=original_stdout,
+    outputurl=output_url
+)
