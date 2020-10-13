@@ -40,24 +40,24 @@ import datasense as ds
 import pandas as pd
 import numpy as np
 
-colour1 = '#0077bb'
-colour2 = '#33bbee'
-pd.options.display.max_rows = None
 pd.options.display.max_columns = None
+pd.options.display.max_rows = None
 file_name = 'lunch_and_learn.csv'
-graph_name = 'predicted_versus_measured'
 nrows = 5000
+graph_name = 'predicted_versus_measured'
 target = 'Y'
 features = [
     'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7',
     'X8', 'X9', 'X10', 'X11', 'X12', 'X13', 'X14'
 ]
-percent_empty_features = 60.0
 set_config(display='diagram')
+title = 'Predicted versus Measured'
 label_predicted = 'Predicted'
 label_measured = 'Measured'
-title = 'Predicted versus Measured'
 figure_width_height = (8, 6)
+percent_empty_features = 60.0
+colour1 = '#0077bb'
+colour2 = '#33bbee'
 
 
 def feature_percent_empty(
