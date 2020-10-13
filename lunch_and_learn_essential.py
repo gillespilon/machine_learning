@@ -60,22 +60,6 @@ colour1 = '#0077bb'
 colour2 = '#33bbee'
 
 
-def despine(ax: axes.Axes) -> None:
-    """
-    Remove the top and right spines of a graph.
-
-    Parameters
-    ----------
-    ax : axes.Axes
-
-    Example
-    -------
-    >>> despine(ax)
-    """
-    for spine in 'right', 'top':
-        ax.spines[spine].set_visible(False)
-
-
 def plot_time_series(
     yvals: pd.Series,
     ytext: str,
@@ -91,7 +75,7 @@ def plot_time_series(
     ax.set_ylabel(ytext)
     ax.set_ylabel(ytext)
     ax.set_title('Time Series')
-    despine(ax)
+    ds.despine(ax)
     plt.savefig(f'{graphname}_time_series_{ytext}.svg')
     # If you wish to see the graphs inline,
     # comment the next line
@@ -120,7 +104,7 @@ def plot_scatter_line(
     ax.set_ylabel(ytext)
     ax.set_xlabel(xtext)
     ax.set_title(titletext)
-    despine(ax)
+    ds.despine(ax)
     plt.savefig(f'{graphname}_scatter.svg')
 
 
@@ -148,7 +132,7 @@ def plot_line_line(
     )
     ax.set_title(titletext)
     ax.legend(frameon=False)
-    despine(ax)
+    ds.despine(ax)
     plt.savefig(f'{graphname}_lines.svg')
 
 
