@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 """
-Overview of scikit-learn for supervised machine learning
+Example of scikit-learn for supervised machine learning, Xs are measurements
+
 Create training and testing data sets
 Create a workflow pipeline
 Add a column transformer object
@@ -16,13 +17,15 @@ time -f '%e' ./lunch_and_learn_essential.py > lunch_and_learn_essential.txt
 ./lunch_and_learn_essential.py
 """
 
+from multiprocessing import Pool
 from typing import List, Tuple
+from datetime import datetime
 import math
 
-from sklearn.model_selection import cross_val_score, cross_val_predict,\
-        GridSearchCV, train_test_split
+from sklearn.model_selection import cross_validate, cross_val_score,\
+        cross_val_predict, GridSearchCV, train_test_split
 from sklearn.linear_model import Lasso, LassoCV, LinearRegression
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, SCORERS
 from sklearn.feature_selection import SelectFromModel
 from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.compose import make_column_transformer
