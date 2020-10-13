@@ -500,6 +500,7 @@ print(mse.round(3))
 print()
 print('Root mean squared error')
 print(round(math.sqrt(mse), 3))
+ds.page_break()
 # Plot predicted versus measured
 plot_scatter_line(
     y_all, predicted, label_predicted, label_measured, title,
