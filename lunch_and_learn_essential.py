@@ -60,19 +60,6 @@ colour1 = '#0077bb'
 colour2 = '#33bbee'
 
 
-def feature_percent_empty(
-    df: pd.DataFrame,
-    cols: List[str],
-    limit: float
-) -> List[str]:
-    '''
-    Remove features that have NaN > limit
-    '''
-    num_rows = df.shape[0]
-    return [col for col in cols if
-            ((df[col].isna().sum() / num_rows * 100) <= limit)]
-
-
 def despine(ax: axes.Axes) -> None:
     """
     Remove the top and right spines of a graph.
@@ -212,9 +199,12 @@ for column, lowvalue, highvalue in mask_values:
 data = data.dropna(subset=[target])
 
 
-# Remove features if > percent_empty_features
-# Do not impute for missing values if too many missing
-features = feature_percent_empty(data, features, percent_empty_features)
+# Remove features if number empty cells > limit
+features = ds.feature_percent_empty(
+    df=data,
+    columns=features,
+    limit=percent_empty_features
+)
 print('Features')
 print(features)
 
