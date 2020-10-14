@@ -85,7 +85,7 @@ def plot_scatter_line(
     ax.set_xlabel(xtext)
     ax.set_title(titletext)
     ds.despine(ax)
-    plt.savefig(f'{graphname}_scatter.svg')
+    fig.savefig(f'{graphname}_scatter.svg')
     ds.html_figure(
         file_name=f'{graphname}_scatter.svg',
         caption=f'{graphname}_scatter.svg'
@@ -117,7 +117,7 @@ def plot_line_line(
     ax.set_title(titletext)
     ax.legend(frameon=False)
     ds.despine(ax)
-    plt.savefig(f'{graphname}_lines.svg')
+    fig.savefig(f'{graphname}_lines.svg')
     ds.html_figure(
         file_name=f'{graphname}_lines.svg',
         caption=f'{graphname}_lines.svg'
@@ -149,7 +149,7 @@ for feature in features:
     ax.set_ylabel(feature)
     ax.set_title('Time Series')
     ds.despine(ax)
-    plt.savefig(f'time_series_{feature}.svg')
+    fig.savefig(f'time_series_{feature}.svg')
     ds.html_figure(
         file_name=f'time_series_{feature}.svg',
         caption=f'time_series_{feature}.svg'
