@@ -80,9 +80,9 @@ def plot_time_series(
     ax.set_title('Time Series')
     ds.despine(ax)
     plt.savefig(f'{graphname}_time_series_{ytext}.svg')
-    print(
-        f'<p><img src="{graphname}_time_series_{ytext}.svg"'
-        f'alt="{graphname}_time_series_{ytext}.svg"></p>'
+    ds.html_figure(
+        file_name=f'{graphname}_time_series_{ytext}.svg',
+        caption=f'{graphname}_time_series_{ytext}.svg'
     )
     # If you wish to see the graphs inline,
     # comment the next line
@@ -113,9 +113,9 @@ def plot_scatter_line(
     ax.set_title(titletext)
     ds.despine(ax)
     plt.savefig(f'{graphname}_scatter.svg')
-    print(
-        f'<p><img src="{graphname}_scatter.svg"'
-        f'alt="{graphname}_scatter.svg"></p>'
+    ds.html_figure(
+        file_name=f'{graphname}_scatter.svg',
+        caption=f'{graphname}_scatter.svg'
     )
 
 
@@ -145,9 +145,9 @@ def plot_line_line(
     ax.legend(frameon=False)
     ds.despine(ax)
     plt.savefig(f'{graphname}_lines.svg')
-    print(
-        f'<p><img src="{graphname}_lines.svg"'
-        f'alt="{graphname}_lines.svg"></p>'
+    ds.html_figure(
+        file_name=f'{graphname}_lines.svg',
+        caption=f'{graphname}_lines.svg'
     )
 
 
