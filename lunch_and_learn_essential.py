@@ -63,35 +63,6 @@ header_title = 'lunch_and_learn_essential'
 header_id = 'lunch-and-learn-essential'
 
 
-def plot_scatter_line(
-    yvals: pd.Series,
-    xvals: np.ndarray,
-    ytext: str,
-    xtext: str,
-    titletext: str,
-    figwh: Tuple[int, int],
-    graphname: str
-) -> None:
-    '''
-    Scatter plot of y versus x
-    Line of perfect fit
-    '''
-    fig = plt.figure(figsize=figwh)
-    ax = fig.add_subplot(111)
-    ax.plot(yvals, xvals, marker='.', linestyle='', color=colour1)
-    ax.plot([yvals.min(), yvals.max()], [yvals.min(), yvals.max()],
-            marker=None, linestyle='-', color=colour2)
-    ax.set_ylabel(ylabel=ytext)
-    ax.set_xlabel(xlabel=xtext)
-    ax.set_title(label=titletext)
-    ds.despine(ax)
-    fig.savefig(f'{graphname}_scatter.svg')
-    ds.html_figure(
-        file_name=f'{graphname}_scatter.svg',
-        caption=f'{graphname}_scatter.svg'
-    )
-
-
 def plot_line_line(
     yvals1: pd.Series,
     yvals2: np.ndarray,
@@ -458,10 +429,27 @@ print()
 print('Root mean squared error')
 print(round(math.sqrt(mse), 3))
 ds.page_break()
-# Plot predicted versus measured
-plot_scatter_line(
-    y_all, predicted, label_predicted, label_measured, title,
-    figure_width_height, graph_name
+# Scatter plot of predicted versus measured
+fig, ax = ds.plot_scatter_x_y(
+    X=y_all,
+    y=predicted,
+    figuresize=figure_width_height
+)
+ax.plot(
+    [y_all.min(), y_all.max()],
+    [y_all.min(), y_all.max()],
+    marker=None,
+    linestyle='-',
+    color=colour2
+)
+ax.set_ylabel(ylabel=label_predicted)
+ax.set_xlabel(xlabel=label_measured)
+ax.set_title(label=title)
+ds.despine(ax)
+fig.savefig(f'{graph_name}_scatter.svg')
+ds.html_figure(
+    file_name=f'{graph_name}_scatter.svg',
+    caption=f'{graph_name}_scatter.svg'
 )
 # Plot predicted versus measured
 plot_line_line(y_all, predicted, label_measured, label_predicted, title,
