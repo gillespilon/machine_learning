@@ -81,9 +81,9 @@ def plot_scatter_line(
     ax.plot(yvals, xvals, marker='.', linestyle='', color=colour1)
     ax.plot([yvals.min(), yvals.max()], [yvals.min(), yvals.max()],
             marker=None, linestyle='-', color=colour2)
-    ax.set_ylabel(ytext)
-    ax.set_xlabel(xtext)
-    ax.set_title(titletext)
+    ax.set_ylabel(ylabel=ytext)
+    ax.set_xlabel(xlabel=xtext)
+    ax.set_title(label=titletext)
     ds.despine(ax)
     fig.savefig(f'{graphname}_scatter.svg')
     ds.html_figure(
@@ -146,8 +146,8 @@ for feature in features:
         y=data[feature],
         figuresize=figure_width_height
     )
-    ax.set_ylabel(feature)
-    ax.set_title('Time Series')
+    ax.set_ylabel(ylabel=feature)
+    ax.set_title(label='Time Series')
     ds.despine(ax)
     fig.savefig(f'time_series_{feature}.svg')
     ds.html_figure(
