@@ -18,7 +18,6 @@ time -f '%e' ./lunch_and_learn_essential.py > lunch_and_learn_essential.txt
 """
 
 from multiprocessing import Pool
-from typing import List, Tuple
 from datetime import datetime
 import math
 
@@ -33,8 +32,6 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.impute import SimpleImputer
 from xgboost import XGBRegressor
-import matplotlib.pyplot as plt
-import matplotlib.axes as axes
 from sklearn import set_config
 import datasense as ds
 import pandas as pd
@@ -43,7 +40,7 @@ import numpy as np
 pd.options.display.max_columns = None
 pd.options.display.max_rows = None
 file_name = 'lunch_and_learn.csv'
-nrows = 5000
+nrows = 200
 graph_name = 'predicted_versus_measured'
 target = 'Y'
 features = [
@@ -62,39 +59,6 @@ output_url = 'lunch_and_learn_essential.html'
 header_title = 'lunch_and_learn_essential'
 header_id = 'lunch-and-learn-essential'
 
-
-def plot_line_line(
-    yvals1: pd.Series,
-    yvals2: np.ndarray,
-    yvals1text: str,
-    yvals2text: str,
-    titletext: str,
-    figwh: Tuple[int, int],
-    graphname: str
-) -> None:
-    '''
-    Two line plots of y1, y2
-    '''
-    fig = plt.figure(figsize=figwh)
-    ax = fig.add_subplot(111)
-    ax.plot(
-        yvals1, marker='.', linestyle='-',
-        color=colour1, label=yvals1text
-    )
-    ax.plot(
-        yvals2, marker='.', linestyle='-',
-        color=colour2, label=yvals2text
-    )
-    ax.set_title(titletext)
-    ax.legend(frameon=False)
-    ds.despine(ax)
-    fig.savefig(f'{graphname}_lines.svg')
-    ds.html_figure(
-        file_name=f'{graphname}_lines.svg',
-        caption=f'{graphname}_lines.svg'
-    )
-
-
 original_stdout = ds.html_begin(
     outputurl=output_url,
     headertitle=header_title,
@@ -108,7 +72,7 @@ print('<pre style="white-space: pre-wrap;">')
 # Read the data file into a pandas DataFrame
 data = ds.read_file(
     file_name=file_name,
-    # nrows=nrows
+    nrows=nrows
 )
 
 # Plot target versus features
@@ -452,9 +416,23 @@ ds.html_figure(
     caption=f'{graph_name}_scatter.svg'
 )
 # Plot predicted versus measured
-plot_line_line(y_all, predicted, label_measured, label_predicted, title,
-               figure_width_height, graph_name)
-
+# plot_line_line(y_all, predicted, label_measured, label_predicted, title,
+#                figure_width_height, graph_name)
+fig, ax = ds.plot_line_line_y1_y2(
+    y1=y_all,
+    y2=predicted,
+    figuresize=figure_width_height,
+    labellegendy1=label_measured,
+    labellegendy2=label_predicted
+)
+ax.legend(frameon=False)
+ax.set_title(label=title)
+ds.despine(ax)
+fig.savefig(f'{graph_name}_lines.svg')
+ds.html_figure(
+    file_name=f'{graph_name}_lines.svg',
+    caption=f'{graph_name}_lines.svg'
+)
 print('</pre>')
 ds.html_end(
     originalstdout=original_stdout,
