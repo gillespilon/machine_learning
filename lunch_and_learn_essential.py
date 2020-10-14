@@ -63,33 +63,6 @@ header_title = 'lunch_and_learn_essential'
 header_id = 'lunch-and-learn-essential'
 
 
-def plot_time_series(
-    yvals: pd.Series,
-    ytext: str,
-    figwh: Tuple[int, int],
-    graphname: str
-) -> None:
-    '''
-    Scatter plot of y versus sample order
-    '''
-    fig = plt.figure(figsize=figwh)
-    ax = fig.add_subplot(111)
-    ax.plot(yvals, marker='.', linestyle='', color=colour1)
-    ax.set_ylabel(ytext)
-    ax.set_ylabel(ytext)
-    ax.set_title('Time Series')
-    ds.despine(ax)
-    plt.savefig(f'{graphname}_time_series_{ytext}.svg')
-    ds.html_figure(
-        file_name=f'{graphname}_time_series_{ytext}.svg',
-        caption=f'{graphname}_time_series_{ytext}.svg'
-    )
-    # If you wish to see the graphs inline,
-    # comment the next line
-    # Otherwise graph files are saved to the current working directory
-    plt.close()
-
-
 def plot_scatter_line(
     yvals: pd.Series,
     xvals: np.ndarray,
@@ -167,13 +140,20 @@ data = ds.read_file(
     # nrows=nrows
 )
 
-
 # Plot target versus features
 for feature in features:
-    plot_time_series(
-        data[feature], feature, figure_width_height, graph_name
+    fig, ax = ds.plot_scatter_y(
+        y=data[feature],
+        figuresize=figure_width_height
     )
-
+    ax.set_ylabel(feature)
+    ax.set_title('Time Series')
+    ds.despine(ax)
+    plt.savefig(f'time_series_{feature}.svg')
+    ds.html_figure(
+        file_name=f'time_series_{feature}.svg',
+        caption=f'time_series_{feature}.svg'
+    )
 
 # Set lower and upper values to remove outliers
 mask_values = [
@@ -192,7 +172,6 @@ mask_values = [
     ('X13', -20, 23)
 ]
 
-
 # Replace outliers with NaN
 for column, lowvalue, highvalue in mask_values:
     data[column] = data[column].mask(
@@ -200,10 +179,8 @@ for column, lowvalue, highvalue in mask_values:
         (data[column] >= highvalue)
     )
 
-
 # Delete rows if target is NaN
 data = data.dropna(subset=[target])
-
 
 # Remove features if number empty cells > limit
 features = ds.feature_percent_empty(
@@ -215,14 +192,12 @@ ds.page_break()
 print('Features')
 print(features)
 
-
 # Create training and testing data sets
 X_all = data[features]
 y_all = data[target]
 X_train, X_test, y_train, y_test = train_test_split(
     X_all, y_all, test_size=0.33, random_state=42
 )
-
 
 # Machine learning workflow
 # A typical workflow involves several, sequential steps:
@@ -233,7 +208,6 @@ X_train, X_test, y_train, y_test = train_test_split(
 # simply a series of sequential steps. The output of each step is passed to
 # the next step.
 
-
 # Workflow 1
 print()
 print('Workflow 1')
@@ -241,18 +215,15 @@ print('Workflow 1')
 # Select features using SelectFromModel(DecisionTreeRegressor)
 # Fit with LinearRegression
 
-
 # Create the imputer object with
 # the default hyperparameter settings
 imp = SimpleImputer()
-
 
 # Create the column transformer object
 ct = make_column_transformer(
     (imp, features),
     remainder='passthrough'
 )
-
 
 # Create objects to use for feature selection with
 # the default hyperparameter settings
@@ -262,10 +233,8 @@ lasso_selection = Lasso()
 lassocv_selection = LassoCV()
 rfr_selection = RandomForestRegressor()
 
-
 # Create the feature selection object
 selection = SelectFromModel(estimator=dtr_selection)
-
 
 # Create an object to use for regression with
 # the default hyperparameter settings
@@ -275,7 +244,6 @@ lasso = Lasso()
 lassocv = LassoCV()
 rfr = RandomForestRegressor()
 xgb = XGBRegressor()
-
 
 # Create the workflow object
 pipe = Pipeline(
@@ -288,34 +256,28 @@ pipe = Pipeline(
 print()
 print(pipe)
 
-
 # Determine the linear regression model
 pipe.fit(X_train, y_train)
-
 
 # Show the selected features
 print()
 print('Selected features')
 print(X_all.columns[selection.get_support()])
 
-
 # Display the regression intercept
 print()
 print('Regression intercept')
 print(pipe.named_steps.regressor.intercept_.round(3))
-
 
 # Display the regression coefficients of the features
 print()
 print('Regression coefficients')
 print(pipe.named_steps.regressor.coef_.round(3))
 
-
 # Cross-validate the updated pipeline
 print()
 print('Cross-validation score')
 print(cross_val_score(pipe, X_train, y_train, cv=5, n_jobs=-1).mean().round(3))
-
 
 # Set the hyperparameters for optimization
 # Create a dictionary
@@ -414,15 +376,12 @@ hyperparams.append(
 )
 '''
 
-
 # Perform a grid search
 grid = GridSearchCV(pipe, hyperparams, n_jobs=-1, cv=5)
 grid.fit(X_train, y_train)
 
-
 # Present the results
 pd.DataFrame(grid.cv_results_).sort_values('rank_test_score')
-
 
 # Access the best score
 print()
@@ -430,12 +389,10 @@ print('Hyperparameter optimization')
 print('Best score')
 print(grid.best_score_.round(3))
 
-
 # Access the best hyperparameters
 print()
 print('Best hyperparameters')
 print(grid.best_params_)
-
 
 # Workflow 2
 ds.page_break()
