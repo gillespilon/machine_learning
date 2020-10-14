@@ -51,7 +51,7 @@ set_config(display='diagram')
 title = 'Predicted versus Measured'
 label_predicted = 'Predicted'
 label_measured = 'Measured'
-figure_width_height = (8, 4.5)
+figsize = (8, 4.5)
 percent_empty_features = 60.0
 colour1 = '#0077bb'
 colour2 = '#33bbee'
@@ -79,7 +79,7 @@ data = ds.read_file(
 for feature in features:
     fig, ax = ds.plot_scatter_y(
         y=data[feature],
-        figuresize=figure_width_height
+        figsize=figsize
     )
     ax.set_ylabel(ylabel=feature)
     ax.set_title(label='Time Series')
@@ -397,7 +397,7 @@ ds.page_break()
 fig, ax = ds.plot_scatter_x_y(
     X=y_all,
     y=predicted,
-    figuresize=figure_width_height
+    figsize=figsize
 )
 ax.plot(
     [y_all.min(), y_all.max()],
@@ -419,7 +419,7 @@ ds.html_figure(
 fig, ax = ds.plot_line_line_y1_y2(
     y1=y_all,
     y2=predicted,
-    figuresize=figure_width_height,
+    figsize=figsize,
     labellegendy1=label_measured,
     labellegendy2=label_predicted
 )
