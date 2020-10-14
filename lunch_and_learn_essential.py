@@ -415,9 +415,7 @@ ds.html_figure(
     file_name=f'{graph_name}_scatter.svg',
     caption=f'{graph_name}_scatter.svg'
 )
-# Plot predicted versus measured
-# plot_line_line(y_all, predicted, label_measured, label_predicted, title,
-#                figure_width_height, graph_name)
+# Line plot of predicted versus measured
 fig, ax = ds.plot_line_line_y1_y2(
     y1=y_all,
     y2=predicted,
