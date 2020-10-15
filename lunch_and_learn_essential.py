@@ -19,6 +19,7 @@ time -f '%e' ./lunch_and_learn_essential.py > lunch_and_learn_essential.txt
 
 from multiprocessing import Pool
 from datetime import datetime
+import time
 import math
 
 from sklearn.model_selection import cross_validate, cross_val_score,\
@@ -59,6 +60,24 @@ output_url = 'lunch_and_learn_essential.html'
 header_title = 'lunch_and_learn_essential'
 header_id = 'lunch-and-learn-essential'
 
+
+def plot_scatter_y(t: pd.Series) -> None:
+    y, feature = t
+    fig, ax = ds.plot_scatter_y(
+        y=y,
+        figsize=figsize
+    )
+    ax.set_ylabel(ylabel=feature)
+    ax.set_title(label='Time Series')
+    ds.despine(ax)
+    fig.savefig(f'time_series_{feature}.svg')
+    ds.html_figure(
+        file_name=f'time_series_{feature}.svg',
+        caption=f'time_series_{feature}.svg'
+    )
+
+
+start_time = time.time()
 original_stdout = ds.html_begin(
     outputurl=output_url,
     headertitle=header_title,
@@ -74,21 +93,26 @@ data = ds.read_file(
     file_name=file_name,
     nrows=nrows
 )
-
 # Plot target versus features
-for feature in features:
-    fig, ax = ds.plot_scatter_y(
-        y=data[feature],
-        figsize=figsize
-    )
-    ax.set_ylabel(ylabel=feature)
-    ax.set_title(label='Time Series')
-    ds.despine(ax)
-    fig.savefig(f'time_series_{feature}.svg')
-    ds.html_figure(
-        file_name=f'time_series_{feature}.svg',
-        caption=f'time_series_{feature}.svg'
-    )
+# With multiprocessing
+t = ((data[feature], feature) for feature in features)
+with Pool() as pool:
+    for _ in pool.imap_unordered(plot_scatter_y, t):
+        pass
+# Without multiprocessing
+# for feature in features:
+#     fig, ax = ds.plot_scatter_y(
+#         y=data[feature],
+#         figsize=figsize
+#     )
+#     ax.set_ylabel(ylabel=feature)
+#     ax.set_title(label='Time Series')
+#     ds.despine(ax)
+#     fig.savefig(f'time_series_{feature}.svg')
+#     ds.html_figure(
+#         file_name=f'time_series_{feature}.svg',
+#         caption=f'time_series_{feature}.svg'
+#     )
 
 # Set lower and upper values to remove outliers
 mask_values = [
@@ -430,6 +454,12 @@ fig.savefig(f'{graph_name}_lines.svg')
 ds.html_figure(
     file_name=f'{graph_name}_lines.svg',
     caption=f'{graph_name}_lines.svg'
+)
+stop_time = time.time()
+ds.page_break()
+ds.report_summary(
+    start_time=start_time,
+    stop_time=stop_time
 )
 print('</pre>')
 ds.html_end(
