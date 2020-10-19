@@ -79,9 +79,9 @@ def plot_scatter_y(t: pd.Series) -> None:
 
 start_time = time.time()
 original_stdout = ds.html_begin(
-    outputurl=output_url,
-    headertitle=header_title,
-    headerid=header_id
+    output_url=output_url,
+    header_title=header_title,
+    header_id=header_id
 )
 ds.page_break()
 print('<pre style="white-space: pre-wrap;">')
@@ -463,6 +463,6 @@ ds.report_summary(
 )
 print('</pre>')
 ds.html_end(
-    originalstdout=original_stdout,
-    outputurl=output_url
+    original_stdout=original_stdout,
+    output_url=output_url
 )
