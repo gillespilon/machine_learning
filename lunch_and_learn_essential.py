@@ -70,7 +70,10 @@ def plot_scatter_y(t: pd.Series) -> None:
     ax.set_ylabel(ylabel=feature)
     ax.set_title(label='Time Series')
     ds.despine(ax)
-    fig.savefig(f'time_series_{feature}.svg')
+    fig.savefig(
+        fname=f'time_series_{feature}.svg',
+        format='svg'
+    )
     ds.html_figure(
         file_name=f'time_series_{feature}.svg',
         caption=f'time_series_{feature}.svg'
@@ -108,7 +111,10 @@ with Pool() as pool:
 #     ax.set_ylabel(ylabel=feature)
 #     ax.set_title(label='Time Series')
 #     ds.despine(ax)
-#     fig.savefig(f'time_series_{feature}.svg')
+#     fig.savefig(
+#         fname=f'time_series_{feature}.svg',
+#         format='svg'
+#     )
 #     ds.html_figure(
 #         file_name=f'time_series_{feature}.svg',
 #         caption=f'time_series_{feature}.svg'
@@ -434,7 +440,10 @@ ax.set_ylabel(ylabel=label_predicted)
 ax.set_xlabel(xlabel=label_measured)
 ax.set_title(label=title)
 ds.despine(ax)
-fig.savefig(f'{graph_name}_scatter.svg')
+fig.savefig(
+    fname=f'{graph_name}_scatter.svg',
+    format='svg'
+)
 ds.html_figure(
     file_name=f'{graph_name}_scatter.svg',
     caption=f'{graph_name}_scatter.svg'
@@ -450,7 +459,10 @@ fig, ax = ds.plot_line_line_y1_y2(
 ax.legend(frameon=False)
 ax.set_title(label=title)
 ds.despine(ax)
-fig.savefig(f'{graph_name}_lines.svg')
+fig.savefig(
+    fname=f'{graph_name}_lines.svg',
+    format='svg'
+)
 ds.html_figure(
     file_name=f'{graph_name}_lines.svg',
     caption=f'{graph_name}_lines.svg'
