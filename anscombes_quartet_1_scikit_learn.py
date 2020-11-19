@@ -24,8 +24,10 @@ data_all = pd.concat(
     [data_all, y, y_predicted],
     axis='columns',
     sort=False
+).set_axis(
+    labels=['x', 'y', 'y_predicted'],
+    axis='columns'
 )
-data_all.columns = ['x', 'y', 'y_predicted']
 fig, ax = ds.plot_scatter_line_x_y1_y2(
     X=data_all['x'],
     y1=data_all['y'],
