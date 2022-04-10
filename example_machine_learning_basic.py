@@ -38,42 +38,35 @@ import datasense as ds
 import pandas as pd
 import numpy as np
 
-pd.options.display.max_columns = None
-pd.options.display.max_rows = None
-file_name = 'lunch_and_learn.csv'
-nrows = 200
-graph_name = 'predicted_versus_measured'
-target = 'Y'
 features = [
     'X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7',
     'X8', 'X9', 'X10', 'X11', 'X12', 'X13', 'X14'
 ]
-set_config(display='diagram')
+output_url = 'lunch_and_learn_essential.html'
+header_title = 'lunch_and_learn_essential'
+graph_name = 'predicted_versus_measured'
+colour1, colour2 = '#0077bb', '#33bbee'
+header_id = 'lunch-and-learn-essential'
+pd.options.display.max_columns = None
 title = 'Predicted versus Measured'
+pd.options.display.max_rows = None
+file_name = 'lunch_and_learn.csv'
+percent_empty_features = 60.0
+set_config(display='diagram')
 label_predicted = 'Predicted'
 label_measured = 'Measured'
 figsize = (8, 4.5)
-percent_empty_features = 60.0
-colour1 = '#0077bb'
-colour2 = '#33bbee'
-output_url = 'lunch_and_learn_essential.html'
-header_title = 'lunch_and_learn_essential'
-header_id = 'lunch-and-learn-essential'
+target = 'Y'
+nrows = 200
 
 
 def plot_scatter_y(t: pd.Series) -> None:
     y, feature = t
-    fig, ax = ds.plot_scatter_y(
-        y=y,
-        figsize=figsize
-    )
+    fig, ax = ds.plot_scatter_y(y=y, figsize=figsize)
     ax.set_ylabel(ylabel=feature)
     ax.set_title(label='Time Series')
     ds.despine(ax)
-    fig.savefig(
-        fname=f'time_series_{feature}.svg',
-        format='svg'
-    )
+    fig.savefig(fname=f'time_series_{feature}.svg', format='svg')
     ds.html_figure(
         file_name=f'time_series_{feature}.svg',
         caption=f'time_series_{feature}.svg'
