@@ -34,7 +34,7 @@ fig, ax = ds.plot_scatter_line_x_y1_y2(
     y2=data_all['y_predicted'],
     figsize=(8, 6)
 )
-ds.despine(ax)
+ds.despine(ax=ax)
 fig.savefig(
     fname='anscombes_quartet_1.svg',
     format='svg'
