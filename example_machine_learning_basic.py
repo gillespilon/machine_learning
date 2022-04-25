@@ -19,6 +19,7 @@ time -f '%e' ./lunch_and_learn_essential.py > lunch_and_learn_essential.txt
 
 from multiprocessing import Pool
 from datetime import datetime
+from typing import NoReturn
 import time
 import math
 
@@ -60,7 +61,7 @@ target = 'Y'
 nrows = 200
 
 
-def plot_scatter_y(t: pd.Series) -> None:
+def plot_scatter_y(t: pd.Series) -> NoReturn:
     y, feature = t
     fig, ax = ds.plot_scatter_y(y=y, figsize=figsize)
     ax.set_ylabel(ylabel=feature)
