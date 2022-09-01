@@ -4,15 +4,22 @@
 
 These are notes from Kevin Markham's course.
 
-## Lesson 01. What is machine learning and how does it work?
-
 - From basic to advanced techniques
 - No assumptions about prior knowledge of machine learning
 - Minimal experience with Python
 
+## Lesson 01. What is machine learning and how does it work?
+
+Objectives
+
+_ What is machine learning?
+- What are the two main categories of machine learning?
+- What are some examples of machine learning?
+- How does machine learning work?
+
 What is machine learning?
 
-- Semi-automated extraction of knowledge from data
+- Semiautomated extraction of knowledge from data
 - Starts with a question that might be answered using data
 - Computer provides the insight
 - Requires many smart decisions by a human
@@ -51,7 +58,7 @@ The model is learning from past examples (inputs and outputs) and applied what i
 
 Resources
 
-- James, Gareth et al. (2021). An Introduction to Statistical Learning with Applications in R. 2nd ed. New York, NY: Springer. isbn: 978-1-4614-7138-7. url: https://www.statlearning.com/. Read sectiion 2.1.
+- James, Gareth et al. (2021). An Introduction to Statistical Learning with Applications in R. 2nd ed. New York, NY: Springer. isbn: 978-1-4614-7138-7. url: https://www.statlearning.com/. Read section 2.1.
 - [Caltech video](https://www.youtube.com/watch?v=mbyG85GZ0PI&t=2162s). Watch this 15 minute segment.
 
 Quiz
