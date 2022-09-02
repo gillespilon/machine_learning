@@ -3,6 +3,7 @@
 Machine learning of the iris dataset.
 """
 
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
 
 
@@ -15,7 +16,16 @@ def main():
     print(iris.target_names)
     print(iris.data.shape)
     print(iris.target.shape)
-
+    X = iris.data
+    y = iris.target
+    print(X)
+    print(y)
+    print(X.shape)
+    print(y.shape)
+    knn = KNeighborsClassifier(n_neighbors=1)
+    knn.fit(X, y)
+    result = knn.predict([[3, 5, 4, 2]])
+    print(result)
 
 if __name__ == "__main__":
     main()
