@@ -3,6 +3,7 @@
 Machine learning of the iris dataset.
 """
 
+from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
 
@@ -32,6 +33,10 @@ def main():
     knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(X, y)
     result = knn.predict(X_new)
+    print(result)
+    logreg = LogisticRegression()
+    logreg.fit(X, y)
+    result = logreg.predict(X_new)
     print(result)
 
 if __name__ == "__main__":
