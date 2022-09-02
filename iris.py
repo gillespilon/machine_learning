@@ -26,6 +26,9 @@ def main():
     knn.fit(X, y)
     result = knn.predict([[3, 5, 4, 2]])
     print(result)
+    X_new = [[3, 5, 4, 2], [5, 4, 3, 2]]
+    result = knn.predict(X_new)
+    print(result)
 
 if __name__ == "__main__":
     main()
