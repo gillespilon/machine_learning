@@ -123,6 +123,70 @@ Quiz
 3. Which mode allows you to navigate a Jupyter Notebook and create cells using the keyboard? Command mode
 4. Which keyboard key will always switch you to command mode? Esc
 
+## Lesson 03. Getting started in scikit-learn with the famous iris dataset
+
+Objectives
+
+- What is the famous iris dataset and how does it relate to Machine Learning?
+- How do we load the iris dataset into scikit-learn?
+- How do we describe a dataset using Machine Learning terminology?
+- What are scikit-learn's four key requirements for working with data?
+
+What is the famous iris dataset and how does it relate to Machine Learning?
+
+- 50 samples of 3 different species, 150 samples total
+- Measurements: sepal length, sepal width, petal length, petal width
+- Measured by Edgar Anderson in 1936
+- Sir Ronald Fisher wrote a paper in 1936 about the iris dataset, specifically about how linear discriminant analysis could be used to accurately distinguish the three species using only the sepal and petal measurements
+- This is a supervised machine learning problem because we are trying to learn the relationship between the measurements to predict the species.
+
+How do we load the iris dataset into scikit-learn?
+
+- See `iris.py`
+- Each row represents one flower
+- Each column represent one of the four measurements
+
+How do we describe a dataset using Machine Learning terminology?
+
+- Each row is an observation (sample, example, instance, record)
+- Each column is a feature (predictor, attribute, independent variable, input, regressor, covariate)
+- The target represents what we will predict: 0 for setosa, 1 for versicolor, 2 for virginica (target, response, outcome, label, dependant variable)
+- There are two types of supervised machine learning
+
+    - Classification has a categorical response
+    - Regression has an ordered and continuous response
+
+- Personal side note. Cassie Korzygov uses the terms classification and prediction
+- The iris flower is a classification problem
+
+What are scikit-learn's four key requirements for working with data?
+
+- Features and response are separate objects
+- Features and response should be numeric
+- The response object ("y") for a classification problem can be an array of string values, and is no longer limited to numeric values.
+- Features and response should be NumPy arrays
+- Features and response should have specific shapes (ndarray)
+- Convention is for feature data to be stored in an object named X (uppercase because it is a matrix)
+- Convention is for response data to be stored in an object names y (lowercase because it is a vector)
+
+Further reading
+
+- [Wikipedia iris flower data set](https://en.wikipedia.org/wiki/Iris_flower_data_set)
+- [UCI Machine Learning Repository. Iris dataset](http://archive.ics.uci.edu/ml/datasets/Iris)
+- [scikit-learn documentation. Dataset loading utilities](https://scikit-learn.org/stable/datasets.html)
+- [Jake VanderPlas. Fast Numerical Computing with NumPy (slides)](https://speakerdeck.com/jakevdp/losing-your-loops-fast-numerical-computing-with-numpy-pycon-2015)
+- [Jake VanderPlas. Fast Numerical Computing with NumPy (video)](https://www.youtube.com/watch?v=EEUXKG97YRw)
+- [Scott Shell. An Introduction to NumPy (PDF)](https://sites.engineering.ucsb.edu/~shell/che210d/numpy.pdf)
+
+Quiz
+
+1. Let's say a bank was using machine learning to locate fraudulent transactions. What term would be used to describe a single transaction record? Observation or sample
+2. In that same example, what term would be used to describe the field that shows the transaction time? Feature or predictor
+3. In that same example, what term would be used to describe the field that indicates fraud or not fraud? Response or target
+4. If a car sharing service was using machine learning to predict arrival time, is that an example of classification or regression? Regression
+5. In scikit-learn, what is the convention to represent a feature matrix? Uppercase X
+6. If your feature matrix has a shape of (500, 10), what shape should the response vector be? (500,)
+
 # Master Machine Learning with scikit-learn
 
 These are notes from Kevin Markham's course.
