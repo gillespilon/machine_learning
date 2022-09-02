@@ -9,20 +9,22 @@ from sklearn.datasets import load_iris
 
 
 def main():
+    # load the data from a scikit-learn built-in dataset
     iris = load_iris()
-    print(type(iris))
-    print(iris.data)
+    print("iris feature names")
     print(iris.feature_names)
-    print(iris.target)
+    print("iris target names")
     print(iris.target_names)
-    print(iris.data.shape)
-    print(iris.target.shape)
     X = iris.data
     y = iris.target
+    print("iris X data")
     print(X)
-    print(y)
     print(X.shape)
+    print("iris y data")
+    print(y)
     print(y.shape)
+    # use K-nearest neighbors
+    print("K-neighbors classification, n_neighbors=1")
     knn = KNeighborsClassifier(n_neighbors=1)
     knn.fit(X, y)
     result = knn.predict([[3, 5, 4, 2]])
@@ -30,10 +32,13 @@ def main():
     X_new = [[3, 5, 4, 2], [5, 4, 3, 2]]
     result = knn.predict(X_new)
     print(result)
+    print("K-neighbors classification, n_neighbors=5")
     knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(X, y)
     result = knn.predict(X_new)
     print(result)
+    # use logistic regression
+    print("logistic regression")
     logreg = LogisticRegression()
     logreg.fit(X, y)
     result = logreg.predict(X_new)
