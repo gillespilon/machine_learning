@@ -187,6 +187,73 @@ Quiz
 5. In scikit-learn, what is the convention to represent a feature matrix? Uppercase X
 6. If your feature matrix has a shape of (500, 10), what shape should the response vector be? (500,)
 
+## Lesson 04. Training a Machine Learning Model with scikit-learn
+
+Objectives
+
+- What is the K-nearest neighbors classification model?
+- What are the four steps for model training and prediction in scikit-learn?
+- How can I apply this pattern to other machine learning models?
+
+What is the K-nearest neighbors classification model?
+
+- Pick a value for K
+- Search for the K observations in the training data that are nearest to the measurement of the unknown iris
+- Use the most popular response value from the K-nearest neighbors as the predicted response value for the unknown iris
+
+What are the four steps for model training and prediction in scikit-learn?
+
+- See `iris.py` for the K-nearest neighbors code
+
+1. Import the class you plan to use
+2. Instantiate the estimator
+
+    - Estimator is scikit-learn's term for model
+    - Instantiate means make an instance of
+    - Name of the object does not matter
+    - Can specify tuning parameters (hyperparameters) during this step
+    - All parameters not specified are set to their defaults
+
+3. Fit the model with data (model training)
+
+    - Model is learning the relationship between X and y
+    - Occurs in-place
+
+4. Predict the response for a new observation
+
+    - New observations are called out-of-sample data
+    - Uses the information it learned during the model training process
+    - Returns a NumPy array (ndarray)
+    - Can predict for multiple observations at once
+
+How can I apply this pattern to other machine learning models?
+
+- scikit-learn's models have a uniform interface, thus use the same four-step pattern on a different model with relative ease
+- See `iris.py` for the logistic regression code
+
+We don't know the true response values. We are often not able to truly measure how well our models perform on out-of-sample data.
+
+Further reading
+
+- [UCI Machine Learning Repository. Iris dataset](http://archive.ics.uci.edu/ml/datasets/Iris)
+- [Nearest Neighbors (user guide)](https://scikit-learn.org/stable/modules/neighbors.html)
+- [KNeighborsClassifier (class documentation)](https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html)
+- [Logistic Regression (user guide)](https://scikit-learn.org/stable/modules/linear_model.html#logistic-regression)
+- [LogisticRegression (class documentation)](https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html)
+- [Videos from An Introduction to Statistical Learning](https://www.dataschool.io/15-hours-of-expert-machine-learning-videos/)
+
+    - Classification Problems and K-Nearest Neighbors (Chapter 2)
+    - Introduction to Classification (Chapter 4)
+    - Logistic Regression and Maximum Likelihood (Chapter 4)
+
+Quiz
+
+1. When creating an instance of a model, does it matter what you name the object? No
+2. During which step do you specify the hyperparameters for a model? When creating an instance of that class
+3. Do you have to specify all hyperparameters for a model or only the ones you want to change? Only the ones you want to change from the default values
+4. When fitting a model with data, do you need to assign the results to an object? No
+5. Can you make predictions for multiple out-of-sample observations at the same time? Yes
+
 # Master Machine Learning with scikit-learn
 
 These are notes from Kevin Markham's course.
