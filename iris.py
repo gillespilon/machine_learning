@@ -56,6 +56,12 @@ def main():
     knn.fit(X, y)
     y_pred = knn.predict(X)
     print(metrics.balanced_accuracy_score(y, y_pred))
+    # do the same for knn with k=1
+    print("training accuracy on all data for knn=r")
+    knn = KNeighborsClassifier(n_neighbors=1)
+    knn.fit(X, y)
+    y_pred = knn.predict(X)
+    print(metrics.balanced_accuracy_score(y, y_pred))
 
 
 if __name__ == "__main__":
