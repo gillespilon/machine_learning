@@ -3,6 +3,7 @@
 Machine learning of the iris dataset.
 """
 
+from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
@@ -62,6 +63,15 @@ def main():
     knn.fit(X, y)
     y_pred = knn.predict(X)
     print(metrics.balanced_accuracy_score(y, y_pred))
+    # train-test-split, logistic regression, teseting accuracy
+    print("train-test-split, testing accuracy, logistic regression")
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.4, random_state=4
+    )
+    logreg = LogisticRegression()
+    logreg.fit(X_train, y_train)
+    y_pred = logreg.predict(X_test)
+    print(metrics.balanced_accuracy_score(y_test, y_pred))
 
 
 if __name__ == "__main__":
