@@ -6,6 +6,7 @@ Machine learning of the iris dataset.
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
+from sklearn import metrics
 
 
 def main():
@@ -43,6 +44,13 @@ def main():
     logreg.fit(X, y)
     result = logreg.predict(X_new)
     print(result)
+    # train the model with all of the data, evaluate accuracy
+    print("training accuracy on all data for logistic regression")
+    logreg = LogisticRegression()
+    logreg.fit(X, y)
+    y_pred = logreg.predict(X)
+    print(metrics.balanced_accuracy_score(y, y_pred))
+
 
 if __name__ == "__main__":
     main()
