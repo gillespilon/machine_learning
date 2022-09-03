@@ -84,6 +84,11 @@ def main():
     knn.fit(X_train, y_train)
     y_pred = knn.predict(X_test)
     print(metrics.balanced_accuracy_score(y_test, y_pred))
+    # predict out-of-sample data with best model
+    knn = KNeighborsClassifier(n_neighbors=11)
+    knn.fit(X, y)   # use all of the data
+    y_pred = knn.predict([[3, 5, 4, 2]])
+    print(y_pred)
 
 
 if __name__ == "__main__":
