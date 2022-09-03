@@ -50,6 +50,12 @@ def main():
     logreg.fit(X, y)
     y_pred = logreg.predict(X)
     print(metrics.balanced_accuracy_score(y, y_pred))
+    # do the same for knn with k=5
+    print("training accuracy on all data for knn=5")
+    knn = KNeighborsClassifier(n_neighbors=5)
+    knn.fit(X, y)
+    y_pred = knn.predict(X)
+    print(metrics.balanced_accuracy_score(y, y_pred))
 
 
 if __name__ == "__main__":
