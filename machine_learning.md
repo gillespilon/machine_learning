@@ -254,6 +254,80 @@ Quiz
 4. When fitting a model with data, do you need to assign the results to an object? No
 5. Can you make predictions for multiple out-of-sample observations at the same time? Yes
 
+## Lesson 05. Comparing Machine Models in scikit-learn
+
+Objectives
+
+- How do I choose which model to use for my supervised learning task?
+- How do I choose the best tuning parameters for that model?
+- How do I estimate the likely performance of my model on out-of-sample data?
+
+How do I choose which model to use for my supervised learning task?
+
+1. Evaluation procedure 1---train and test on the entire dataset
+
+- Train the model on the entire dataset
+- Test the model on the same dataset and evaluate how well we did by comparing the predicted response values with the true response values
+- See `iris.py` for the logistic regression code
+- Classification accuracy is the proportion of correct predictions
+- Common evaluation metric for classification problems
+- >>> 0.96
+- This is known as our training accuracy when you train and test the model on the same data.
+- Do the same for KNN with K = 5
+- >>> 0.96
+- Do the same for KNN with K = 1
+- >>> 1.0
+- Of course it would find the exact same observation because it has memorized the dataset.
+- The goal is to estimate the likely performance of a model on out-of-sample data.
+- Maximizing the training accuracy rewards overly-complex models that will not necessarily generalize to future cases.
+- Unnecessarily complex models overfit the training data because they have learned the noise rather than the signal.
+
+2. Evaluation procedure 2---train-test-split
+
+    1. Split the dataset into two pieces: training set, testing set
+    2. Train the model on the training set
+    3. Test the model on the testing set
+    4. Evaluate how well we did
+- See `iris.py` for the logistic regression code
+- >>> 0.96
+- Do the same for KNN with K = 5
+- >>> 0.96
+- Do the same for KNN with K = 1
+- >>> 0.94
+- The model can be trained and tested on different data.
+- The response values are know for the training set and thus predictions can be evaluated.
+- Testing accuracy is a better estimate than training accuracy of out-of-sample performance.
+- Training accuracy increases as model complexity increases.
+- Testing accuracy penalizes models that are too complex or not complex enough.
+- For KNN models, complexity is determined by the K value. A lower value means a more complex model.
+
+How do I choose the best tuning parameters for that model?
+
+- Kevin wrote a for loop to evaluate many K values of a KNN model.
+
+How do I estimate the likely performance of my model on out-of-sample data?
+
+- It is important that you retrain your model on all of the available training data, otherwise you would be throwing away valuable training data.
+- One downside of train-test-split is the it provides a high-variance estimate of out-of-sample accuracy.
+- K-fold cross-validation overcomes this limitation.
+- Train-test-split is still useful because of its flexibility and speed.
+
+Further reading
+
+- [Quora. What is an intuitive explanation of overfitting?](https://www.quora.com/What-is-an-intuitive-explanation-of-over-fitting-particularly-with-a-small-sample-set-What-are-you-essentially-doing-by-over-fitting-How-does-the-over-promise-of-a-high-R%C2%B2-low-standard-error-occur/answer/Jessica-Su)
+- [Video. Estimating prediction error (12 minutes, starting at 2:34) by Hastie and Tibshirani](https://www.youtube.com/watch?v=ngrOYWgJjb4&list=PL5-da3qGB5IA6E6ZNXu7dp89_uv8yocmf&index=1&t=154s)
+- [Understanding the Bias-Variance Tradeoff](http://scott.fortmann-roe.com/docs/BiasVariance.html)
+- [Guiding questions when reading the above article](https://github.com/justmarkham/DAT8/blob/master/homework/09_bias_variance.md)
+- [Video. Visualizing bias and variance (15 minutes, starting at 30:57) by Abu-Mostafa](https://www.youtube.com/watch?v=zrEyxfl2-a8&t=1857s)
+
+Quiz
+
+1. Is train-test-split an evaluation procedure or an evaluation metric? Evaluation procedure
+2. Is classification accuracy an evaluation procedure or an evaluation metric? Evaluation metric
+3. Which of these is a better indicator of how well a model will generalize to out-of-sample data? Testing accuracy
+4. Does overfitting occur when you create a model that is too complex or too simple? Too complex
+5. Before making a prediction on out-of-sample data, should you retrain the model on all available training data? Yes
+
 # Master Machine Learning with scikit-learn
 
 These are notes from Kevin Markham's course.
