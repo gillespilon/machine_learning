@@ -50,19 +50,19 @@ def main():
     logreg = LogisticRegression()
     logreg.fit(X=X, y=y)
     y_pred = logreg.predict(X=X)
-    print(metrics.balanced_accuracy_score(y, y_pred))
+    print(metrics.balanced_accuracy_score(y_true=y, y_pred=y_pred))
     # do the same for knn with k=5
     print("training accuracy on all data for knn=5")
     knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(X=X, y=y)
     y_pred = knn.predict(X=X)
-    print(metrics.balanced_accuracy_score(y, y_pred))
+    print(metrics.balanced_accuracy_score(y_true=y, y_pred=y_pred))
     # do the same for knn with k=1
     print("training accuracy on all data for knn=r")
     knn = KNeighborsClassifier(n_neighbors=1)
     knn.fit(X=X, y=y)
     y_pred = knn.predict(X=X)
-    print(metrics.balanced_accuracy_score(y, y_pred))
+    print(metrics.balanced_accuracy_score(y_true=y, y_pred=y_pred))
     # train-test-split, logistic regression, teseting accuracy
     print("train-test-split, testing accuracy, logistic regression")
     X_train, X_test, y_train, y_test = train_test_split(
@@ -71,19 +71,19 @@ def main():
     logreg = LogisticRegression()
     logreg.fit(X=X_train, y=y_train)
     y_pred = logreg.predict(X=X_test)
-    print(metrics.balanced_accuracy_score(y_test, y_pred))
+    print(metrics.balanced_accuracy_score(y_true=y_test, y_pred=y_pred))
     # train-test-split, knn with k=5
     print("train-teset-split, testing accuracy, knn=5")
     knn = KNeighborsClassifier(n_neighbors=5)
     knn.fit(X=X_train, y=y_train)
     y_pred = knn.predict(X=X_test)
-    print(metrics.balanced_accuracy_score(y_test, y_pred))
+    print(metrics.balanced_accuracy_score(y_true=y_test, y_pred=y_pred))
     # train-test-split, knn with k=1
     print("train-teset-split, testing accuracy, knn=1")
     knn = KNeighborsClassifier(n_neighbors=1)
     knn.fit(X=X_train, y=y_train)
     y_pred = knn.predict(X=X_test)
-    print(metrics.balanced_accuracy_score(y_test, y_pred))
+    print(metrics.balanced_accuracy_score(y_true=y_test, y_pred=y_pred))
     # predict out-of-sample data with best model
     knn = KNeighborsClassifier(n_neighbors=11)
     knn.fit(X=X, y=y)   # use all of the data
