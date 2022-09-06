@@ -8,6 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
 from sklearn import metrics
+import pandas as pd
 
 
 def main():
@@ -89,6 +90,13 @@ def main():
     knn.fit(X=X, y=y)   # use all of the data
     y_predicted = knn.predict(X=[[3, 5, 4, 2]])
     print(y_predicted)
+    # linear regression
+    data_path = "iris_data.csv"
+    data = pd.read_csv(
+        filepath_or_buffer=data_path,
+        index_col=0
+    )
+    print(data.head())
 
 
 if __name__ == "__main__":
