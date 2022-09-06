@@ -28,7 +28,7 @@ def main():
     # use K-nearest neighbors
     print("K-neighbors classification, n_neighbors=1")
     knn = KNeighborsClassifier(n_neighbors=1)
-    knn.fit(X, y)
+    knn.fit(X=X, y=y)
     result = knn.predict([[3, 5, 4, 2]])
     print(result)
     X_new = [[3, 5, 4, 2], [5, 4, 3, 2]]
@@ -36,31 +36,31 @@ def main():
     print(result)
     print("K-neighbors classification, n_neighbors=5")
     knn = KNeighborsClassifier(n_neighbors=5)
-    knn.fit(X, y)
+    knn.fit(X=X, y=y)
     result = knn.predict(X_new)
     print(result)
     # use logistic regression
     print("logistic regression")
     logreg = LogisticRegression()
-    logreg.fit(X, y)
+    logreg.fit(X=X, y=y)
     result = logreg.predict(X_new)
     print(result)
     # train the model with all of the data, evaluate accuracy
     print("training accuracy on all data for logistic regression")
     logreg = LogisticRegression()
-    logreg.fit(X, y)
+    logreg.fit(X=X, y=y)
     y_pred = logreg.predict(X)
     print(metrics.balanced_accuracy_score(y, y_pred))
     # do the same for knn with k=5
     print("training accuracy on all data for knn=5")
     knn = KNeighborsClassifier(n_neighbors=5)
-    knn.fit(X, y)
+    knn.fit(X=X, y=y)
     y_pred = knn.predict(X)
     print(metrics.balanced_accuracy_score(y, y_pred))
     # do the same for knn with k=1
     print("training accuracy on all data for knn=r")
     knn = KNeighborsClassifier(n_neighbors=1)
-    knn.fit(X, y)
+    knn.fit(X=X, y=y)
     y_pred = knn.predict(X)
     print(metrics.balanced_accuracy_score(y, y_pred))
     # train-test-split, logistic regression, teseting accuracy
@@ -69,24 +69,24 @@ def main():
         X, y, test_size=0.4, random_state=4
     )
     logreg = LogisticRegression()
-    logreg.fit(X_train, y_train)
+    logreg.fit(X=X_train, y=y_train)
     y_pred = logreg.predict(X_test)
     print(metrics.balanced_accuracy_score(y_test, y_pred))
     # train-test-split, knn with k=5
     print("train-teset-split, testing accuracy, knn=5")
     knn = KNeighborsClassifier(n_neighbors=5)
-    knn.fit(X_train, y_train)
+    knn.fit(X=X_train, y=y_train)
     y_pred = knn.predict(X_test)
     print(metrics.balanced_accuracy_score(y_test, y_pred))
     # train-test-split, knn with k=1
     print("train-teset-split, testing accuracy, knn=1")
     knn = KNeighborsClassifier(n_neighbors=1)
-    knn.fit(X_train, y_train)
+    knn.fit(X=X_train, y=y_train)
     y_pred = knn.predict(X_test)
     print(metrics.balanced_accuracy_score(y_test, y_pred))
     # predict out-of-sample data with best model
     knn = KNeighborsClassifier(n_neighbors=11)
-    knn.fit(X, y)   # use all of the data
+    knn.fit(X=X, y=y)   # use all of the data
     y_pred = knn.predict([[3, 5, 4, 2]])
     print(y_pred)
 
