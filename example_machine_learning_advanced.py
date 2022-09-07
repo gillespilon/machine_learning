@@ -11,7 +11,7 @@ pandas
 
 scikit-learn
 - Impute missing values (NaN) with averages
-- Create training and testing data sets
+- Create training and testing datasets
 - Perform linear regression for a dependent variable of type float (target)
   and independent variables of type float or integer (features)
 - Create a workflow pipeline
@@ -77,7 +77,7 @@ for column, lowvalue, highvalue in mask_values:
 #     print(column)
 #     result = ds.nonparametric_summary(data[column])
 #     print(result, '\n')
-# Create training and testing data sets
+# Create training and testing datasets
 X = data[features]
 y = data[target]
 X_train, X_test, y_train, y_test = train_test_split(
