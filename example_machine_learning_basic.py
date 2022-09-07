@@ -2,7 +2,7 @@
 """
 Example of scikit-learn for supervised machine learning, Xs are measurements
 
-Create training and testing data sets
+Create training and testing datasets
 Create a workflow pipeline
 Add a column transformer object
 Add a feature selection object
@@ -151,7 +151,7 @@ ds.page_break()
 print('Features')
 print(features)
 
-# Create training and testing data sets
+# Create training and testing datasets
 X_all = data[features]
 y_all = data[target]
 X_train, X_test, y_train, y_test = train_test_split(
