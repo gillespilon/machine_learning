@@ -7,7 +7,10 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
 from sklearn import metrics
+import datasense as ds
+import seaborn as sns
 import pandas as pd
 
 
@@ -97,7 +100,24 @@ def main():
         index_col=0
     )
     print(data.head())
-
+    # ds.dataframe_info(df=data, file_in=data_path)
+    # using seaborn
+    sns.pairplot(
+        data,
+        x_vars=['TV', 'Radio', 'Newspaper'],
+        y_vars='Sales',
+        height=7,
+        kind='reg'
+    )
+    plt.show(block=True)
+    # using datasense
+    # for item in ["TV", "Radio", "Newspaper"]:
+    #     X = data[item]
+    #     y = data["Sales"]
+    #     fig, ax = ds.plot_scatter_x_y(X=X, y=y)
+    #     ax.set_ylabel(ylabel="Sales")
+    #     ax.set_xlabel(xlabel=item)
+    #     fig.savefig(fname=f"scatter_{item}_vs_Sales.png")
 
 if __name__ == "__main__":
     main()
