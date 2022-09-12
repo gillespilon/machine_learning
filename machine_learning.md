@@ -328,6 +328,49 @@ Quiz
 4. Does overfitting occur when you create a model that is too complex or too simple? Too complex
 5. Before making a prediction on out-of-sample data, should you retrain the model on all available training data? Yes
 
+## Lesson 06 Data Science Pipeline: pandas, seaborn, scikit-learn
+
+Objectives
+
+- How do I use the pandas library to read data into Python?
+- How do I use the seaborn library to visualized data?
+- What is linear regression and how does it work?
+- How do I train and interpret a linear regression model in scikit-learn?
+- What are some evaluation metrics for regression problems?
+- How do I choose which features to include in my model?
+
+How do I use the pandas library to read data into Python?
+
+    data_path = "advertising.csv"
+    data = pd.read_csv(filepath_or_buffer = data_path)
+
+- A DataFrame contains rows and columns
+- A Series is a single column of rows
+- What are the features?
+
+    - TV: advertising dollars spent on TV for a single product in a given market (in thousands of dollars)
+    - Radio: advertising dollars spent on radio
+    - Newspaper: advertising dollars spent on newspaper
+
+- What is the response?
+
+    - Sales: sales of a single product in a given market (in thousands of items)
+
+- What else do we know?
+
+    - This is a regression problem because the response variable is continuous.
+    - There are 200 observations (represented by the rows) and each observation is a single market.
+
+How do I use the seaborn library to visualized data?
+
+What is linear regression and how does it work?
+
+How do I train and interpret a linear regression model in scikit-learn?
+
+What are some evaluation metrics for regression problems?
+
+How do I choose which features to include in my model?
+
 # Master Machine Learning with scikit-learn
 
 These are notes from Kevin Markham's course.
