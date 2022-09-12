@@ -298,7 +298,7 @@ How do I choose which model to use for my supervised learning task?
 - The response values are know for the training set and thus predictions can be evaluated.
 - Testing accuracy is a better estimate than training accuracy of out-of-sample performance.
 - Training accuracy increases as model complexity increases.
-- Testing accuracy penalizes models that are too complex or not complex enough.
+- Testing accuracy punishes models that are too complex or not complex enough.
 - For KNN models, complexity is determined by the K value. A lower value means a more complex model.
 
 How do I choose the best tuning parameters for that model?
@@ -452,13 +452,22 @@ Further reading
 
 - [Kevin Markham. Long notebook on linear regression.](https://github.com/justmarkham/DAT4/blob/master/notebooks/08_linear_regression.ipynb)
 - [Chapter 3 of An Introduction to Statistical Learning by Hastie and Tibshirani (Stanford)](https://www.statlearning.com/)
-- [Related videos of Chapter 3 of An Introduction to Statistical Learning by Hastie and Tibshirani (https://www.dataschool.io/15-hours-of-expert-machine-learning-videos/)
+- [Related videos of Chapter 3 of An Introduction to Statistical Learning by Hastie and Tibshirani](https://www.dataschool.io/15-hours-of-expert-machine-learning-videos/)
 - [Kevin Markham. Quick reference guide to applying and interpreting linear regression.](https://www.dataschool.io/applying-and-interpreting-linear-regression/)
 - [Introduction to linear regression by Robert Nau (Duke)](http://people.duke.edu/~rnau/regintro.htm)
 - [Kevin Markham. pandas Q&A video series.](https://www.dataschool.io/easier-data-analysis-with-pandas/)
 - [Greg Reda. Three-part pandas tutorial.](http://www.gregreda.com/2013/10/26/intro-to-pandas-data-structures/)
 - [Official seaborn tutorial](http://seaborn.pydata.org/tutorial.html)
 
+Quiz
+
+1. In the context of machine learning, what is the difference between regression and linear regression? Regression is a type of problem and linear regression is a type of model.
+2. What is the main drawback to linear regression? It cannot automatically model non-linear relationships.
+3. If your X and y are pandas objects, can you pass these directly to scikit-learn? Yes
+4. If your X and y are pandas objects, what types of objects should they be? X should be a DataFrame and y should be a Series.
+5. Do the results of a machine learning model prove causation? No, they demonstrate associations.
+6. Which of the following regression metrics punish larger errors by increasing their weight? Mean squared error and root mean squared error.
+7. If your evaluation metric includes the word error, should you try to minimize or maximize that number? Minimize
 # Master Machine Learning with scikit-learn
 
 These are notes from Kevin Markham's course.
