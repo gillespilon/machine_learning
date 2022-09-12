@@ -370,6 +370,11 @@ How do I use the seaborn library to visualized data?
 
 What is linear regression and how does it work?
 
+- Pros: fast, no tuning required, highly interpretable, well-understood
+- Cons: unlikely to produce the best accuracy because it presumes a linear relationship between the features and the response
+
+        $y = \beta_0 + \beta_1X_1 + \beta_2X_1 + \ldots + \beta_nX_n$
+
 How do I train and interpret a linear regression model in scikit-learn?
 
 What are some evaluation metrics for regression problems?
