@@ -378,12 +378,12 @@ What is linear regression and how does it work?
 - where:
 
 $$
-\begin{flalign*}
+\begin{align}
     y       & = \text{the response}&& \\
     \beta_0 & = \text{the intercept}&& \\
     \beta_1 & = \text{the coefficient for X<sub>1</sub>, the first feature}&& \\
     \beta_1 & = \text{the coefficient for X<sub>n</sub>, the n<sup>th</sup> feature}&& \\
-\end{flalign*}
+\end{align}
 $$
 
 How do I train and interpret a linear regression model in scikit-learn?
