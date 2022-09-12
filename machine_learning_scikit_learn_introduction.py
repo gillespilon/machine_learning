@@ -30,6 +30,7 @@ def main():
     print("iris y data")
     print(y)
     print(y.shape)
+    # Lesson 04
     # use K-nearest neighbors
     print("K-neighbors classification, n_neighbors=1")
     knn = KNeighborsClassifier(n_neighbors=1)
