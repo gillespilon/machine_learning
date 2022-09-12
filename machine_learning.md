@@ -343,8 +343,8 @@ How do I use the pandas library to read data into Python?
 
 - See `machine_learning_scikit_learn_introduction.py`
 
-    data_path = "advertising.csv"
-    data = pd.read_csv(filepath_or_buffer = data_path)
+        data_path = "advertising.csv"
+        data = pd.read_csv(filepath_or_buffer = data_path)
 
 - A DataFrame contains rows and columns
 - A Series is a single column of rows
