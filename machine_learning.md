@@ -375,6 +375,15 @@ What is linear regression and how does it work?
 
     $y = \beta_0 + \beta_1X_1 + \beta_2X_1 + \ldots + \beta_nX_n$
 
+- where:
+
+    \begin{flalign*}
+        y       & = \text{the response}&& \\
+        \beta_0 & = \text{the intercept}&& \\
+        \beta_1 & = \text{the coefficient for X<sub>1</sub>, the first feature}&& \\
+        \beta_1 & = \text{the coefficient for X<sub>n</sub>, the n<sup>th</sup> feature}&& \\
+    \end{flalign*}
+
 How do I train and interpret a linear regression model in scikit-learn?
 
 What are some evaluation metrics for regression problems?
