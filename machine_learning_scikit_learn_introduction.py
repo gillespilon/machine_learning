@@ -51,6 +51,7 @@ def main():
     logreg.fit(X=X, y=y)
     result = logreg.predict(X=X_new)
     print(result)
+    # Lesson 05
     # train the model with all of the data, evaluate accuracy
     print("training accuracy on all data for logistic regression")
     logreg = LogisticRegression()
