@@ -394,6 +394,17 @@ What is linear regression and how does it work?
 
 How do I train and interpret a linear regression model in scikit-learn?
 
+- scikit-learn expects X (feature matrix) and y (response factor) to be NumPy arrays
+- pandas is built on top of NumPy
+- X can be a pandas DataFrame
+- y can be a pandas Series
+- With the three features the result is:
+
+    $y = 2.877 + 0.047 \times \text{TV} + 0.179 \times \text{Radio} + 0.003 \times \text{Newspaper}$
+
+- How to interpret the TV coefficient? For a given amount of Radio and Newspaper advertisement spending, an additional $1000 spend on TV advertisements is associated with a 0.047 units in Sales, that is, an increase of 47 items.
+- This is a statement of association not causation.
+- If an increase in TV ad spending was associated with a decrease in sales, $\beta_1$ would be negative.
 What are some evaluation metrics for regression problems?
 
 How do I choose which features to include in my model?
