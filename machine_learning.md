@@ -386,6 +386,12 @@ What is linear regression and how does it work?
     \end{flalign*}
     $$
 
+- In this case:
+
+    $y = \beta_0 + \beta_1 \times \text{TV} + \beta_2 \times \text{Radio} + \beta_n \times \text{Newspaper}$
+
+- The $\beta$ values are called the model coefficients. These values are learned during the model fitting step using the least squares criterion. The fitted model can be used to make predictions.
+
 How do I train and interpret a linear regression model in scikit-learn?
 
 What are some evaluation metrics for regression problems?
