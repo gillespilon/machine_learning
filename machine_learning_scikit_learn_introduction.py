@@ -93,8 +93,9 @@ def main():
     knn.fit(X=X, y=y)   # use all of the data
     y_predicted = knn.predict(X=[[3, 5, 4, 2]])
     print(y_predicted)
+    # Lesson 06
     # linear regression
-    data_path = "iris_data.csv"
+    data_path = "advertising.csv"
     data = pd.read_csv(
         filepath_or_buffer=data_path,
         index_col=0
