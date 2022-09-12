@@ -105,7 +105,7 @@ How do I use Jupyter Notebook?
 - Launch Jupyter Notebook from the command line using `jupyter notebook`
 - Kevin provides a brief overview of Jupyter Notebook functionality
 - Kevin also provides comments on [nbviewer](https://nbviewer.jupyter.org/) to view previously-published notebooks online as static documents
-- I prefer to code Python as .py scripts in order to run them in a production environment
+- I prefer to code Python as .py scripts in order to run them in a production environment.
 
 What are some good resources for for learning Python?
 
@@ -142,7 +142,7 @@ What is the famous iris dataset and how does it relate to Machine Learning?
 
 How do we load the iris dataset into scikit-learn?
 
-- See `iris.py`
+- See `machine_learning_scikit_learn_introduction.py`
 - Each row represents one flower
 - Each column represent one of the four measurements
 
@@ -203,7 +203,7 @@ What is the K-nearest neighbors classification model?
 
 What are the four steps for model training and prediction in scikit-learn?
 
-- See `iris.py` for the K-nearest neighbors code
+- See `machine_learning_scikit_learn_introduction.py` for the K-nearest neighbors code
 
 1. Import the class you plan to use
 2. Instantiate the estimator
@@ -229,7 +229,7 @@ What are the four steps for model training and prediction in scikit-learn?
 How can I apply this pattern to other machine learning models?
 
 - scikit-learn's models have a uniform interface, thus use the same four-step pattern on a different model with relative ease
-- See `iris.py` for the logistic regression code
+- See `machine_learning_scikit_learn_introduction.py` for the logistic regression code
 
 We don't know the true response values. We are often not able to truly measure how well our models perform on out-of-sample data.
 
@@ -268,7 +268,7 @@ How do I choose which model to use for my supervised learning task?
 
 - Train the model on the entire dataset
 - Test the model on the same dataset and evaluate how well we did by comparing the predicted response values with the true response values
-- See `iris.py` for the logistic regression code
+- See `machine_learning_scikit_learn_introduction.py` for the logistic regression code
 - Classification accuracy is the proportion of correct predictions
 - Common evaluation metric for classification problems
 - >>> 0.96
@@ -288,7 +288,7 @@ How do I choose which model to use for my supervised learning task?
     2. Train the model on the training set
     3. Test the model on the testing set
     4. Evaluate how well we did
-- See `iris.py` for the logistic regression code
+- See `machine_learning_scikit_learn_introduction.py` for the logistic regression code
 - >>> 0.96
 - Do the same for KNN with K = 5
 - >>> 0.96
@@ -341,6 +341,8 @@ Objectives
 
 How do I use the pandas library to read data into Python?
 
+- See `machine_learning_scikit_learn_introduction.py`
+
     data_path = "advertising.csv"
     data = pd.read_csv(filepath_or_buffer = data_path)
 
@@ -362,6 +364,9 @@ How do I use the pandas library to read data into Python?
     - There are 200 observations (represented by the rows) and each observation is a single market.
 
 How do I use the seaborn library to visualized data?
+
+- seaborn is a Python library for statistical data visualization built on top of matplotlib.
+- In the code I use seaborn as well as matplotlib to do pair plots.
 
 What is linear regression and how does it work?
 
