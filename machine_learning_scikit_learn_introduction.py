@@ -4,7 +4,7 @@ Machine learning of the iris dataset.
 """
 
 from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
 import matplotlib.pyplot as plt
@@ -12,6 +12,7 @@ from sklearn import metrics
 import datasense as ds
 import seaborn as sns
 import pandas as pd
+import numpy as np
 
 
 def main():
@@ -122,6 +123,26 @@ def main():
     #     ax.set_ylabel(ylabel="Sales")
     #     ax.set_xlabel(xlabel=item)
     #     fig.savefig(fname=f"scatter_{item}_vs_Sales.png")
+    feature_columns = ["TV", "Radio", "Newspaper"]
+    # fit a model with three features
+    X = data[feature_columns]
+    response_column = "Sales"
+    y = data[response_column]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+    linreg = LinearRegression()
+    linreg.fit(X=X_train, y=y_train)
+    print(linreg.intercept_)
+    print(linreg.coef_)
+    print(linreg.intercept_, list(zip(feature_columns, linreg.coef_)))
+    y_predicted = linreg.predict(X=X_test)
+    print(np.sqrt(metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted)))
+    # fit a model with two features
+    feature_columns = ["TV", "Radio"]
+    X = data[feature_columns]
+    X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
+    linreg.fit(X=X_train, y=y_train)
+    y_predicted = linreg.predict(X=X_test)
+    print(np.sqrt(metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted)))
 
 if __name__ == "__main__":
     main()
