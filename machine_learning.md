@@ -405,7 +405,42 @@ How do I train and interpret a linear regression model in scikit-learn?
 - How to interpret the TV coefficient? For a given amount of Radio and Newspaper advertisement spending, an additional $1000 spend on TV advertisements is associated with a 0.047 units in Sales, that is, an increase of 47 items.
 - This is a statement of association not causation.
 - If an increase in TV ad spending was associated with a decrease in sales, $\beta_1$ would be negative.
+
 What are some evaluation metrics for regression problems?
+
+- Predictions are made as follows:
+
+        y_predicted = linreg.predict(X_test_
+
+- We need an evaluation metric in order to compare our predictions with the actual values.
+- Evaluation metrics for classification problems, such as accuracy, are not useful for regression problems. Instead, we need evaluation metrics designed for comparing continuous values.
+- Mean Absolute Error (MAE) is the mean of the absolute value of the errors.
+
+    $$\text{MAE} = \frac{\sum\limits_{i=1}^n\left(|y_i - \hat{y_i}|\right)}{n}$$
+
+- In scikit-learn:
+
+        metrics.mean_absolute_error(y_true=<true_values>, y_pred=<predicted_values>)
+
+- Mean Squared Error (MSE) is the mean of the squared errors.
+
+    $$\text{MSE} = \frac{\sum\limits_{i=1}^n\left(y_i - \hat{y_i}\right)^2}{n}$$
+
+- In scikit-learn:
+
+        metrics.mean_squared_error(y_true=<true_values>, y_pred=<predicted_values>)
+
+- Root Mean Squared Error (RMSE) is the square root of the mean of the squared errors.
+
+    $$\text{RMSE} = \sqrt{\frac{\sum\limits_{i=1}^{n} \left(y_i - \widehat{y}\right)^2}{n}}$$
+
+- In scikit-learn:
+
+        numpy.sqrt(metrics.mean_squared_error(y_true=<true_values>, y_pred=<predicted_values>))
+
+- MAE is the easiest of understand because it is the average error.
+- MSE is more popular than MAE because MSE penalizes larger errors.
+- RMSE is even more popular because RMSE is interpretable in the y units.
 
 How do I choose which features to include in my model?
 
