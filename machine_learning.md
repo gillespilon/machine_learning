@@ -444,6 +444,21 @@ What are some evaluation metrics for regression problems?
 
 How do I choose which features to include in my model?
 
+- Calculate the RMSE for the model with three features (TV, Radio, Newspaper): 1.405
+- Calculate the RMSE for the model with two features (TV, Radio): 1.388
+- It is unlikely that the Newspaper feature is useful for predicting Sales and should be removed from the model.
+
+Further reading
+
+- [Kevin Markham. Long notebook on linear regression.](https://github.com/justmarkham/DAT4/blob/master/notebooks/08_linear_regression.ipynb)
+- [Chapter 3 of An Introduction to Statistical Learning by Hastie and Tibshirani (Stanford)](https://www.statlearning.com/)
+- [Related videos of Chapter 3 of An Introduction to Statistical Learning by Hastie and Tibshirani (https://www.dataschool.io/15-hours-of-expert-machine-learning-videos/)
+- [Kevin Markham. Quick reference guide to applying and interpreting linear regression.](https://www.dataschool.io/applying-and-interpreting-linear-regression/)
+- [Introduction to linear regression by Robert Nau (Duke)](http://people.duke.edu/~rnau/regintro.htm)
+- [Kevin Markham. pandas Q&A video series.](https://www.dataschool.io/easier-data-analysis-with-pandas/)
+- [Greg Reda. Three-part pandas tutorial.](http://www.gregreda.com/2013/10/26/intro-to-pandas-data-structures/)
+- [Official seaborn tutorial](http://seaborn.pydata.org/tutorial.html)
+
 # Master Machine Learning with scikit-learn
 
 These are notes from Kevin Markham's course.
