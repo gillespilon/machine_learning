@@ -3,8 +3,9 @@
 Machine learning of the iris dataset.
 """
 
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.model_selection import cross_val_score, GridSearchCV, \
+    RandomizedSearchCV, train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_iris
 import matplotlib.pyplot as plt
@@ -177,6 +178,12 @@ def main():
         "Accuracy score with random state = 2:",
         metrics.accuracy_score(y_true=y_test, y_pred=y_predicted)
     )
+    knn = KNeighborsClassifier(n_neighbors=5)
+    # cv is the K in K-fold cross-validation
+    scores = cross_val_score(
+        estimator=knn, X=X, y=y, scoring="accuracy", cv=10
+    )
+    print("Mean of 10-fold cross-validation scores:", scores.mean())
 
 if __name__ == "__main__":
     main()
