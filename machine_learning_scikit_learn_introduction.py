@@ -18,6 +18,7 @@ import numpy as np
 
 def main():
     # Lesson 03
+    print("Lesson 03")
     # load the data from a scikit-learn built-in dataset
     iris = load_iris()
     print("iris feature names")
@@ -33,6 +34,7 @@ def main():
     print(y)
     print(y.shape)
     # Lesson 04
+    print("Lesson 04")
     # use K-nearest neighbors
     print("K-neighbors classification, n_neighbors=1")
     knn = KNeighborsClassifier(n_neighbors=1)
@@ -54,6 +56,7 @@ def main():
     result = logreg.predict(X=X_new)
     print(result)
     # Lesson 05
+    print("Lesson 05")
     # train the model with all of the data, evaluate accuracy
     print("training accuracy on all data for logistic regression")
     logreg = LogisticRegression()
@@ -99,6 +102,7 @@ def main():
     y_predicted = knn.predict(X=[[3, 5, 4, 2]])
     print(y_predicted)
     # Lesson 06
+    print("Lesson 06")
     # linear regression
     data_path = "advertising.csv"
     data = pd.read_csv(
