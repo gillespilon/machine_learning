@@ -11,7 +11,7 @@ These are notes from Kevin Markham's course.
 - No assumptions about prior knowledge of machine learning
 - Minimal experience with Python
 
-## Lesson 01. What is machine learning and how does it work?
+## Lesson 01. What is machine learning, how does it work?
 
 Objectives
 
@@ -32,8 +32,7 @@ There are two main categories of machine learning.
 - Supervised learning
 
     - Making predictions using data
-    - There is an outcome we are trying to predict
-    - For example, the survival for each passenger on the Titanic
+    - There is an outcome we are trying to predict, for example, the survival for each passenger on the Titanic
 
 - Unsupervised learning
 
@@ -45,7 +44,7 @@ How does machine learning work?
 1. Train a machine learning model using labeled data
 
 - Labeled data has been labeled with the outcome
-- Machine learning model learns the relationship between the attributes of the data and their outcome
+- Machine learning model learns the relationship between the attributes of the data and their outcome.
 
 2. Make predictions on new data for which the label is unknown
 
@@ -54,7 +53,7 @@ How does machine learning work?
 The model is learning from past examples (inputs and outputs) and applied what it has learned to future inputs in order to predict future outputs.
 
 - How do I choose which attributes of my data to include in the model?
-- How do i choose which model to use?
+- How do I choose which model to use?
 - How do I optimize this model for best performance?
 - How do I ensure that I am building a model that will generalize to unseen data?
 - Can I estimate how well my model is likely to perform on unseen data?
