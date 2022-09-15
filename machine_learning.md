@@ -330,7 +330,7 @@ Quiz
 4. Does overfitting occur when you create a model that is too complex or too simple? Too complex
 5. Before making a prediction on out-of-sample data, should you retrain the model on all available training data? Yes
 
-## Lesson 06 Data Science Pipeline: pandas, seaborn, scikit-learn
+## Lesson 06 pandas, seaborn, scikit-learn
 
 Objectives
 
@@ -348,8 +348,8 @@ How do I use the pandas library to read data into Python?
         data_path = "advertising.csv"
         data = pd.read_csv(filepath_or_buffer = data_path)
 
-- A DataFrame contains rows and columns
-- A Series is a single column of rows
+- A DataFrame contains rows and columns.
+- A Series is a single column of rows.
 - What are the features?
 
     - TV: advertising dollars spent on TV for a single product in a given market (in thousands of dollars)
@@ -397,9 +397,9 @@ What is linear regression and how does it work?
 How do I train and interpret a linear regression model in scikit-learn?
 
 - scikit-learn expects X (feature matrix) and y (response factor) to be NumPy arrays
-- pandas is built on top of NumPy
-- X can be a pandas DataFrame
-- y can be a pandas Series
+- pandas is built on top of NumPy.
+- X can be a pandas DataFrame.
+- y can be a pandas Series.
 - With the three features the result is:
 
     $y = 2.877 + 0.047 \times \text{TV} + 0.179 \times \text{Radio} + 0.003 \times \text{Newspaper}$
@@ -465,8 +465,8 @@ Quiz
 
 1. In the context of machine learning, what is the difference between regression and linear regression? Regression is a type of problem and linear regression is a type of model.
 2. What is the main drawback to linear regression? It cannot automatically model non-linear relationships.
-3. If your X and y are pandas objects, can you pass these directly to scikit-learn? Yes
-4. If your X and y are pandas objects, what types of objects should they be? X should be a DataFrame and y should be a Series.
+3. If X and y are pandas objects, can you pass these directly to scikit-learn? Yes
+4. If X and y are pandas objects, what types of objects should they be? X should be a DataFrame and y should be a Series.
 5. Do the results of a machine learning model prove causation? No, they demonstrate associations.
 6. Which of the following regression metrics punish larger errors by increasing their weight? Mean squared error and root mean squared error.
 7. If your evaluation metric includes the word error, should you try to minimize or maximize that number? Minimize
