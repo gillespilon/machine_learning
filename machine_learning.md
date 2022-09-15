@@ -1,7 +1,7 @@
 # Machine Learning Notes
 
 - [Introduction to Machine Learning with scikit-learn](#introduction-to-machine-learning-with-scikit-learn)
-- - [Master Machine Learning with scikit-learn](#master-machine-learning-with-scikit-learn)
+- [Master Machine Learning with scikit-learn](#master-machine-learning-with-scikit-learn)
 
 # Introduction to Machine Learning with scikit-learn
 
