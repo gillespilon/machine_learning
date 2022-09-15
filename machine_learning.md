@@ -1,5 +1,8 @@
 # Machine Learning Notes
 
+- [Introduction to Machine Learning with scikit-learn](#introduction-to-machine-learning-with-scikit-learn)
+- - [Master Machine Learning with scikit-learn](#master-machine-learning-with-scikit-learn)
+
 # Introduction to Machine Learning with scikit-learn
 
 These are notes from Kevin Markham's course.
@@ -127,12 +130,12 @@ Quiz
 
 Objectives
 
-- What is the famous iris dataset and how does it relate to Machine Learning?
+- What is the famous iris dataset and how does it relate to machine learning?
 - How do we load the iris dataset into scikit-learn?
-- How do we describe a dataset using Machine Learning terminology?
+- How do we describe a dataset using machine learning terminology?
 - What are scikit-learn's four key requirements for working with data?
 
-What is the famous iris dataset and how does it relate to Machine Learning?
+What is the famous iris dataset and how does it relate to machine learning?
 
 - 50 samples of 3 different species, 150 samples total
 - Measurements: sepal length, sepal width, petal length, petal width
@@ -146,7 +149,7 @@ How do we load the iris dataset into scikit-learn?
 - Each row represents one flower
 - Each column represent one of the four measurements
 
-How do we describe a dataset using Machine Learning terminology?
+How do we describe a dataset using machine learning terminology?
 
 - Each row is an observation (sample, example, instance, record)
 - Each column is a feature (predictor, attribute, independent variable, input, regressor, covariate)
