@@ -268,10 +268,10 @@ How do I choose which model to use for my supervised learning task?
 
 1. Evaluation procedure 1---train and test on the entire dataset
 
-- Train the model on the entire dataset
-- Test the model on the same dataset and evaluate how well we did by comparing the predicted response values with the true response values
-- See `machine_learning_scikit_learn_introduction.py` for the logistic regression code
-- Classification accuracy is the proportion of correct predictions
+- Train the model on the entire dataset.
+- Test the model on the same dataset and evaluate how well we did by comparing the predicted response values with the true response values.
+- See `machine_learning_scikit_learn_introduction.py` for the logistic regression code.
+- Classification accuracy is the proportion of correct predictions.
 - Common evaluation metric for classification problems
 - >>> 0.96
 - This is known as our training accuracy when you train and test the model on the same data.
@@ -297,8 +297,8 @@ How do I choose which model to use for my supervised learning task?
 - Do the same for KNN with K = 1
 - >>> 0.94
 - The model can be trained and tested on different data.
-- The response values are know for the training set and thus predictions can be evaluated.
-- Testing accuracy is a better estimate than training accuracy of out-of-sample performance.
+- The response values are known for the training set and thus predictions can be evaluated.
+- Testing accuracy is a better estimate than training accuracy on out-of-sample performance.
 - Training accuracy increases as model complexity increases.
 - Testing accuracy punishes models that are too complex or not complex enough.
 - For KNN models, complexity is determined by the K value. A lower value means a more complex model.
