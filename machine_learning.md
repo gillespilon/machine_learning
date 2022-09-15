@@ -69,7 +69,7 @@ Quiz
 2. If a website was using machine learning to group its visitors based on browsing history, is that an example of supervised or unsupervised learning? Unsupervised
 3. If you are working on a supervised learning problem, are required to have labeled data? Yes
 
-## Lesson 02. Setting up Python for Machine Learning: scikit-learn and Jupyter Notebook
+## Lesson 02. Setting up Python for Machine Learning
 
 Objectives
 
@@ -88,7 +88,7 @@ What are the benefits and drawbacks of scikit-learn?
 - Harder than R to get started with machine learning but much easier to go deeper
 - Less emphasis that R on model interpretability
 
-    - scikit-leaer emphasizes machine learning -> predictive accuracy
+    - scikit-learn emphasizes machine learning -> predictive accuracy
     - R emphasizes statistical learning -> model interpretability and uncertainty
 
 Further reading
@@ -107,9 +107,9 @@ How do I use Jupyter Notebook?
 - Launch Jupyter Notebook from the command line using `jupyter notebook`
 - Kevin provides a brief overview of Jupyter Notebook functionality
 - Kevin also provides comments on [nbviewer](https://nbviewer.jupyter.org/) to view previously-published notebooks online as static documents
-- I prefer to code Python as .py scripts in order to run them in a production environment.
+- I prefer to code as Python .py scripts in order to run them in a production environment.
 
-What are some good resources for for learning Python?
+What are some good resources for learning Python?
 
 - [Codecademy's Python course. browser-based, tons of exercises](https://www.codecademy.com/learn/learn-python)
 - [DataQuest. browser-based, teaches Python in the context of data science](https://www.dataquest.io/)
@@ -121,7 +121,7 @@ I have not done any of these. The fourth link sounds the most useful to a begine
 Quiz
 
 1. In general, does the field of machine learning place a greater emphasis on predictive accuracy or model interpretability and uncertainty? Predictive accuracy
-2. Does the Jupyter Notebook support programming languages other than Python? Yes
+2. Does Jupyter Notebook support programming languages other than Python? Yes
 3. Which mode allows you to navigate a Jupyter Notebook and create cells using the keyboard? Command mode
 4. Which keyboard key will always switch you to command mode? Esc
 
