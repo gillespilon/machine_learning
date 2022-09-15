@@ -125,7 +125,7 @@ Quiz
 3. Which mode allows you to navigate a Jupyter Notebook and create cells using the keyboard? Command mode
 4. Which keyboard key will always switch you to command mode? Esc
 
-## Lesson 03. Getting started in scikit-learn with the famous iris dataset
+## Lesson 03. Getting started with the iris dataset
 
 Objectives
 
@@ -139,37 +139,37 @@ What is the famous iris dataset and how does it relate to machine learning?
 - 50 samples of 3 different species, 150 samples total
 - Measurements: sepal length, sepal width, petal length, petal width
 - Measured by Edgar Anderson in 1936
-- Sir Ronald Fisher wrote a paper in 1936 about the iris dataset, specifically about how linear discriminant analysis could be used to accurately distinguish the three species using only the sepal and petal measurements
+- Sir Ronald Fisher wrote a paper in 1936 about the iris dataset, specifically about how linear discriminant analysis could be used to accurately distinguish the three species using only the sepal and petal measurements.
 - This is a supervised machine learning problem because we are trying to learn the relationship between the measurements to predict the species.
 
 How do we load the iris dataset into scikit-learn?
 
 - See `machine_learning_scikit_learn_introduction.py`
-- Each row represents one flower
-- Each column represent one of the four measurements
+- Each row represents one flower.
+- Each column represent one of the four measurements.
 
 How do we describe a dataset using machine learning terminology?
 
-- Each row is an observation (sample, example, instance, record)
-- Each column is a feature (predictor, attribute, independent variable, input, regressor, covariate)
-- The target represents what we will predict: 0 for setosa, 1 for versicolor, 2 for virginica (target, response, outcome, label, dependant variable)
-- There are two types of supervised machine learning
+- Each row is an observation (sample, example, instance, record).
+- Each column is a feature (predictor, attribute, independent variable, input, regressor, covariate).
+- The target represents what we will predict: 0 for setosa, 1 for versicolor, 2 for virginica (target, response, outcome, label, dependant variable).
+- There are two types of supervised machine learning:
 
     - Classification has a categorical response
     - Regression has an ordered and continuous response
 
-- Personal side note. Cassie Korzygov uses the terms classification and prediction
+- Personal side note. Cassie Korzygov uses the terms classification and prediction instead of classification and regression.
 - The iris flower is a classification problem
 
 What are scikit-learn's four key requirements for working with data?
 
-- Features and response are separate objects
-- Features and response should be numeric
+- Features and response are separate objects.
+- Features and response should be numeric.
 - The response object ("y") for a classification problem can be an array of string values, and is no longer limited to numeric values.
-- Features and response should be NumPy arrays
-- Features and response should have specific shapes (ndarray)
+- Features and response should be NumPy arrays.
+- Features and response should have specific shapes (ndarray).
 - Convention is for feature data to be stored in an object named X (uppercase because it is a matrix)
-- Convention is for response data to be stored in an object names y (lowercase because it is a vector)
+- Convention is for response data to be stored in an object named y (lowercase because it is a vector)
 
 Further reading
 
