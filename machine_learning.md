@@ -189,7 +189,7 @@ Quiz
 5. In scikit-learn, what is the convention to represent a feature matrix? Uppercase X
 6. If your feature matrix has a shape of (500, 10), what shape should the response vector be? (500,)
 
-## Lesson 04. Training a Machine Learning Model with scikit-learn
+## Lesson 04. Training a Machine Learning Model
 
 Objectives
 
@@ -199,29 +199,29 @@ Objectives
 
 What is the K-nearest neighbors classification model?
 
-- Pick a value for K
-- Search for the K observations in the training data that are nearest to the measurement of the unknown iris
-- Use the most popular response value from the K-nearest neighbors as the predicted response value for the unknown iris
+- Pick a value for K.
+- Search for the K observations in the training data that are nearest to the measurement of the unknown iris.
+- Use the most popular response value from the K-nearest neighbors as the predicted response value for the unknown iris.
 
 What are the four steps for model training and prediction in scikit-learn?
 
 - See `machine_learning_scikit_learn_introduction.py` for the K-nearest neighbors code
 
-1. Import the class you plan to use
-2. Instantiate the estimator
+1. Import the class you plan to use.
+2. Instantiate the estimator.
 
     - Estimator is scikit-learn's term for model
     - Instantiate means make an instance of
     - Name of the object does not matter
     - Can specify tuning parameters (hyperparameters) during this step
-    - All parameters not specified are set to their defaults
+    - All parameters not specified are set to their defaults.
 
-3. Fit the model with data (model training)
+3. Fit the model with data (model training).
 
     - Model is learning the relationship between X and y
     - Occurs in-place
 
-4. Predict the response for a new observation
+4. Predict the response for a new observation.
 
     - New observations are called out-of-sample data
     - Uses the information it learned during the model training process
@@ -256,7 +256,7 @@ Quiz
 4. When fitting a model with data, do you need to assign the results to an object? No
 5. Can you make predictions for multiple out-of-sample observations at the same time? Yes
 
-## Lesson 05. Comparing Machine Models in scikit-learn
+## Lesson 05. Comparing Machine Models
 
 Objectives
 
