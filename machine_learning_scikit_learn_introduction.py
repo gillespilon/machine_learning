@@ -188,6 +188,15 @@ def main():
         estimator=knn, X=X, y=y, scoring="accuracy", cv=10
     )
     print("Mean of 10-fold cross-validation scores:", scores.mean())
+    # search for optimate value of k for KNN
+    k_range = range(1, 31)
+    k_scores = []
+    for k in k_range:
+        knn = KNeighborsClassifier(n_neighbors=k)
+        scores - cross_val_score(knn, X, y, cv=10, scoring="accuracy")
+        k_scores.append(scores.mean())
+    print(k_scores)
+
 
 if __name__ == "__main__":
     main()
