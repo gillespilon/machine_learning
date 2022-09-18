@@ -112,22 +112,22 @@ def main():
     print(data.head())
     # ds.dataframe_info(df=data, file_in=data_path)
     # using seaborn
-    sns.pairplot(
-        data,
-        x_vars=['TV', 'Radio', 'Newspaper'],
-        y_vars='Sales',
-        height=7,
-        kind='reg'
-    )
+    # sns.pairplot(
+    #     data,
+    #     x_vars=['TV', 'Radio', 'Newspaper'],
+    #     y_vars='Sales',
+    #     height=7,
+    #     kind='reg'
+    # )
     plt.show(block=True)
     # using datasense
-    # for item in ["TV", "Radio", "Newspaper"]:
-    #     X = data[item]
-    #     y = data["Sales"]
-    #     fig, ax = ds.plot_scatter_x_y(X=X, y=y)
-    #     ax.set_ylabel(ylabel="Sales")
-    #     ax.set_xlabel(xlabel=item)
-    #     fig.savefig(fname=f"scatter_{item}_vs_Sales.png")
+    for item in ["TV", "Radio", "Newspaper"]:
+        X = data[item]
+        y = data["Sales"]
+        fig, ax = ds.plot_scatter_x_y(X=X, y=y)
+        ax.set_ylabel(ylabel="Sales")
+        ax.set_xlabel(xlabel=item)
+        fig.savefig(fname=f"scatter_{item}_vs_Sales.svg")
     feature_columns = ["TV", "Radio", "Newspaper"]
     # fit a model with three features
     X = data[feature_columns]
@@ -189,13 +189,18 @@ def main():
     )
     print("Mean of 10-fold cross-validation scores:", scores.mean())
     # search for optimate value of k for KNN
-    k_range = range(1, 31)
+    k_range = list(range(1, 31))
     k_scores = []
     for k in k_range:
         knn = KNeighborsClassifier(n_neighbors=k)
-        scores - cross_val_score(knn, X, y, cv=10, scoring="accuracy")
+        scores = cross_val_score(knn, X, y, cv=10, scoring="accuracy")
         k_scores.append(scores.mean())
-    print(k_scores)
+    print("k_scores:", k_scores)
+    print("k_range:", k_range)
+    fig, ax = ds.plot_scatter_x_y(X=pd.Series(k_range), y=pd.Series(k_scores))
+    ax.set_ylabel(ylabel="Value of k for KNN")
+    ax.set_xlabel(xlabel="Cross-validated accuracy")
+    fig.savefig(fname=f"scatter_k_range_vs_k_scores.svg")
 
 
 if __name__ == "__main__":
