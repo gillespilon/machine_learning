@@ -140,14 +140,18 @@ def main():
     print(linreg.coef_)
     print(linreg.intercept_, list(zip(feature_columns, linreg.coef_)))
     y_predicted = linreg.predict(X=X_test)
-    print(np.sqrt(metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted)))
+    print(
+        np.sqrt(metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted))
+    )
     # fit a model with two features
     feature_columns = ["TV", "Radio"]
     X = data[feature_columns]
     X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=1)
     linreg.fit(X=X_train, y=y_train)
     y_predicted = linreg.predict(X=X_test)
-    print(np.sqrt(metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted)))
+    print(
+        np.sqrt(metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted))
+    )
     # Lesson 07
     print("Lesson 07")
     X = iris.data
@@ -193,14 +197,16 @@ def main():
     k_scores = []
     for k in k_range:
         knn = KNeighborsClassifier(n_neighbors=k)
-        scores = cross_val_score(knn, X, y, cv=10, scoring="accuracy")
+        scores = cross_val_score(
+            estimator=knn, X=X, y=y, cv=10, scoring="accuracy"
+        )
         k_scores.append(scores.mean())
     print("k_scores:", k_scores)
     print("k_range:", k_range)
     fig, ax = ds.plot_scatter_x_y(X=pd.Series(k_range), y=pd.Series(k_scores))
     ax.set_ylabel(ylabel="Value of k for KNN")
     ax.set_xlabel(xlabel="Cross-validated accuracy")
-    fig.savefig(fname=f"scatter_k_range_vs_k_scores.svg")
+    fig.savefig(fname="scatter_k_range_vs_k_scores.svg")
 
 
 if __name__ == "__main__":
