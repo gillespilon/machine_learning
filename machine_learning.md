@@ -470,6 +470,29 @@ Quiz
 5. Do the results of a machine learning model prove causation? No, they demonstrate associations.
 6. Which of the following regression metrics punish larger errors by increasing their weight? Mean squared error and root mean squared error.
 7. If your evaluation metric includes the word error, should you try to minimize or maximize that number? Minimize
+
 # Master Machine Learning with scikit-learn
 
 These are notes from Kevin Markham's course.
+
+Chapter 1. Introduction. 1.1 Course overview
+
+Hello and welcome to "Master Machine Learning with scikit-learn". In this course, you're going to learn how to build an effective Machine Learning workflow using the latest scikit-learn techniques so that you can solve almost any supervised Machine Learning problem.
+
+If you have just a bit of experience with scikit-learn, you've probably spent most of your time building models using artificially clean training data. But in this course, you'll learn how to build models using more complex datasets. We'll cover:
+
+- How to handle common scenarios such as missing values, text data, categorical data, and class imbalance
+- How to build a reusable workflow that starts with a pandas DataFrame and ends with a trained scikit-learn model
+- How to integrate feature engineering, selection, and standardization into your workflow
+- How to avoid data leakage so that you can correctly estimate model performance
+- How to tune your entire workflow for maximum performance
+
+...and so much more!
+
+Throughout the course, you'll learn the best practices for proper Machine Learning and how to apply those practices to your own Machine Learning problems.
+
+By the end of the course, you'll be more confident when tackling new Machine Learning problems because you'll understand what steps you need to take, why you need to take them, and how to correctly execute those steps using scikit-learn.
+
+You'll know what problems you might run into, and you'll know exactly how to solve them.
+
+And because you're learning a better way to work in scikit-learn, your code will be easier to write and to read, and you'll get better Machine Learning results faster than before!
