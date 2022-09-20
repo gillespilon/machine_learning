@@ -47,6 +47,24 @@ def main():
         estimator=logreg, X=X, y=y, cv=3, scoring="accuracy"
     ).mean()
     print("Cross-validation score:", crossvalscore)
+    print()
+    print("2.3 Using the model to make predictions")
+    print()
+    logreg.fit(X=X, y=y)
+    df_new = pd.read_csv(filepath_or_buffer="titanic_train.csv", nrows=10)
+    print("df_new:")
+    print()
+    print(df_new)
+    print()
+    X_new = df_new[["Parch", "Fare"]]
+    print("X_new:")
+    print()
+    print(X_new)
+    print()
+    logreg_predict = logreg.predict(X_new)
+    print("logreg.predict:")
+    print(logreg_predict)
+    print()
 
 
 if __name__ == "__main__":
