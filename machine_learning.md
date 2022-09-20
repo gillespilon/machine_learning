@@ -475,7 +475,7 @@ Quiz
 
 These are notes from Kevin Markham's course.
 
-Chapter 1. Introduction. 1.1 Course overview
+##  Chapter 1. Introduction. 1.1 Course overview
 
 Hello and welcome to "Master Machine Learning with scikit-learn". In this course, you're going to learn how to build an effective Machine Learning workflow using the latest scikit-learn techniques so that you can solve almost any supervised Machine Learning problem.
 
@@ -496,3 +496,23 @@ By the end of the course, you'll be more confident when tackling new Machine Lea
 You'll know what problems you might run into, and you'll know exactly how to solve them.
 
 And because you're learning a better way to work in scikit-learn, your code will be easier to write and to read, and you'll get better Machine Learning results faster than before!
+
+## Chapter 1. Introduction. 1.2 scikit-learn vs Deep Learning
+
+If you want to solve any Machine Learning problem using Python, then I always recommend starting with scikit-learn. Here's why:
+
+- It provides a consistent interface to a huge number of Machine Learning models
+- It offers many options and tuning parameters but uses sensible defaults
+- It includes a rich set of functionality to support the entire Machine Learning workflow
+- It has exceptional documentation
+- And there is active community of researchers and developers who continue to improve and support the library
+
+In fact, scikit-learn was the most popular Machine Learning tool in Kaggle's recent "State of Machine Learning" report, with more than 80% of data scientists using it.
+
+For many Machine Learning problems, scikit-learn will be the only library you need. However, there are some specialized problems for which a deep learning library such as TensorFlow, PyTorch, or Keras will provide superior results. That being said, deep learning does have some significant drawbacks:
+
+- Deep learning requires more computational resources
+- Deep learning libraries have a higher learning curve
+- And deep learning models are less interpretable than non-deep learning models
+
+In other words, I only recommend using deep learning if you already know that you need it to solve your particular problem. But for the majority of Machine Learning problems, you are likely to get similar results using scikit-learn, and you will get those results much faster and easier with scikit-learn.
