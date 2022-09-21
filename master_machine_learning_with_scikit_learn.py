@@ -92,6 +92,12 @@ def main():
     print()
     print(logreg.predict_proba(X=X_new)[:, 1])
     print()
+    print("2.10 Show all of the model parameters")
+    print()
+    print("logreg parameters:")
+    print()
+    print(logreg.get_params())
+    print()
 
 
 if __name__ == "__main__":
