@@ -14,6 +14,7 @@ import sklearn
 
 
 def main():
+    print("Master machine learning with scikit-learn")
     print()
     print("installed scikit-learn version:", sklearn.__version__)
     print("installed pandas version:      ", pd.__version__)
@@ -21,19 +22,21 @@ def main():
     print("2.1 Loading and exploring a dataset")
     print()
     df = pd.read_csv(filepath_or_buffer="titanic_train.csv", nrows=10)
-    print("First ten rows of titanic_train.csv")
+    print("Explore titanic_train.csv")
+    print()
+    print("Create df:")
     print()
     print(df)
     # Use intuition to select two features
     # Create the X DataFrame
     X = df[["Parch", "Fare"]]
     print()
-    print("X DataFrame:")
+    print("Create X DataFrame:")
     print(X)
     print()
     # Create the y Series
     y = df["Survived"]
-    print("y Series:")
+    print("Create y Series:")
     print(y)
     print()
     # Check the shapes of X, y
@@ -41,6 +44,8 @@ def main():
     print("y shape:", y.shape)
     print()
     print("2.2 Building and evaluate a model")
+    print()
+    print("Create model, evaluation metric for classification")
     print()
     logreg = LogisticRegression(solver="liblinear", random_state=1)
     crossvalscore = cross_val_score(
@@ -51,17 +56,18 @@ def main():
     print("2.3 Using the model to make predictions")
     print()
     logreg.fit(X=X, y=y)
-    df_new = pd.read_csv(filepath_or_buffer="titanic_train.csv", nrows=10)
-    print("df_new:")
-    print()
-    print(df_new)
-    print()
-    X_new = df_new[["Parch", "Fare"]]
-    print("X_new:")
-    print()
-    print(X_new)
-    print()
-    logreg_predict = logreg.predict(X_new)
+    # df_new = pd.read_csv(filepath_or_buffer="titanic_train.csv", nrows=10)
+    # print("Create df_new:")
+    # print()
+    # print(df_new)
+    # print()
+    # X_new = df_new[["Parch", "Fare"]]
+    # print("Create X_new:")
+    # print()
+    # print(X_new)
+    # print()
+    # logreg_predict = logreg.predict(X_new)
+    logreg_predict = logreg.predict(X)
     print("logreg.predict:")
     print(logreg_predict)
     print()
