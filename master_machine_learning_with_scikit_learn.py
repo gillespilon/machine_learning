@@ -98,6 +98,11 @@ def main():
     print()
     print(logreg.get_params())
     print()
+    # 2.12 If you need to shuffle the samples when using cross-validation
+    # Used when samples are ordered and shuffling is needed
+    # from sklearn.model_selection import StratifiedKFold
+    # kf = StratifiedKFold(3, shuffle=True, random_state=1)
+    # cross_val_score(estimate=logreg, X=X, y=y, cv=kf, scoring = "accuracy")
 
 
 if __name__ == "__main__":
