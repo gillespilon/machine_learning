@@ -77,10 +77,20 @@ def main():
     predictions = pd.Series(
         data=logreg_predict, index=X_new.index, name='Prediction'
     )
-    X_new = pd.concat(objs=[X_new, predictions], axis='columns')
+    X_new_predictions = pd.concat(objs=[X_new, predictions], axis='columns')
     print("Create X_new with predictions:")
     print()
-    print(X_new)
+    print(X_new_predictions)
+    print()
+    print("2.8 Determine the confidence level of each prediction")
+    print()
+    print("Probabilities of 0, 1:")
+    print()
+    print(logreg.predict_proba(X=X_new))
+    print()
+    print("Probabilities of 1:")
+    print()
+    print(logreg.predict_proba(X=X_new)[:, 1])
     print()
 
 
