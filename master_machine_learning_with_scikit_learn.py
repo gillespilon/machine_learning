@@ -36,7 +36,7 @@ def main():
     print()
     # Create the y Series
     y = df["Survived"]
-    print("Create y Series:")
+    print("Create y Series for multiclass target:")
     print(y)
     print()
     # Check the shapes of X, y
@@ -45,7 +45,7 @@ def main():
     print()
     print("2.2 Building and evaluate a model")
     print()
-    print("Create model, evaluation metric for classification")
+    print("Create model, evaluation metric for multiclass classification")
     print()
     logreg = LogisticRegression(solver="liblinear", random_state=1)
     crossvalscore = cross_val_score(
