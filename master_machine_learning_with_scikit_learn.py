@@ -8,6 +8,7 @@ import time
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import OneHotEncoder
 import datasense as ds
 import pandas as pd
 import sklearn
@@ -103,6 +104,15 @@ def main():
     # from sklearn.model_selection import StratifiedKFold
     # kf = StratifiedKFold(3, shuffle=True, random_state=1)
     # cross_val_score(estimate=logreg, X=X, y=y, cv=kf, scoring = "accuracy")
+    print("3.1 Introduction to one-hot encoding")
+    print("3.3 One-hot encoding of multiple features")
+    print()
+    ohe = OneHotEncoder(sparse=False)
+    ohe.fit_transform(X=df[["Embarked", "Sex"]])
+    print("Embarked, Sex categories:")
+    print()
+    print(ohe.categories_)
+    print()
 
 
 if __name__ == "__main__":
