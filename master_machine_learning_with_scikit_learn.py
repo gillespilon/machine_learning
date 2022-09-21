@@ -56,20 +56,31 @@ def main():
     print("2.3 Using the model to make predictions")
     print()
     logreg.fit(X=X, y=y)
-    # df_new = pd.read_csv(filepath_or_buffer="titanic_train.csv", nrows=10)
-    # print("Create df_new:")
-    # print()
-    # print(df_new)
-    # print()
-    # X_new = df_new[["Parch", "Fare"]]
-    # print("Create X_new:")
-    # print()
-    # print(X_new)
-    # print()
-    # logreg_predict = logreg.predict(X_new)
-    logreg_predict = logreg.predict(X)
+    # df_new is not strictly necessary, can use df, X
+    df_new = pd.read_csv(filepath_or_buffer="titanic_train.csv", nrows=10)
+    print("Create df_new:")
+    print()
+    print(df_new)
+    print()
+    X_new = df_new[["Parch", "Fare"]]
+    print("Create X_new:")
+    print()
+    print(X_new)
+    print()
+    logreg_predict = logreg.predict(X=X_new)
+    # logreg_predict = logreg.predict(X)
     print("logreg.predict:")
     print(logreg_predict)
+    print()
+    print("2.7 Add model's predictions to the X_new DataFrame")
+    print()
+    predictions = pd.Series(
+        data=logreg_predict, index=X_new.index, name='Prediction'
+    )
+    X_new = pd.concat(objs=[X_new, predictions], axis='columns')
+    print("Create X_new with predictions:")
+    print()
+    print(X_new)
     print()
 
 
