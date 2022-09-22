@@ -6,6 +6,7 @@ Master machine learning with scikit-learn
 from pathlib import Path
 import time
 
+from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import OneHotEncoder
@@ -112,6 +113,21 @@ def main():
     print("Embarked, Sex categories:")
     print()
     print(ohe.categories_)
+    print()
+    print("4. Improving your workflow with ColumnTransformer and Pipeline")
+    print("4.1 Preprocessing features with ColumnTransformer")
+    print()
+    cols = ["Parch", "Fare", "Embarked", "Sex"]
+    X = df[cols]
+    ohe = OneHotEncoder()
+    ct = make_column_transformer(
+        (ohe, ["Embarked", "Sex"]),
+        remainder="passthrough"
+    )
+    ct.fit_transform(X=X)
+    print("Features names of X:")
+    print()
+    print(ct.get_feature_names_out())
     print()
 
 
