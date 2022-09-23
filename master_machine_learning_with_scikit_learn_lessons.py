@@ -18,6 +18,8 @@ import sklearn
 
 
 def main():
+    features_four = ["Parch", "Fare", "Embarked", "Sex"]
+    features_two = ["Parch", "Fare"]
     print("master_machine_learning_with_scikit_learn_lessons.py")
     print()
     print("installed scikit-learn version:", sklearn.__version__)
@@ -29,14 +31,12 @@ def main():
         file_name="titanic_train.csv",
         nrows=10
     )
-    print("Explore titanic_train.csv")
-    print()
     print("Create df:")
     print()
     print(df)
     # Use intuition to select two features
     # Create the X DataFrame
-    X = df[["Parch", "Fare"]]
+    X = df[features_two]
     print()
     print("Create X DataFrame:")
     print(X)
@@ -63,7 +63,6 @@ def main():
     print("2.3 Using the model to make predictions")
     print()
     logreg.fit(X=X, y=y)
-    # df_new is not strictly necessary, can use df, X
     df_new = ds.read_file(
         file_name="titanic_new.csv",
         nrows=10
@@ -72,7 +71,7 @@ def main():
     print()
     print(df_new)
     print()
-    X_new = df_new[["Parch", "Fare"]]
+    X_new = df_new[features_two]
     print("Create X_new:")
     print()
     print(X_new)
@@ -125,8 +124,7 @@ def main():
     print("4. Improving your workflow with ColumnTransformer and Pipeline")
     print("4.1 Preprocessing features with ColumnTransformer")
     print()
-    cols = ["Parch", "Fare", "Embarked", "Sex"]
-    X = df[cols]
+    X = df[features_four]
     ohe = OneHotEncoder()
     ct = make_column_transformer(
         (ohe, ["Embarked", "Sex"]),
@@ -143,7 +141,7 @@ def main():
     pipe.fit(X=X, y=y)
     print("4.3 Using the Pipeline to make predictions")
     print()
-    X_new = df_new[cols]
+    X_new = df_new[features_four]
     pipe.predict(X=X_new)
     print("pipe.predict(X=X_new):", pipe.predict(X=X_new))
     print()
