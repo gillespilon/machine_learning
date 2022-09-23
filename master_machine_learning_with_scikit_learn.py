@@ -5,11 +5,9 @@ Master machine learning with scikit-learn
 
 from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
 import datasense as ds
-import pandas as pd
 
 
 def main():
