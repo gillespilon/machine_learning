@@ -18,7 +18,7 @@ import sklearn
 
 
 def main():
-    print("Master machine learning with scikit-learn")
+    print("master_machine_learning_with_scikit_learn_lessons.py")
     print()
     print("installed scikit-learn version:", sklearn.__version__)
     print("installed pandas version:      ", pd.__version__)
