@@ -116,19 +116,19 @@ def main():
     print("3.1 Introduction to one-hot encoding")
     print("3.3 One-hot encoding of multiple features")
     print()
-    ohe = OneHotEncoder(sparse=False)
-    ohe.fit_transform(X=df[["Embarked", "Sex"]])
+    one_hot_encoder = OneHotEncoder(sparse=False)
+    one_hot_encoder.fit_transform(X=df[["Embarked", "Sex"]])
     print("Embarked, Sex categories:")
     print()
-    print(ohe.categories_)
+    print(one_hot_encoder.categories_)
     print()
     print("4. Improving your workflow with ColumnTransformer and Pipeline")
     print("4.1 Preprocessing features with ColumnTransformer")
     print()
     X = df[features_four]
-    ohe = OneHotEncoder()
+    one_hot_encoder = OneHotEncoder()
     ct = make_column_transformer(
-        (ohe, ["Embarked", "Sex"]),
+        (one_hot_encoder, ["Embarked", "Sex"]),
         remainder="passthrough"
     )
     ct.fit_transform(X=X)
