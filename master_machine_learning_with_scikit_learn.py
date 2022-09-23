@@ -11,10 +11,10 @@ import datasense as ds
 
 
 def main():
-    print("master_machine_learning_with_scikit_learn.py")
-    print()
     features = ["Parch", "Fare", "Embarked", "Sex"]
     target = "Survived"
+    print("master_machine_learning_with_scikit_learn.py")
+    print()
     df = ds.read_file(
         file_name="titanic_train.csv",
         nrows=10
