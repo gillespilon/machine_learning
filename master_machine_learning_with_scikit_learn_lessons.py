@@ -127,18 +127,18 @@ def main():
     print()
     X = df[features_four]
     one_hot_encoder = OneHotEncoder()
-    ct = make_column_transformer(
+    column_transformer = make_column_transformer(
         (one_hot_encoder, ["Embarked", "Sex"]),
         remainder="passthrough"
     )
-    ct.fit_transform(X=X)
+    column_transformer.fit_transform(X=X)
     print("Features names of X:")
     print()
-    print(ct.get_feature_names_out())
+    print(column_transformer.get_feature_names_out())
     print()
     print("4.2 Chaining steps with Pipeline")
     print()
-    pipe = make_pipeline(ct, logistic_regression)
+    pipe = make_pipeline(column_transformer, logistic_regression)
     pipe.fit(X=X, y=y)
     print("4.3 Using the Pipeline to make predictions")
     print()
