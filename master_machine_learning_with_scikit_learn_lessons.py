@@ -3,9 +3,6 @@
 Master machine learning with scikit-learn
 """
 
-from pathlib import Path
-import time
-
 from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
@@ -55,9 +52,16 @@ def main():
     print()
     print("Create model, evaluation metric for multiclass classification")
     print()
-    logistic_regression = LogisticRegression(solver="liblinear", random_state=1)
+    logistic_regression = LogisticRegression(
+        solver="liblinear",
+        random_state=1
+    )
     cross_validation_score = cross_val_score(
-        estimator=logistic_regression, X=X, y=y, cv=3, scoring="accuracy"
+        estimator=logistic_regression,
+        X=X,
+        y=y,
+        cv=3,
+        scoring="accuracy"
     ).mean()
     print("Cross-validation score:", cross_validation_score)
     print()
@@ -112,7 +116,13 @@ def main():
     # Used when samples are ordered and shuffling is needed
     # from sklearn.model_selection import StratifiedKFold
     # kf = StratifiedKFold(3, shuffle=True, random_state=1)
-    # cross_val_score(estimate=logistic_regression, X=X, y=y, cv=kf, scoring = "accuracy")
+    # cross_val_score(
+    #     estimate=logistic_regression,
+    #     X=X,
+    #     y=y,
+    #     cv=kf,
+    #     scoring = "accuracy"
+    # )
     print("3.1 Introduction to one-hot encoding")
     print("3.3 One-hot encoding of multiple features")
     print()
