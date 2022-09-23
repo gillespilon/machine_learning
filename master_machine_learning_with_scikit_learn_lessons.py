@@ -56,10 +56,10 @@ def main():
     print("Create model, evaluation metric for multiclass classification")
     print()
     logistic_regression = LogisticRegression(solver="liblinear", random_state=1)
-    crossvalscore = cross_val_score(
+    cross_validation_score = cross_val_score(
         estimator=logistic_regression, X=X, y=y, cv=3, scoring="accuracy"
     ).mean()
-    print("Cross-validation score:", crossvalscore)
+    print("Cross-validation score:", cross_validation_score)
     print()
     print("2.3 Using the model to make predictions")
     print()
