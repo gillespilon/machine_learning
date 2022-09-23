@@ -25,7 +25,10 @@ def main():
     print()
     print("2.1 Loading and exploring a dataset")
     print()
-    df = pd.read_csv(filepath_or_buffer="titanic_train.csv", nrows=10)
+    df = ds.read_file(
+        file_name="titanic_train.csv",
+        nrows=10
+    )
     print("Explore titanic_train.csv")
     print()
     print("Create df:")
@@ -61,7 +64,10 @@ def main():
     print()
     logreg.fit(X=X, y=y)
     # df_new is not strictly necessary, can use df, X
-    df_new = pd.read_csv(filepath_or_buffer="titanic_new.csv", nrows=10)
+    df_new = ds.read_file(
+        file_name="titanic_new.csv",
+        nrows=10
+    )
     print("Create df_new:")
     print()
     print(df_new)
