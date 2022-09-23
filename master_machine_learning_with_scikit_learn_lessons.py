@@ -20,6 +20,7 @@ import sklearn
 def main():
     features_four = ["Parch", "Fare", "Embarked", "Sex"]
     features_two = ["Parch", "Fare"]
+    target = "Survived"
     print("master_machine_learning_with_scikit_learn_lessons.py")
     print()
     print("installed scikit-learn version:", sklearn.__version__)
@@ -42,7 +43,7 @@ def main():
     print(X)
     print()
     # Create the y Series
-    y = df["Survived"]
+    y = df[target]
     print("Create y Series for multiclass target:")
     print(y)
     print()
@@ -54,15 +55,15 @@ def main():
     print()
     print("Create model, evaluation metric for multiclass classification")
     print()
-    logreg = LogisticRegression(solver="liblinear", random_state=1)
+    logistic_regression = LogisticRegression(solver="liblinear", random_state=1)
     crossvalscore = cross_val_score(
-        estimator=logreg, X=X, y=y, cv=3, scoring="accuracy"
+        estimator=logistic_regression, X=X, y=y, cv=3, scoring="accuracy"
     ).mean()
     print("Cross-validation score:", crossvalscore)
     print()
     print("2.3 Using the model to make predictions")
     print()
-    logreg.fit(X=X, y=y)
+    logistic_regression.fit(X=X, y=y)
     df_new = ds.read_file(
         file_name="titanic_new.csv",
         nrows=10
@@ -76,15 +77,15 @@ def main():
     print()
     print(X_new)
     print()
-    logreg_predict = logreg.predict(X=X_new)
-    # logreg_predict = logreg.predict(X)
-    print("logreg.predict:")
-    print(logreg_predict)
+    logistic_regression_predict = logistic_regression.predict(X=X_new)
+    # logistic_regression_predict = logistic_regression.predict(X)
+    print("logistic_regression.predict:")
+    print(logistic_regression_predict)
     print()
     print("2.7 Add model's predictions to the X_new DataFrame")
     print()
     predictions = pd.Series(
-        data=logreg_predict, index=X_new.index, name='Prediction'
+        data=logistic_regression_predict, index=X_new.index, name='Prediction'
     )
     X_new_predictions = pd.concat(objs=[X_new, predictions], axis='columns')
     print("Create X_new with predictions:")
@@ -95,23 +96,23 @@ def main():
     print()
     print("Probabilities of 0, 1:")
     print()
-    print(logreg.predict_proba(X=X_new))
+    print(logistic_regression.predict_proba(X=X_new))
     print()
     print("Probabilities of 1:")
     print()
-    print(logreg.predict_proba(X=X_new)[:, 1])
+    print(logistic_regression.predict_proba(X=X_new)[:, 1])
     print()
     print("2.10 Show all of the model parameters")
     print()
-    print("logreg parameters:")
+    print("logistic_regression parameters:")
     print()
-    print(logreg.get_params())
+    print(logistic_regression.get_params())
     print()
     # 2.12 If you need to shuffle the samples when using cross-validation
     # Used when samples are ordered and shuffling is needed
     # from sklearn.model_selection import StratifiedKFold
     # kf = StratifiedKFold(3, shuffle=True, random_state=1)
-    # cross_val_score(estimate=logreg, X=X, y=y, cv=kf, scoring = "accuracy")
+    # cross_val_score(estimate=logistic_regression, X=X, y=y, cv=kf, scoring = "accuracy")
     print("3.1 Introduction to one-hot encoding")
     print("3.3 One-hot encoding of multiple features")
     print()
@@ -137,7 +138,7 @@ def main():
     print()
     print("4.2 Chaining steps with Pipeline")
     print()
-    pipe = make_pipeline(ct, logreg)
+    pipe = make_pipeline(ct, logistic_regression)
     pipe.fit(X=X, y=y)
     print("4.3 Using the Pipeline to make predictions")
     print()
