@@ -10,6 +10,7 @@ from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.pipeline import make_pipeline
 import datasense as ds
 import pandas as pd
 import sklearn
@@ -128,6 +129,16 @@ def main():
     print("Features names of X:")
     print()
     print(ct.get_feature_names_out())
+    print()
+    print("4.2 Chaining steps with Pipeline")
+    print()
+    pipe = make_pipeline(ct, logreg)
+    pipe.fit(X=X, y=y)
+    print("4.3 Using the Pipeline to make predictions")
+    print()
+    X_new = df_new[cols]
+    pipe.predict(X=X_new)
+    print(pipe.named_steps.keys())
     print()
 
 
