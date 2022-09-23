@@ -11,6 +11,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
+from sklearn import set_config
 import datasense as ds
 import pandas as pd
 import sklearn
@@ -60,7 +61,7 @@ def main():
     print()
     logreg.fit(X=X, y=y)
     # df_new is not strictly necessary, can use df, X
-    df_new = pd.read_csv(filepath_or_buffer="titanic_train.csv", nrows=10)
+    df_new = pd.read_csv(filepath_or_buffer="titanic_new.csv", nrows=10)
     print("Create df_new:")
     print()
     print(df_new)
@@ -138,7 +139,14 @@ def main():
     print()
     X_new = df_new[cols]
     pipe.predict(X=X_new)
+    print("pipe.predict(X=X_new):", pipe.predict(X=X_new))
+    print()
     print(pipe.named_steps.keys())
+    print()
+    print("pipeline:")
+    print()
+    set_config(display="text")
+    print(pipe)
     print()
 
 
