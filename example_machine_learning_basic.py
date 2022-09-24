@@ -256,7 +256,7 @@ hyperparams = [
         "selector": [SelectFromModel(estimator=dtr_selection)],
         "selector__threshold": [None, "mean", "median"],
         "selector__estimator__criterion": [
-            "mse", "friedman_mse", "mae"
+            "mse", "friedman_mse", "absolute_error"
         ],
         # "selector__estimator__splitter": ["best", "random"],
         # "selector__estimator__max_features": [
@@ -327,7 +327,7 @@ hyperparams.append(
 
         "selector__threshold": [None, "mean", "median"],
 
-        "selector__estimator__criterion": ["mse", "mae"],
+        "selector__estimator__criterion": ["mse", "absolute_error"],
 
         "regressor": [linreg],
 
