@@ -264,7 +264,7 @@ hyperparams = [
         # ],
         # "selector__estimator__max_leaf_nodes": [None, 2, 4, 6],
         "regressor": [linreg],
-        "regressor__normalize": [False, True]
+        # "regressor__normalize": [False, True]
     },
 
 ]
@@ -305,9 +305,9 @@ hyperparams.append(
         ],
         "selector": [SelectFromModel(estimator=lassocv_selection)],
         "selector__threshold": [None, "mean", "median"],
-        "selector__estimator__normalize": [False, True],
+        # "selector__estimator__normalize": [False, True],
         "regressor": [linreg],
-        "regressor__normalize": [False, True]
+        # "regressor__normalize": [False, True]
     },
 )
 """
