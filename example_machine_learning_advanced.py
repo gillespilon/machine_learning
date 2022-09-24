@@ -106,7 +106,7 @@ hyperparams = {}
 hyperparams['columntransformer__simpleimputer__strategy'] = \
     ['mean', 'median', 'most_frequent', 'constant']
 hyperparams['selectfrommodel__threshold'] = [None, 'mean', 'median']
-hyperparams['linearregression__normalize'] = [False, True]
+# hyperparams['linearregression__normalize'] = [False, True]
 # Perform a grid search
 grid = GridSearchCV(pipe, hyperparams, cv=5)
 grid.fit(X_train, y_train)
