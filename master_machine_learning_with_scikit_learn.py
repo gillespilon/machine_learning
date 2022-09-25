@@ -36,7 +36,7 @@ def main():
     )
     # option 2
     # column_transformer = make_column_transformer(
-    #     (one_hot_encoder, ["Embarked", "Sex"]),
+    #     (one_hot_encoder, one_hot_encorder_features),
     #     remainder="passthrough"
     # )
     logistic_regression = LogisticRegression(
