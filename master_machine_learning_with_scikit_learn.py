@@ -12,6 +12,8 @@ import datasense as ds
 
 def main():
     features = ["Parch", "Fare", "Embarked", "Sex"]
+    one_hot_encoder_features = ["Embarked", "Sex"]
+    passthrough_features = ["Parch", "Fare"]
     target = "Survived"
     print("master_machine_learning_with_scikit_learn.py")
     print()
@@ -29,8 +31,8 @@ def main():
     one_hot_encoder = OneHotEncoder()
     # option 1
     column_transformer = make_column_transformer(
-        (one_hot_encoder, ["Embarked", "Sex"]),
-        ("passthrough", ["Parch", "Fare"])
+        (one_hot_encoder, one_hot_encoder_features),
+        ("passthrough", passthrough_features)
     )
     # option 2
     # column_transformer = make_column_transformer(
