@@ -28,15 +28,15 @@ def main():
     X_new = df_new[features]
     one_hot_encoder = OneHotEncoder()
     # option 1
-    # column_transformer = make_column_transformer(
-    #     (one_hot_encoder, ["Embarked", "Sex"]),
-    #     ("passthrough", ["Parch", "Fare"])
-    # )
-    # option 2
     column_transformer = make_column_transformer(
         (one_hot_encoder, ["Embarked", "Sex"]),
-        remainder="passthrough"
+        ("passthrough", ["Parch", "Fare"])
     )
+    # option 2
+    # column_transformer = make_column_transformer(
+    #     (one_hot_encoder, ["Embarked", "Sex"]),
+    #     remainder="passthrough"
+    # )
     logistic_regression = LogisticRegression(
         solver="liblinear",
         random_state=1
