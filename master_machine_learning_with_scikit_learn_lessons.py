@@ -17,6 +17,8 @@ import sklearn
 def main():
     features_four = ["Parch", "Fare", "Embarked", "Sex"]
     features_two = ["Parch", "Fare"]
+    file_train = "titanic_train.csv"
+    file_new = "titanic_new.csv"
     target = "Survived"
     print("master_machine_learning_with_scikit_learn_lessons.py")
     print()
@@ -26,7 +28,7 @@ def main():
     print("2.1 Loading and exploring a dataset")
     print()
     df = ds.read_file(
-        file_name="titanic_train.csv",
+        file_name=file_train,
         nrows=10
     )
     print("Create df:")
@@ -69,7 +71,7 @@ def main():
     print()
     logistic_regression.fit(X=X, y=y)
     df_new = ds.read_file(
-        file_name="titanic_new.csv",
+        file_name=file_new,
         nrows=10
     )
     print("Create df_new:")
