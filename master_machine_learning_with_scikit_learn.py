@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 """
-Master machine learning with scikit-learn
+Essential code for Kevin Markham's "Master machine learning with scikit-learn."
 """
 
 from sklearn.compose import make_column_transformer
