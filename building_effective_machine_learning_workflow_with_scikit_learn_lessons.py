@@ -29,12 +29,12 @@ def main():
     # kaggle test dataset`
     file_new = "titanic_new.csv"
     target = "Survived"
-    df = ds.read_file(
+    df_train = ds.read_file(
         file_name=file_train,
         nrows=10
     )
-    X = df[features_two]
-    y = df[target]
+    X = df_train[features_two]
+    y = df_train[target]
     logistic_regression = LogisticRegression(
         solver="liblinear",
         random_state=1
@@ -58,9 +58,9 @@ def main():
     print("Predictions:", predictions)
     print()
     one_hot_encoder = OneHotEncoder()
-    one_hot_encoder.fit_transform(X=df[one_hot_encoder_features])
+    one_hot_encoder.fit_transform(X=df_train[one_hot_encoder_features])
     # Now use ColumnTransformer and Pipeline on four features
-    X = df[features]
+    X = df_train[features]
     one_hot_encoder = OneHotEncoder()
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
