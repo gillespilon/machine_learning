@@ -25,11 +25,11 @@ def main():
     )
     X_train = df_train[features]
     y = df_train[target]
-    df_new = ds.read_file(
+    df_test = ds.read_file(
         file_name=file_new,
         nrows=10
     )
-    X_test = df_new[features]
+    X_test = df_test[features]
     one_hot_encoder = OneHotEncoder()
     # option 1
     column_transformer = make_column_transformer(
