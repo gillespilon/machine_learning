@@ -53,8 +53,8 @@ def main():
         file_name=file_new,
         nrows=10
     )
-    X_new = df_test[features_two]
-    predictions = logistic_regression.predict(X=X_new)
+    X_test = df_test[features_two]
+    predictions = logistic_regression.predict(X=X_test)
     print("Predictions:", predictions)
     print()
     one_hot_encoder = OneHotEncoder()
@@ -68,9 +68,9 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X_train, y=y)
-    X_new = df_test[features]
-    predictions = pipeline.predict(X=X_new)
-    print("Predictions X_new:", predictions)
+    X_test = df_test[features]
+    predictions = pipeline.predict(X=X_test)
+    print("Predictions X_test:", predictions)
     print()
 
 
