@@ -35,19 +35,19 @@ def main():
     print()
     print(df_train)
     # Use intuition to select two features
-    # Create the X DataFrame
-    X = df_train[features_two]
+    # Create the X_train DataFrame
+    X_train = df_train[features_two]
     print()
-    print("Create X DataFrame:")
-    print(X)
+    print("Create X_train DataFrame:")
+    print(X_train)
     print()
     # Create the y Series
     y = df_train[target]
     print("Create y Series for multiclass target:")
     print(y)
     print()
-    # Check the shapes of X, y
-    print("X shape:", X.shape)
+    # Check the shapes of X_train, y
+    print("X_train shape:", X_train.shape)
     print("y shape:", y.shape)
     print()
     print("2.2 Building and evaluate a model")
@@ -60,7 +60,7 @@ def main():
     )
     cross_validation_score = cross_val_score(
         estimator=logistic_regression,
-        X=X,
+        X=X_train,
         y=y,
         cv=3,
         scoring="accuracy"
@@ -69,7 +69,7 @@ def main():
     print()
     print("2.3 Using the model to make predictions")
     print()
-    logistic_regression.fit(X=X, y=y)
+    logistic_regression.fit(X=X_train, y=y)
     df_test = ds.read_file(
         file_name=file_new,
         nrows=10
@@ -84,7 +84,6 @@ def main():
     print(X_new)
     print()
     logistic_regression_predict = logistic_regression.predict(X=X_new)
-    # logistic_regression_predict = logistic_regression.predict(X)
     print("logistic_regression.predict:")
     print(logistic_regression_predict)
     print()
@@ -120,7 +119,7 @@ def main():
     # kf = StratifiedKFold(3, shuffle=True, random_state=1)
     # cross_val_score(
     #     estimate=logistic_regression,
-    #     X=X,
+    #     X=X_train,
     #     y=y,
     #     cv=kf,
     #     scoring = "accuracy"
@@ -137,21 +136,21 @@ def main():
     print("4. Improving your workflow with ColumnTransformer and Pipeline")
     print("4.1 Preprocessing features with ColumnTransformer")
     print()
-    X = df_train[features_four]
+    X_train = df_train[features_four]
     one_hot_encoder = OneHotEncoder()
     column_transformer = make_column_transformer(
         (one_hot_encoder, ["Embarked", "Sex"]),
         remainder="passthrough"
     )
-    column_transformer.fit_transform(X=X)
-    print("Features names of X:")
+    column_transformer.fit_transform(X=X_train)
+    print("Features names of X_train:")
     print()
     print(column_transformer.get_feature_names_out())
     print()
     print("4.2 Chaining steps with Pipeline")
     print()
     pipeline = make_pipeline(column_transformer, logistic_regression)
-    pipeline.fit(X=X, y=y)
+    pipeline.fit(X=X_train, y=y)
     print("4.3 Using the Pipeline to make predictions")
     print()
     X_new = df_test[features_four]
