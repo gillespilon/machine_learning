@@ -70,15 +70,15 @@ def main():
     print("2.3 Using the model to make predictions")
     print()
     logistic_regression.fit(X=X, y=y)
-    df_new = ds.read_file(
+    df_test = ds.read_file(
         file_name=file_new,
         nrows=10
     )
-    print("Create df_new:")
+    print("Create df_test:")
     print()
-    print(df_new)
+    print(df_test)
     print()
-    X_new = df_new[features_two]
+    X_new = df_test[features_two]
     print("Create X_new:")
     print()
     print(X_new)
@@ -154,7 +154,7 @@ def main():
     pipeline.fit(X=X, y=y)
     print("4.3 Using the Pipeline to make predictions")
     print()
-    X_new = df_new[features_four]
+    X_new = df_test[features_four]
     pipeline.predict(X=X_new)
     print("pipeline.predict(X=X_new):", pipeline.predict(X=X_new))
     print()
