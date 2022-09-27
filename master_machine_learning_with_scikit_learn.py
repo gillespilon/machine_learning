@@ -19,12 +19,12 @@ def main():
     target = "Survived"
     print("master_machine_learning_with_scikit_learn.py")
     print()
-    df = ds.read_file(
+    df_train = ds.read_file(
         file_name=file_train,
         nrows=10
     )
-    X_train = df[features]
-    y = df[target]
+    X_train = df_train[features]
+    y = df_train[target]
     df_new = ds.read_file(
         file_name=file_new,
         nrows=10
