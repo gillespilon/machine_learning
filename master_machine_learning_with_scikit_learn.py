@@ -14,17 +14,19 @@ def main():
     features = ["Parch", "Fare", "Embarked", "Sex"]
     one_hot_encoder_features = ["Embarked", "Sex"]
     passthrough_features = ["Parch", "Fare"]
+    file_train = "titanic_train.csv"
+    file_new = "titanic_new.csv"
     target = "Survived"
     print("master_machine_learning_with_scikit_learn.py")
     print()
     df = ds.read_file(
-        file_name="titanic_train.csv",
+        file_name=file_train,
         nrows=10
     )
-    X = df[features]
+    X_train = df[features]
     y = df[target]
     df_new = ds.read_file(
-        file_name="titanic_new.csv",
+        file_name=file_new,
         nrows=10
     )
     X_new = df_new[features]
@@ -44,7 +46,7 @@ def main():
         random_state=1
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
-    pipeline.fit(X=X, y=y)
+    pipeline.fit(X=X_train, y=y)
     pipeline.predict(X=X_new)
     print("pipeline.predict(X=X_new):", pipeline.predict(X=X_new))
     print()
