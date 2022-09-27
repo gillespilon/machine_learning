@@ -33,7 +33,7 @@ def main():
         file_name=file_train,
         nrows=10
     )
-    X = df_train[features_two]
+    X_train = df_train[features_two]
     y = df_train[target]
     logistic_regression = LogisticRegression(
         solver="liblinear",
@@ -41,14 +41,14 @@ def main():
     )
     cross_validation_score = cross_val_score(
         estimator=logistic_regression,
-        X=X,
+        X=X_train,
         y=y,
         cv=3,
         scoring="accuracy"
     ).mean()
     print("Cross-validation score:", cross_validation_score)
     print()
-    logistic_regression.fit(X=X, y=y)
+    logistic_regression.fit(X=X_train, y=y)
     df_test = ds.read_file(
         file_name=file_new,
         nrows=10
@@ -60,14 +60,14 @@ def main():
     one_hot_encoder = OneHotEncoder()
     one_hot_encoder.fit_transform(X=df_train[one_hot_encoder_features])
     # Now use ColumnTransformer and Pipeline on four features
-    X = df_train[features]
+    X_train = df_train[features]
     one_hot_encoder = OneHotEncoder()
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
         ("passthrough", passthrough_features)
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
-    pipeline.fit(X=X, y=y)
+    pipeline.fit(X=X_train, y=y)
     X_new = df_test[features]
     predictions = pipeline.predict(X=X_new)
     print("Predictions X_new:", predictions)
