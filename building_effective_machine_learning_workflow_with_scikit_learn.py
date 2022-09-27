@@ -4,6 +4,7 @@ Essential code for Kevin Markham's "Building an effective machine learning
 workflow with scikit-learn"
 """
 
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder
@@ -12,11 +13,12 @@ import datasense as ds
 
 
 def main():
-    features = ["Parch", "Fare", "Embarked", "Sex"]
+    features = ["Parch", "Fare", "Embarked", "Sex", "Name"]
     one_hot_encoder_features = ["Embarked", "Sex"]
     passthrough_features = ["Parch", "Fare"]
     file_train = "titanic_train.csv"
     file_test = "titanic_new.csv"
+    text_column = "Name"
     target = "Survived"
     df_train = ds.read_file(
         file_name=file_train,
@@ -31,8 +33,10 @@ def main():
     X_test = df_test[features]
     # Use ColumnTransformer and Pipeline
     one_hot_encoder = OneHotEncoder()
+    vectorizer_name = CountVectorizer()
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
+        (vectorizer_name, text_column),
         ("passthrough", passthrough_features)
     )
     logistic_regression = LogisticRegression(
