@@ -18,12 +18,12 @@ def main():
     file_train = "titanic_train.csv"
     file_test = "titanic_new.csv"
     target = "Survived"
-    df = ds.read_file(
+    df_train = ds.read_file(
         file_name=file_train,
         nrows=10
     )
-    X_train = df[features]
-    y = df[target]
+    X_train = df_train[features]
+    y = df_train[target]
     df_test = ds.read_file(
         file_name=file_test,
         nrows=10
