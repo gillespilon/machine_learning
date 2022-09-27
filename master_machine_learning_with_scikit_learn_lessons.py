@@ -27,22 +27,22 @@ def main():
     print()
     print("2.1 Loading and exploring a dataset")
     print()
-    df = ds.read_file(
+    df_train = ds.read_file(
         file_name=file_train,
         nrows=10
     )
-    print("Create df:")
+    print("Create df_train:")
     print()
-    print(df)
+    print(df_train)
     # Use intuition to select two features
     # Create the X DataFrame
-    X = df[features_two]
+    X = df_train[features_two]
     print()
     print("Create X DataFrame:")
     print(X)
     print()
     # Create the y Series
-    y = df[target]
+    y = df_train[target]
     print("Create y Series for multiclass target:")
     print(y)
     print()
@@ -129,7 +129,7 @@ def main():
     print("3.3 One-hot encoding of multiple features")
     print()
     one_hot_encoder = OneHotEncoder(sparse=False)
-    one_hot_encoder.fit_transform(X=df[["Embarked", "Sex"]])
+    one_hot_encoder.fit_transform(X=df_train[["Embarked", "Sex"]])
     print("Embarked, Sex categories:")
     print()
     print(one_hot_encoder.categories_)
@@ -137,7 +137,7 @@ def main():
     print("4. Improving your workflow with ColumnTransformer and Pipeline")
     print("4.1 Preprocessing features with ColumnTransformer")
     print()
-    X = df[features_four]
+    X = df_train[features_four]
     one_hot_encoder = OneHotEncoder()
     column_transformer = make_column_transformer(
         (one_hot_encoder, ["Embarked", "Sex"]),
