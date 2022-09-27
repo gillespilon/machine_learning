@@ -49,11 +49,11 @@ def main():
     print("Cross-validation score:", cross_validation_score)
     print()
     logistic_regression.fit(X=X, y=y)
-    df_new = ds.read_file(
+    df_test = ds.read_file(
         file_name=file_new,
         nrows=10
     )
-    X_new = df_new[features_two]
+    X_new = df_test[features_two]
     predictions = logistic_regression.predict(X=X_new)
     print("Predictions:", predictions)
     print()
@@ -68,7 +68,7 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X, y=y)
-    X_new = df_new[features]
+    X_new = df_test[features]
     predictions = pipeline.predict(X=X_new)
     print("Predictions X_new:", predictions)
     print()
