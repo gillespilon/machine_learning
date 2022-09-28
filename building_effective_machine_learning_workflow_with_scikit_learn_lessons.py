@@ -27,7 +27,7 @@ def main():
     file_train = Path("titanic_train.csv")
     # kaggle test dataset`
     file_new = Path("titanic_new.csv")
-    text_column = "Name"
+    vectorizer_feature = "Name"
     target = "Survived"
     df_train = ds.read_file(
         file_name=file_train,
@@ -72,14 +72,14 @@ def main():
     predictions = pipeline.predict(X=X_test)
     print("Predictions X_test:", predictions)
     print()
-    vectorizer_name = CountVectorizer()
-    document_term_matrix = vectorizer_name.fit_transform(df_train[text_column])
+    vectorizer = CountVectorizer()
+    document_term_matrix = vectorizer.fit_transform(df_train[text_column])
     features = ["Parch", "Fare", "Embarked", "Sex", "Name"]
     X_train = df_train[features]
     X_test = df_test[features]
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
-        (vectorizer_name, text_column),
+        (vectorizer, vectorizer_feature),
         ("passthrough", passthrough_features)
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
