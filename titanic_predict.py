@@ -15,6 +15,10 @@ def main():
     titanic_joblib = Path("pipeline.joblib")
     file_test = "titanic_new.csv"
     pipeline_from_joblib = joblib.load(filename=titanic_joblib)
+    # df_test = pd.read_csv(
+    #     filepath_or_buffer=file_test,
+    #     nrows=10
+    # )
     df_test = ds.read_file(
         file_name=file_test,
         nrows=10
