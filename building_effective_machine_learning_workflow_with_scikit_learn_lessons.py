@@ -73,7 +73,7 @@ def main():
     print("Predictions X_test:", predictions)
     print()
     vectorizer = CountVectorizer()
-    document_term_matrix = vectorizer.fit_transform(df_train[text_column])
+    document_term_matrix = vectorizer.fit_transform(df_train[vectorizer_feature])
     features = ["Parch", "Fare", "Embarked", "Sex", "Name"]
     X_train = df_train[features]
     X_test = df_test[features]
