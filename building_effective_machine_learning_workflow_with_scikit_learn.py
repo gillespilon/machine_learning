@@ -4,20 +4,24 @@ Essential code for Kevin Markham's "Building an effective machine learning
 workflow with scikit-learn"
 """
 
+from pathlib import Path
+
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
 import datasense as ds
+import joblib
 
 
 def main():
     features = ["Parch", "Fare", "Embarked", "Sex", "Name"]
     one_hot_encoder_features = ["Embarked", "Sex"]
     passthrough_features = ["Parch", "Fare"]
-    file_train = "titanic_train.csv"
-    file_test = "titanic_new.csv"
+    titanic_joblib = Path("pipeline.joblib")
+    file_train = Path("titanic_train.csv")
+    file_test = Path("titanic_new.csv")
     text_column = "Name"
     target = "Survived"
     df_train = ds.read_file(
@@ -48,6 +52,11 @@ def main():
     predictions = pipeline.predict(X=X_test)
     print("Predictions X_test:", predictions)
     print()
+    # Save the model to a joblib file
+    joblib.dump(
+        value=pipeline,
+        filename=titanic_joblib
+    )
 
 
 if __name__ == "__main__":
