@@ -5,7 +5,6 @@ workflow with scikit-learn"
 """
 
 from pathlib import Path
-import time
 
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -25,9 +24,9 @@ def main():
     passthrough_features = ["Parch", "Fare"]
     features_two = ["Parch", "Fare"]
     # kaggle training dataset
-    file_train = "titanic_train.csv"
+    file_train = Path("titanic_train.csv")
     # kaggle test dataset`
-    file_new = "titanic_new.csv"
+    file_new = Path("titanic_new.csv")
     text_column = "Name"
     target = "Survived"
     df_train = ds.read_file(
