@@ -22,7 +22,7 @@ def main():
     titanic_joblib = Path("pipeline.joblib")
     file_train = Path("titanic_train.csv")
     file_test = Path("titanic_new.csv")
-    text_column = "Name"
+    vectorizer_feature = "Name"
     target = "Survived"
     df_train = ds.read_file(
         file_name=file_train,
@@ -37,10 +37,10 @@ def main():
     X_test = df_test[features]
     # Use ColumnTransformer and Pipeline
     one_hot_encoder = OneHotEncoder()
-    vectorizer_name = CountVectorizer()
+    vectorizer = CountVectorizer()
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
-        (vectorizer_name, text_column),
+        (vectorizer, vectorizer_feature),
         ("passthrough", passthrough_features)
     )
     logistic_regression = LogisticRegression(
