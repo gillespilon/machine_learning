@@ -11,6 +11,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
+from sklearn.impute import SimpleImputer
 import datasense as ds
 import joblib
 
@@ -27,6 +28,10 @@ def main():
     df_train = ds.read_file(
         file_name=file_train,
         nrows=10
+    )
+    ds.dataframe_info(
+        df=df_train,
+        file_in=file_train
     )
     X_train = df_train[features]
     y = df_train[target]
