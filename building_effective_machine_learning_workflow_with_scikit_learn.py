@@ -17,35 +17,47 @@ import joblib
 
 
 def main():
-    features = ["Parch", "Fare", "Embarked", "Sex", "Name"]
+    features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
     one_hot_encoder_features = ["Embarked", "Sex"]
-    passthrough_features = ["Parch", "Fare"]
+    passthrough_features = ["Parch"]
     titanic_joblib = Path("pipeline.joblib")
     file_train = Path("titanic_train.csv")
     file_test = Path("titanic_new.csv")
+    imputer_feature = ["Age", "Fare"]
     vectorizer_feature = "Name"
     target = "Survived"
     df_train = ds.read_file(
-        file_name=file_train,
-        nrows=10
+        file_name=file_train
     )
     ds.dataframe_info(
         df=df_train,
         file_in=file_train
     )
+    # above showed that Age, Embarked had missing values
     X_train = df_train[features]
     y = df_train[target]
     df_test = ds.read_file(
-        file_name=file_test,
-        nrows=10
+        file_name=file_test
     )
+    ds.dataframe_info(
+        df=df_test,
+        file_in=file_train
+    )
+    # above shows that Age, Fare had missing values
     X_test = df_test[features]
-    # Use ColumnTransformer and Pipeline
+    # impute for NaN in Embarked, Sex before one-hot encoding
+    imputer_constant = SimpleImputer(strategy="constant", fill_value="missing")
     one_hot_encoder = OneHotEncoder()
+    # create a pipeline of two transformers for Embarked, Sex
+    imputer_one_hot_encoder = make_pipeline(imputer_constant, one_hot_encoder)
     vectorizer = CountVectorizer()
+    # impute for NaN in numeric columns Age, Fare
+    imputer = SimpleImputer()
+    # create a transformer that also includes the pipeline of transformers
     column_transformer = make_column_transformer(
-        (one_hot_encoder, one_hot_encoder_features),
+        (imputer_one_hot_encoder, one_hot_encoder_features),
         (vectorizer, vectorizer_feature),
+        (imputer, imputer_feature),
         ("passthrough", passthrough_features)
     )
     logistic_regression = LogisticRegression(
@@ -54,9 +66,7 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X_train, y=y)
-    predictions = pipeline.predict(X=X_test)
-    print("Predictions X_test:", predictions)
-    print()
+    pipeline.predict(X=X_test)
     # Save the model to a joblib file
     joblib.dump(
         value=pipeline,
