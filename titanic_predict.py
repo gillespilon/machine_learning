@@ -12,6 +12,7 @@ import joblib
 
 def main():
     features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
+    file_predictions = "titanic_predictions.csv"
     titanic_joblib = Path("pipeline.joblib")
     file_test = "titanic_new.csv"
     pipeline_from_joblib = joblib.load(filename=titanic_joblib)
@@ -31,6 +32,10 @@ def main():
     X_test_predictions = pd.concat(
         objs=[X_test, predictions_series],
         axis='columns'
+    )
+    ds.save_file(
+        df=X_test_predictions,
+        file_name=file_predictions
     )
 
 
