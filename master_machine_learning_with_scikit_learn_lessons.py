@@ -17,7 +17,7 @@ import sklearn
 def main():
     features_four = ["Parch", "Fare", "Embarked", "Sex"]
     features_two = ["Parch", "Fare"]
-    file_train = "titanic_train.csv"
+    file_data = "titanic_data.csv"
     file_new = "titanic_new.csv"
     target = "Survived"
     print("master_machine_learning_with_scikit_learn_lessons.py")
@@ -27,27 +27,27 @@ def main():
     print()
     print("2.1 Loading and exploring a dataset")
     print()
-    df_train = ds.read_file(
-        file_name=file_train,
+    df = ds.read_file(
+        file_name=file_data,
         nrows=10
     )
-    print("Create df_train:")
+    print("Create df:")
     print()
-    print(df_train)
+    print(df)
     # Use intuition to select two features
-    # Create the X_train DataFrame
-    X_train = df_train[features_two]
+    # Create the X DataFrame
+    X = df[features_two]
     print()
-    print("Create X_train DataFrame:")
-    print(X_train)
+    print("Create X DataFrame:")
+    print(X)
     print()
     # Create the y Series
-    y = df_train[target]
+    y = df[target]
     print("Create y Series for multiclass target:")
     print(y)
     print()
-    # Check the shapes of X_train, y
-    print("X_train shape:", X_train.shape)
+    # Check the shapes of X, y
+    print("X shape:", X.shape)
     print("y shape:", y.shape)
     print()
     print("2.2 Building and evaluate a model")
@@ -60,7 +60,7 @@ def main():
     )
     cross_validation_score = cross_val_score(
         estimator=logistic_regression,
-        X=X_train,
+        X=X,
         y=y,
         cv=3,
         scoring="accuracy"
@@ -69,7 +69,7 @@ def main():
     print()
     print("2.3 Using the model to make predictions")
     print()
-    logistic_regression.fit(X=X_train, y=y)
+    logistic_regression.fit(X=X, y=y)
     df_new = ds.read_file(
         file_name=file_new,
         nrows=10
@@ -119,7 +119,7 @@ def main():
     # kf = StratifiedKFold(3, shuffle=True, random_state=1)
     # cross_val_score(
     #     estimate=logistic_regression,
-    #     X=X_train,
+    #     X=X,
     #     y=y,
     #     cv=kf,
     #     scoring = "accuracy"
@@ -128,7 +128,7 @@ def main():
     print("3.3 One-hot encoding of multiple features")
     print()
     one_hot_encoder = OneHotEncoder(sparse=False)
-    one_hot_encoder.fit_transform(X=df_train[["Embarked", "Sex"]])
+    one_hot_encoder.fit_transform(X=df[["Embarked", "Sex"]])
     print("Embarked, Sex categories:")
     print()
     print(one_hot_encoder.categories_)
@@ -136,21 +136,21 @@ def main():
     print("4. Improving your workflow with ColumnTransformer and Pipeline")
     print("4.1 Preprocessing features with ColumnTransformer")
     print()
-    X_train = df_train[features_four]
+    X = df[features_four]
     one_hot_encoder = OneHotEncoder()
     column_transformer = make_column_transformer(
         (one_hot_encoder, ["Embarked", "Sex"]),
         remainder="passthrough"
     )
-    column_transformer.fit_transform(X=X_train)
-    print("Features names of X_train:")
+    column_transformer.fit_transform(X=X)
+    print("Features names of X:")
     print()
     print(column_transformer.get_feature_names_out())
     print()
     print("4.2 Chaining steps with Pipeline")
     print()
     pipeline = make_pipeline(column_transformer, logistic_regression)
-    pipeline.fit(X=X_train, y=y)
+    pipeline.fit(X=X, y=y)
     print("4.3 Using the Pipeline to make predictions")
     print()
     X_new = df_new[features_four]
