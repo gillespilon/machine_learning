@@ -14,30 +14,30 @@ def main():
     features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
     file_predictions = "titanic_predictions.csv"
     titanic_joblib = Path("pipeline.joblib")
-    file_test = "titanic_new.csv"
+    file_new = "titanic_new.csv"
     pipeline_from_joblib = joblib.load(filename=titanic_joblib)
-    # df_test = pd.read_csv(
-    #     filepath_or_buffer=file_test
+    # df_new = pd.read_csv(
+    #     filepath_or_buffer=file_new
     # )
-    df_test = ds.read_file(
-        file_name=file_test
+    df_new = ds.read_file(
+        file_name=file_new
     )
-    X_test = df_test[features]
-    predictions_ndarray = pipeline_from_joblib.predict(X=X_test)
+    X_new = df_new[features]
+    predictions_ndarray = pipeline_from_joblib.predict(X=X_new)
     predictions_series = pd.Series(
         data=predictions_ndarray,
-        index=X_test.index,
+        index=X_new.index,
         name='Survived prediction'
     )
-    X_test_predictions = pd.concat(
-        objs=[X_test, predictions_series],
+    X_new_predictions = pd.concat(
+        objs=[X_new, predictions_series],
         axis='columns'
     )
-    # X_test_predictions.to_csv(
+    # X_new_predictions.to_csv(
     #     path_or_buf=file_predictions
     # )
     ds.save_file(
-        df=X_test_predictions,
+        df=X_new_predictions,
         file_name=file_predictions
     )
 
