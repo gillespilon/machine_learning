@@ -33,6 +33,9 @@ def main():
         objs=[X_test, predictions_series],
         axis='columns'
     )
+    # X_test_predictions.to_csv(
+    #     path_or_buf=file_predictions
+    # )
     ds.save_file(
         df=X_test_predictions,
         file_name=file_predictions
