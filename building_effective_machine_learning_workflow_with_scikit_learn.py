@@ -22,27 +22,27 @@ def main():
     one_hot_encoder_features = ["Embarked", "Sex"]
     passthrough_features = ["Parch"]
     titanic_joblib = Path("pipeline.joblib")
-    file_train = Path("titanic_train.csv")
+    file_data = Path("titanic_data.csv")
     file_new = Path("titanic_new.csv")
     imputer_feature = ["Age", "Fare"]
     vectorizer_feature = "Name"
     target = "Survived"
-    df_train = ds.read_file(
-        file_name=file_train
+    df = ds.read_file(
+        file_name=file_data
     )
     ds.dataframe_info(
-        df=df_train,
-        file_in=file_train
+        df=df,
+        file_in=file_data
     )
     # above showed that Age, Embarked had missing values
-    X_train = df_train[features]
-    y = df_train[target]
+    X = df[features]
+    y = df[target]
     df_new = ds.read_file(
         file_name=file_new
     )
     ds.dataframe_info(
         df=df_new,
-        file_in=file_train
+        file_in=file_data
     )
     # above shows that Age, Fare had missing values
     X_new = df_new[features]
@@ -66,7 +66,7 @@ def main():
         random_state=1
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
-    pipeline.fit(X=X_train, y=y)
+    pipeline.fit(X=X, y=y)
     pipeline.predict(X=X_new)
     # Save the model to a joblib file
     joblib.dump(
