@@ -26,18 +26,18 @@ def main():
     passthrough_features = ["Parch"]
     imputer_feature = ["Age", "Fare"]
     features_two = ["Parch", "Fare"]
-    # kaggle training dataset
-    file_train = Path("titanic_train.csv")
+    # kaggle dataset
+    file_data = Path("titanic_data.csv")
     # kaggle new dataset`
     file_new = Path("titanic_new.csv")
     vectorizer_feature = "Name"
     target = "Survived"
-    df_train = ds.read_file(
-        file_name=file_train,
+    df = ds.read_file(
+        file_name=file_data,
         nrows=10
     )
-    X_train = df_train[features_two]
-    y = df_train[target]
+    X_train = df[features_two]
+    y = df[target]
     logistic_regression = LogisticRegression(
         solver="liblinear",
         random_state=1
@@ -61,9 +61,9 @@ def main():
     print("Predictions:", predictions)
     print()
     one_hot_encoder = OneHotEncoder()
-    one_hot_encoder.fit_transform(X=df_train[one_hot_encoder_features])
+    one_hot_encoder.fit_transform(X=df[one_hot_encoder_features])
     # Now use ColumnTransformer and Pipeline on four features
-    X_train = df_train[features]
+    X_train = df[features]
     one_hot_encoder = OneHotEncoder()
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
@@ -77,11 +77,11 @@ def main():
     print()
     vectorizer = CountVectorizer()
     document_term_matrix = vectorizer.fit_transform(
-        df_train[vectorizer_feature]
+        df[vectorizer_feature]
     )
     features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
     passthrough_features = ["Parch"]
-    X_train = df_train[features]
+    X_train = df[features]
     X_new = df_new[features]
     imputer = SimpleImputer()
     column_transformer = make_column_transformer(
@@ -96,20 +96,20 @@ def main():
     print("Predictions X_new:", predictions)
     print()
     # Now use the full dataset`
-    df_train = ds.read_file(
-        file_name=file_train
+    df = ds.read_file(
+        file_name=file_data
     )
     df_new = ds.read_file(
         file_name=file_new
     )
-    print("Missing values in df_train?")
-    print(df_train.isna().sum())
+    print("Missing values in df?")
+    print(df.isna().sum())
     print()
     print("Missing values in df_new?")
     print(df_new.isna().sum())
     print()
-    X_train = df_train[features]
-    y = df_train[target]
+    X_train = df[features]
+    y = df[target]
     X_new = df_new[features]
     imputer_constant = SimpleImputer(strategy="constant", fill_value="missing")
     # create a pipeline of two transformers
