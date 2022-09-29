@@ -28,8 +28,8 @@ def main():
     features_two = ["Parch", "Fare"]
     # kaggle training dataset
     file_train = Path("titanic_train.csv")
-    # kaggle test dataset`
-    file_test = Path("titanic_new.csv")
+    # kaggle new dataset`
+    file_new = Path("titanic_new.csv")
     vectorizer_feature = "Name"
     target = "Survived"
     df_train = ds.read_file(
@@ -52,12 +52,12 @@ def main():
     print("Cross-validation score:", cross_validation_score)
     print()
     logistic_regression.fit(X=X_train, y=y)
-    df_test = ds.read_file(
-        file_name=file_test,
+    df_new = ds.read_file(
+        file_name=file_new,
         nrows=10
     )
-    X_test = df_test[features_two]
-    predictions = logistic_regression.predict(X=X_test)
+    X_new = df_new[features_two]
+    predictions = logistic_regression.predict(X=X_new)
     print("Predictions:", predictions)
     print()
     one_hot_encoder = OneHotEncoder()
@@ -71,9 +71,9 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X_train, y=y)
-    X_test = df_test[features]
-    predictions = pipeline.predict(X=X_test)
-    print("Predictions X_test:", predictions)
+    X_new = df_new[features]
+    predictions = pipeline.predict(X=X_new)
+    print("Predictions X_new:", predictions)
     print()
     vectorizer = CountVectorizer()
     document_term_matrix = vectorizer.fit_transform(
@@ -82,7 +82,7 @@ def main():
     features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
     passthrough_features = ["Parch"]
     X_train = df_train[features]
-    X_test = df_test[features]
+    X_new = df_new[features]
     imputer = SimpleImputer()
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
@@ -92,25 +92,25 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X_train, y=y)
-    predictions = pipeline.predict(X=X_test)
-    print("Predictions X_test:", predictions)
+    predictions = pipeline.predict(X=X_new)
+    print("Predictions X_new:", predictions)
     print()
     # Now use the full dataset`
     df_train = ds.read_file(
         file_name=file_train
     )
-    df_test = ds.read_file(
-        file_name=file_test
+    df_new = ds.read_file(
+        file_name=file_new
     )
     print("Missing values in df_train?")
     print(df_train.isna().sum())
     print()
-    print("Missing values in df_test?")
-    print(df_test.isna().sum())
+    print("Missing values in df_new?")
+    print(df_new.isna().sum())
     print()
     X_train = df_train[features]
     y = df_train[target]
-    X_test = df_test[features]
+    X_new = df_new[features]
     imputer_constant = SimpleImputer(strategy="constant", fill_value="missing")
     # create a pipeline of two transformers
     # this solves the problem of Embarked having missing values
@@ -123,7 +123,16 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X_train, y=y)
-    predictions = pipeline.predict(X=X_test)
+    predictions = pipeline.predict(X=X_new)
+    cross_validation_score = cross_val_score(
+        estimator=pipeline,
+        X=X_train,
+        y=y,
+        cv=5,
+        scoring="accuracy"
+    ).mean()
+    print("Cross-validation score:", cross_validation_score)
+    print()
 
 
 if __name__ == "__main__":
