@@ -9,6 +9,7 @@ from pathlib import Path
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
+from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
@@ -22,7 +23,7 @@ def main():
     passthrough_features = ["Parch"]
     titanic_joblib = Path("pipeline.joblib")
     file_train = Path("titanic_train.csv")
-    file_test = Path("titanic_new.csv")
+    file_new = Path("titanic_new.csv")
     imputer_feature = ["Age", "Fare"]
     vectorizer_feature = "Name"
     target = "Survived"
@@ -36,15 +37,15 @@ def main():
     # above showed that Age, Embarked had missing values
     X_train = df_train[features]
     y = df_train[target]
-    df_test = ds.read_file(
-        file_name=file_test
+    df_new = ds.read_file(
+        file_name=file_new
     )
     ds.dataframe_info(
-        df=df_test,
+        df=df_new,
         file_in=file_train
     )
     # above shows that Age, Fare had missing values
-    X_test = df_test[features]
+    X_new = df_new[features]
     # impute for NaN in Embarked, Sex before one-hot encoding
     imputer_constant = SimpleImputer(strategy="constant", fill_value="missing")
     one_hot_encoder = OneHotEncoder()
@@ -66,7 +67,7 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X_train, y=y)
-    pipeline.predict(X=X_test)
+    pipeline.predict(X=X_new)
     # Save the model to a joblib file
     joblib.dump(
         value=pipeline,
