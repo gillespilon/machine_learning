@@ -25,11 +25,11 @@ def main():
     )
     X_train = df_train[features]
     y = df_train[target]
-    df_test = ds.read_file(
+    df_new = ds.read_file(
         file_name=file_new,
         nrows=10
     )
-    X_test = df_test[features]
+    X_new = df_new[features]
     one_hot_encoder = OneHotEncoder()
     # option 1
     column_transformer = make_column_transformer(
@@ -47,8 +47,8 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X_train, y=y)
-    pipeline.predict(X=X_test)
-    print("pipeline.predict(X=X_test):", pipeline.predict(X=X_test))
+    pipeline.predict(X=X_new)
+    print("pipeline.predict(X=X_new):", pipeline.predict(X=X_new))
     print()
 
 
