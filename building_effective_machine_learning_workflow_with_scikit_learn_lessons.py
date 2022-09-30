@@ -6,10 +6,10 @@ workflow with scikit-learn"
 
 from pathlib import Path
 
+from sklearn.model_selection import cross_val_score, GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
-from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
@@ -132,6 +132,26 @@ def main():
         scoring="accuracy"
     ).mean()
     print("Cross-validation score:", cross_validation_score)
+    print()
+    # tuning hyperparameters
+    # what are the steps of the pipeline?
+    print("Steps of the pipeline:", pipeline.named_steps.keys())
+    print()
+    params = {}
+    params["logisticregression__penalty"] = ["l1", "l2"]
+    params["logisticregression__C"] = [0.1, 1, 10]
+    grid = GridSearchCV(
+        estimator=pipeline,
+        param_grid=params,
+        scoring="accuracy",
+        n_jobs=-1,
+        cv=5
+    )
+    grid.fit(X=X, y=y)
+    results = pd.DataFrame(data=grid.cv_results_)\
+        .sort_values(by="rank_test_score")
+    print("GridSearchCV results:")
+    print(results)
     print()
 
 
