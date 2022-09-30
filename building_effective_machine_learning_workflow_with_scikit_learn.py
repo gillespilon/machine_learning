@@ -9,7 +9,7 @@ from pathlib import Path
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
@@ -45,6 +45,7 @@ def main():
         file_in=file_data
     )
     # above shows that Age, Fare had missing values
+    # the next line is unnecessary because I use titanic_predict.py
     X_new = df_new[features]
     # impute for NaN in Embarked, Sex before one-hot encoding
     imputer_constant = SimpleImputer(strategy="constant", fill_value="missing")
@@ -67,19 +68,39 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X, y=y)
-    pipeline.predict(X=X_new)
-    cross_validation_score = cross_val_score(
-        estimator=pipeline,
-        X=X,
-        y=y,
-        cv=5,
-        scoring="accuracy"
-    ).mean()
-    print("Cross-validation score:", cross_validation_score)
+    # tuning hyperparameters
+    # what are the steps of the pipeline?
+    print("Steps of the pipeline:", pipeline.named_steps.keys())
     print()
+    # what are the transformers in columntransformer?
+    print("Transformers in columntransformer:")
+    print(pipeline.named_steps.columntransformer.named_transformers_)
+    print()
+    params = {}
+    params["logisticregression__penalty"] = ["l1", "l2"]
+    params["logisticregression__C"] = [0.1, 1, 10]
+    params["columntransformer__pipeline__onehotencoder__drop"] =\
+        [None, "first"]
+    params["columntransformer__countvectorizer__ngram_range"] =\
+        [(1, 1), (1, 2)]
+    params["columntransformer__simpleimputer__add_indicator"] = [False, True]
+    grid = GridSearchCV(
+        estimator=pipeline,
+        param_grid=params,
+        scoring="accuracy",
+        n_jobs=-1,
+        cv=10
+    )
+    grid.fit(X=X, y=y)
+    print("Best score:", grid.best_score_)
+    print("Best hyperparameters:")
+    print(grid.best_params_)
+    print()
+    # the next line is unnecessary because I use titanic_predict.py
+    grid.predict(X=X_new)
     # Save the model to a joblib file
     joblib.dump(
-        value=pipeline,
+        value=grid,
         filename=titanic_joblib
     )
 
