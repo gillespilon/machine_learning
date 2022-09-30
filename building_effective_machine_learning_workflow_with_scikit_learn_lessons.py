@@ -36,7 +36,7 @@ def main():
         file_name=file_data,
         nrows=10
     )
-    X_train = df[features_two]
+    X = df[features_two]
     y = df[target]
     logistic_regression = LogisticRegression(
         solver="liblinear",
@@ -44,14 +44,14 @@ def main():
     )
     cross_validation_score = cross_val_score(
         estimator=logistic_regression,
-        X=X_train,
+        X=X,
         y=y,
         cv=3,
         scoring="accuracy"
     ).mean()
     print("Cross-validation score:", cross_validation_score)
     print()
-    logistic_regression.fit(X=X_train, y=y)
+    logistic_regression.fit(X=X, y=y)
     df_new = ds.read_file(
         file_name=file_new,
         nrows=10
@@ -63,14 +63,14 @@ def main():
     one_hot_encoder = OneHotEncoder()
     one_hot_encoder.fit_transform(X=df[one_hot_encoder_features])
     # Now use ColumnTransformer and Pipeline on four features
-    X_train = df[features]
+    X = df[features]
     one_hot_encoder = OneHotEncoder()
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
         ("passthrough", passthrough_features)
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
-    pipeline.fit(X=X_train, y=y)
+    pipeline.fit(X=X, y=y)
     X_new = df_new[features]
     predictions = pipeline.predict(X=X_new)
     print("Predictions X_new:", predictions)
@@ -81,7 +81,7 @@ def main():
     )
     features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
     passthrough_features = ["Parch"]
-    X_train = df[features]
+    X = df[features]
     X_new = df_new[features]
     imputer = SimpleImputer()
     column_transformer = make_column_transformer(
@@ -91,7 +91,7 @@ def main():
         ("passthrough", passthrough_features)
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
-    pipeline.fit(X=X_train, y=y)
+    pipeline.fit(X=X, y=y)
     predictions = pipeline.predict(X=X_new)
     print("Predictions X_new:", predictions)
     print()
@@ -108,7 +108,7 @@ def main():
     print("Missing values in df_new?")
     print(df_new.isna().sum())
     print()
-    X_train = df[features]
+    X = df[features]
     y = df[target]
     X_new = df_new[features]
     imputer_constant = SimpleImputer(strategy="constant", fill_value="missing")
@@ -122,7 +122,7 @@ def main():
         ("passthrough", passthrough_features)
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
-    pipeline.fit(X=X_train, y=y)
+    pipeline.fit(X=X, y=y)
     pipeline.predict(X=X_new)
     cross_validation_score = cross_val_score(
         estimator=pipeline,
