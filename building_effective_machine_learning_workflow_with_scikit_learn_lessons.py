@@ -14,7 +14,6 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 import datasense as ds
-import pandas as pd
 # import sklearn
 
 
@@ -137,22 +136,36 @@ def main():
     # what are the steps of the pipeline?
     print("Steps of the pipeline:", pipeline.named_steps.keys())
     print()
+    # what are the transformers in columntransformer?
+    print("Transformers in columntransformer:")
+    print(pipeline.named_steps.columntransformer.named_transformers_)
+    print()
     params = {}
     params["logisticregression__penalty"] = ["l1", "l2"]
     params["logisticregression__C"] = [0.1, 1, 10]
+    params["columntransformer__pipeline__onehotencoder__drop"] =\
+        [None, "first"]
+    params["columntransformer__countvectorizer__ngram_range"] =\
+        [(1, 1), (1, 2)]
+    params["columntransformer__simpleimputer__add_indicator"] = [False, True]
     grid = GridSearchCV(
         estimator=pipeline,
         param_grid=params,
         scoring="accuracy",
         n_jobs=-1,
-        cv=5
+        cv=10
     )
     grid.fit(X=X, y=y)
-    results = pd.DataFrame(data=grid.cv_results_)\
-        .sort_values(by="rank_test_score")
-    print("GridSearchCV results:")
-    print(results)
+    # results = pd.DataFrame(data=grid.cv_results_)\
+    #     .sort_values(by="rank_test_score")
+    # print("GridSearchCV results:")
+    # print(results)
+    # print()
+    print("Best score:", grid.best_score_)
+    print("Best hyperparameters:")
+    print(grid.best_params_)
     print()
+    grid.predict(X=X_new)
 
 
 if __name__ == "__main__":
