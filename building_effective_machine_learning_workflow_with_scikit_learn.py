@@ -68,6 +68,15 @@ def main():
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X, y=y)
     pipeline.predict(X=X_new)
+    cross_validation_score = cross_val_score(
+        estimator=pipeline,
+        X=X,
+        y=y,
+        cv=5,
+        scoring="accuracy"
+    ).mean()
+    print("Cross-validation score:", cross_validation_score)
+    print()
     # Save the model to a joblib file
     joblib.dump(
         value=pipeline,
