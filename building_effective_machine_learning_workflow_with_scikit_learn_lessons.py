@@ -123,10 +123,10 @@ def main():
     )
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X_train, y=y)
-    predictions = pipeline.predict(X=X_new)
+    pipeline.predict(X=X_new)
     cross_validation_score = cross_val_score(
         estimator=pipeline,
-        X=X_train,
+        X=X,
         y=y,
         cv=5,
         scoring="accuracy"
