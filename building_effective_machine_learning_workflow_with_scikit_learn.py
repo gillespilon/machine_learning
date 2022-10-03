@@ -7,6 +7,7 @@ workflow with scikit-learn"
 from pathlib import Path
 
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_selection import SelectFromModel
 from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
 from sklearn.model_selection import GridSearchCV
@@ -55,7 +56,7 @@ def main():
     vectorizer = CountVectorizer()
     # impute for NaN in numeric columns Age, Fare
     imputer = SimpleImputer()
-    # create a transformer that also includes the pipeline of transformers
+    # create a transformer that also includes the pipeline of two transformers
     column_transformer = make_column_transformer(
         (imputer_one_hot_encoder, one_hot_encoder_features),
         (vectorizer, vectorizer_feature),
@@ -66,7 +67,18 @@ def main():
         solver="liblinear",
         random_state=1
     )
-    pipeline = make_pipeline(column_transformer, logistic_regression)
+    logistic_regression_selection = LogisticRegression(
+        solver="liblinear",
+        penalty="l1",
+        random_state=1
+    )
+    selection = SelectFromModel(
+        estimator=logistic_regression_selection,
+        threshold="mean"
+    )
+    pipeline = make_pipeline(
+        column_transformer, selection, logistic_regression
+    )
     pipeline.fit(X=X, y=y)
     # tuning hyperparameters
     # what are the steps of the pipeline?
@@ -84,6 +96,7 @@ def main():
     params["columntransformer__countvectorizer__ngram_range"] =\
         [(1, 1), (1, 2)]
     params["columntransformer__simpleimputer__add_indicator"] = [False, True]
+    params["selectfrommodel__threshold"] = ["mean", "median"]
     grid = GridSearchCV(
         estimator=pipeline,
         param_grid=params,
