@@ -49,8 +49,8 @@ def main():
     # Replace outliers with NaN
     for column, lowvalue, highvalue in mask_values:
         df[column] = df[column].mask(
-            (df[column] <= lowvalue) |
-            (df[column] >= highvalue)
+            cond=(df[column] <= lowvalue) | (df[column] >= highvalue),
+            other=pd.NA
         )
     ds.dataframe_info(
         df=df,
