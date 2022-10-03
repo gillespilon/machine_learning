@@ -8,6 +8,7 @@ from pathlib import Path
 
 from sklearn.model_selection import cross_val_score, GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_selection import SelectFromModel
 from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder
@@ -120,7 +121,18 @@ def main():
         (imputer, imputer_feature),
         ("passthrough", passthrough_features)
     )
-    pipeline = make_pipeline(column_transformer, logistic_regression)
+    logistic_regression_selection = LogisticRegression(
+        solver="liblinear",
+        penalty="l1",
+        random_state=1
+    )
+    selection = SelectFromModel(
+        estimator=logistic_regression_selection,
+        threshold="mean"
+    )
+    pipeline = make_pipeline(
+        column_transformer, selection, logistic_regression
+    )
     pipeline.fit(X=X, y=y)
     pipeline.predict(X=X_new)
     cross_validation_score = cross_val_score(
@@ -148,6 +160,7 @@ def main():
     params["columntransformer__countvectorizer__ngram_range"] =\
         [(1, 1), (1, 2)]
     params["columntransformer__simpleimputer__add_indicator"] = [False, True]
+    params["selectfrommodel__threshold"] = ["mean", "median"]
     grid = GridSearchCV(
         estimator=pipeline,
         param_grid=params,
