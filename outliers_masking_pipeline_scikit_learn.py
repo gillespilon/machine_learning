@@ -10,14 +10,22 @@ not within pandas, in order to avoid data leakage.
 """
 
 from pathlib import Path
-import time
 
 import datasense as ds
 import pandas as pd
 
 
+def mask_outliers(df, maskvalues):
+    for feature, lowvalue, highvalue in maskvalues:
+        df[feature] = df[feature].mask(
+            cond=(df[feature] <= lowvalue) | (df[feature] >= highvalue),
+            other=pd.NA
+        )
+    return pd.DataFrame(data=df)
+
+
 def main():
-    file_name = "outliers_missing.csv"
+    file_name = Path("outliers_missing.csv")
     features = ["X"]
     target = "Y"
     print("outliers_masking_pipeline_scikit_learn.py")
@@ -28,13 +36,11 @@ def main():
         df=df,
         file_in=file_name
     )
-    mask_values = [("X", -4, 4)]
-    # Replace outliers with NaN
-    for column, lowvalue, highvalue in mask_values:
-        df[column] = df[column].mask(
-            cond=(df[column] <= lowvalue) | (df[column] >= highvalue),
-            other=pd.NA
-        )
+    maskvalues = [("X", -4, 4)]
+    df = mask_outliers(
+        df=df,
+        maskvalues=maskvalues
+    )
     ds.dataframe_info(
         df=df,
         file_in=file_name
