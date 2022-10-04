@@ -9,13 +9,18 @@ not within pandas, in order to avoid data leakage.
     outliers_masking_pipeline_scikit_learn.txt
 """
 
+from typing import List, Tuple
 from pathlib import Path
 
 import datasense as ds
 import pandas as pd
 
 
-def mask_outliers(df, maskvalues):
+def mask_outliers(
+    *,
+    df: pd.DataFrame,
+    maskvalues: List[Tuple[str, float, float]]
+) -> pd.DataFrame:
     for feature, lowvalue, highvalue in maskvalues:
         df[feature] = df[feature].mask(
             cond=(df[feature] <= lowvalue) | (df[feature] >= highvalue),
