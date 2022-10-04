@@ -21,6 +21,17 @@ def main():
         df=df,
         file_in=file_name
     )
+    mask_values = [("X", -4, 4)]
+    # Replace outliers with NaN
+    for column, lowvalue, highvalue in mask_values:
+        df[column] = df[column].mask(
+            cond=(df[column] <= lowvalue) | (df[column] >= highvalue),
+            other=pd.NA
+        )
+    ds.dataframe_info(
+        df=df,
+        file_in=file_name
+    )
 
 
 if __name__ == "__main__":
