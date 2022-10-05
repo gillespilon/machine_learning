@@ -84,6 +84,7 @@ def main():
     X = df[features]
     X_new = df_new[features]
     imputer = SimpleImputer()
+    imputer_robust = RobustScaler()
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
         (vectorizer, vectorizer_feature),
