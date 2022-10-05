@@ -8,6 +8,12 @@ not within pandas, in order to avoid data leakage.
 
 ./outliers_masking_pipeline_scikit_learn.py >
     outliers_masking_pipeline_scikit_learn.txt
+
+TODO:
+- test with X1-X14
+- how to handle outliers < 0
+- try other imputers than SimpleImputer
+- delete diagnostic code
 """
 
 from pathlib import Path
