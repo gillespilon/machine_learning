@@ -12,9 +12,9 @@ import joblib
 
 def main():
     features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
-    file_predictions = "titanic_predictions.csv"
+    file_predictions = Path("titanic_predictions.csv")
     titanic_joblib = Path("pipeline.joblib")
-    file_new = "titanic_new.csv"
+    file_new = Path("titanic_new.csv")
     pipeline_from_joblib = joblib.load(filename=titanic_joblib)
     # df_new = pd.read_csv(
     #     filepath_or_buffer=file_new
