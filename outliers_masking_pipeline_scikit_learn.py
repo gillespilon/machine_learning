@@ -57,15 +57,15 @@ def main():
     file_new = Path("outliers_missing_new.csv")
     file_data = Path("outliers_missing.csv")
     maskvalues = [("X1", -4, 4)]
-    features = ["X1"]
+    features = [
+        "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "X10", "X11",
+        "X12", "X13", "X14"
+    ]
     target = "Y"
     print("outliers_masking_pipeline_scikit_learn.py")
     print()
     df = ds.read_file(file_name=file_data, skip_blank_lines=False)
     # df = pd.read_csv(filepath_or_buffer=file_data, skip_blank_lines=False)
-    print("df")
-    print(df)
-    print()
     ds.dataframe_info(
         df=df,
         file_in=file_data
@@ -77,9 +77,6 @@ def main():
     y = df[target]
     df_new = ds.read_file(file_name=file_new, skip_blank_lines=False)
     # df_new = pd.read_csv(filepath_or_buffer=file_new, skip_blank_lines=False)
-    print("df_new")
-    print(df_new)
-    print()
     ds.dataframe_info(
         df=df_new,
         file_in=file_new
@@ -94,9 +91,9 @@ def main():
         remainder="drop"
     )
     column_transformer.fit_transform(df)
-    print("mask outliers in df:")
-    print(column_transformer.fit_transform(df))
-    print()
+    # print("mask outliers in df:")
+    # print(column_transformer.fit_transform(df))
+    # print()
     pipeline = make_pipeline(column_transformer, linear_regression)
     pipeline.fit(X=X, y=y)
     print("linear regression intercept:")
@@ -115,9 +112,6 @@ def main():
         objs=[X_new, predictions_series],
         axis='columns'
     )
-    print("X_new_predictions")
-    print(X_new_predictions)
-    print()
     # X_new_predictions.to_csv(
     #     path_or_buf=file_predictions
     # )
