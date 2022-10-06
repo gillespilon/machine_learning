@@ -18,15 +18,14 @@ time -f "%e" ./lunch_and_learn_basic.py > lunch_and_learn_basic.txt
 """
 
 from multiprocessing import Pool
-from datetime import datetime
 from typing import NoReturn
 import time
 import math
 
-from sklearn.model_selection import cross_validate, cross_val_score,\
-        cross_val_predict, GridSearchCV, train_test_split
+from sklearn.model_selection import cross_val_score, cross_val_predict,\
+    GridSearchCV, train_test_split
 from sklearn.linear_model import Lasso, LassoCV, LinearRegression
-from sklearn.metrics import mean_squared_error, SCORERS
+from sklearn.metrics import mean_squared_error
 from sklearn.feature_selection import SelectFromModel
 from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.compose import make_column_transformer
