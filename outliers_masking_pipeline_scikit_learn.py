@@ -22,7 +22,7 @@ from sklearn.preprocessing import FunctionTransformer
 from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import make_pipeline
-from sklearn.impute import SimpleImputer
+from sklearn.impute import KNNImputer, SimpleImputer
 import datasense as ds
 import pandas as pd
 
@@ -85,6 +85,7 @@ def main():
     mask_values = FunctionTransformer(mask_outliers)
     linear_regression = LinearRegression()
     imputer = SimpleImputer()
+    # imputer = KNNImputer(n_neighbors=10)
     imputer_pipeline = make_pipeline(mask_values, imputer)
     column_transformer = make_column_transformer(
         (imputer_pipeline, features),
