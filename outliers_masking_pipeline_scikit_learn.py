@@ -18,12 +18,13 @@ TODO:
 
 from pathlib import Path
 
-from sklearn.linear_model import LinearRegression
 from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import FunctionTransformer
-from sklearn.compose import make_column_transformer
-from sklearn.pipeline import make_pipeline
 from sklearn.impute import KNNImputer, SimpleImputer
+from sklearn.compose import make_column_transformer
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import GridSearchCV
+from sklearn.pipeline import make_pipeline
 import datasense as ds
 import pandas as pd
 
@@ -106,14 +107,43 @@ def main():
         feature_selection,
         linear_regression
     )
+    print(pipeline)
+    print()
     pipeline.fit(X=X, y=y)
+    print()
+    hyper_parameters = {}
+    hyper_parameters[
+        "columntransformer__pipeline__simpleimputer__strategy"
+    ] = ["mean", "median", "most_frequent", "constant"]
+    hyper_parameters["selectfrommodel__threshold"] = [None, "mean", "median"]
+    grid_search = GridSearchCV(
+        estimator=pipeline,
+        param_grid=hyper_parameters,
+        cv=10
+    )
+    grid_search.fit(X=X, y=y)
+    print("best score:", grid_search.best_score_)
+    print()
+    print("best parameters:")
+    print(grid_search.best_params_)
+    print()
+    # print("linear regression intercept:")
+    # print(pipeline.fit(X=X, y=y).named_steps["linearregression"].intercept_)
+    # print()
+    # print("linear regression coefficients:")
+    # print(pipeline.fit(X=X, y=y).named_steps["linearregression"].coef_)
+    # print()
+    # predictions_ndarray = pipeline.predict(X=X_new)
     print("linear regression intercept:")
-    print(pipeline.fit(X=X, y=y).named_steps["linearregression"].intercept_)
+    print(pipeline.named_steps.linearregression.intercept_.round(3))
     print()
     print("linear regression coefficients:")
-    print(pipeline.fit(X=X, y=y).named_steps["linearregression"].coef_)
+    print(pipeline.named_steps.linearregression.coef_.round(3))
     print()
-    predictions_ndarray = pipeline.predict(X=X_new)
+    print('nSelected features')
+    print(X.columns[feature_selection.get_support()])
+    print()
+    predictions_ndarray = grid_search.predict(X=X_new)
     predictions_series = pd.Series(
         data=predictions_ndarray,
         index=X_new.index,
