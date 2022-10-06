@@ -18,9 +18,10 @@ TODO:
 
 from pathlib import Path
 
+from sklearn.linear_model import LinearRegression
+from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import FunctionTransformer
 from sklearn.compose import make_column_transformer
-from sklearn.linear_model import LinearRegression
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import KNNImputer, SimpleImputer
 import datasense as ds
@@ -83,7 +84,6 @@ def main():
     )
     X_new = df_new[features]
     mask_values = FunctionTransformer(mask_outliers)
-    linear_regression = LinearRegression()
     imputer = SimpleImputer()
     # imputer = KNNImputer(n_neighbors=10)
     imputer_pipeline = make_pipeline(mask_values, imputer)
@@ -91,11 +91,21 @@ def main():
         (imputer_pipeline, features),
         remainder="drop"
     )
-    column_transformer.fit_transform(df)
+    # column_transformer.fit_transform(df)
     # print("mask outliers in df:")
     # print(column_transformer.fit_transform(df))
     # print()
-    pipeline = make_pipeline(column_transformer, linear_regression)
+    linear_regression = LinearRegression(fit_intercept=True)
+    linear_regression_selection = LinearRegression(fit_intercept=True)
+    feature_selection = SelectFromModel(
+        linear_regression_selection,
+        threshold='median'
+    )
+    pipeline = make_pipeline(
+        column_transformer,
+        feature_selection,
+        linear_regression
+    )
     pipeline.fit(X=X, y=y)
     print("linear regression intercept:")
     print(pipeline.fit(X=X, y=y).named_steps["linearregression"].intercept_)
