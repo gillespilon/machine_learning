@@ -43,9 +43,9 @@ def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
     df : pd.DataFrame
         The output DataFrame.
     """
-    for feature, lowvalue, highvalue in maskvalues:
-        df[feature] = df[feature].mask(
-            cond=(df[feature] <= lowvalue) | (df[feature] >= highvalue),
+    for column, lowvalue, highvalue in maskvalues:
+        df[column] = df[column].mask(
+            cond=(df[column] <= lowvalue) | (df[column] >= highvalue),
             other=pd.NA
         )
     return pd.DataFrame(data=df)
