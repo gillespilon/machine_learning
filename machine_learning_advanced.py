@@ -25,20 +25,14 @@ time -f '%e' ./lunch_and_learn.py > lunch_and_learn.txt
 ./lunch_and_learn.py
 """
 
-from datetime import datetime
-
 from sklearn.feature_selection import SelectFromModel
 from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import\
-        cross_val_score,\
-        GridSearchCV,\
-        train_test_split
+from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 import datasense as ds
 import pandas as pd
-import numpy as np
 
 
 pd.options.display.max_columns = None
@@ -128,6 +122,3 @@ print(pipe.named_steps.linearregression.intercept_.round(3))
 # Show the selected features
 print('\nSelected features')
 print(X.columns[selection.get_support()])
-# Cross-validate the updated pipeline
-print('\nCross-validate score')
-print(cross_val_score(pipe, X_train, y_train, cv=5).mean().round(3))
