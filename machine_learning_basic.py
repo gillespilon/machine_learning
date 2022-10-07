@@ -235,10 +235,6 @@ print()
 print("Regression coefficients")
 print(pipeline.named_steps.regressor.coef_.round(3))
 
-# Cross-validate the updated pipeline
-print()
-print("Cross-validation score")
-print(cross_val_score(pipeline, X_train, y_train, cv=5, n_jobs=-1).mean().round(3))
 
 # Set the hyperparameters for optimization
 # Create a dictionary
@@ -407,7 +403,11 @@ print(pipeline.named_steps.linearregression.intercept_.round(3))
 print()
 print("Cross-validation score")
 print(cross_val_score(
-    pipeline, X_train, y_train, cv=5, n_jobs=-1,
+    estimator=pipeline,
+    X=X_train,
+    y=y_train,
+    cv=5,
+    n_jobs=-1,
     scoring="r2"
 ).mean().round(3))
 # Calculate predicted values
