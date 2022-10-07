@@ -207,7 +207,7 @@ rfr = RandomForestRegressor()
 xgb = XGBRegressor()
 
 # Create the workflow object
-pipe = Pipeline(
+pipeline = Pipeline(
     steps=[
         ("transformer", ct),
         ("selector", selection),
@@ -215,10 +215,10 @@ pipe = Pipeline(
     ]
 )
 print()
-print(pipe)
+print(pipeline)
 
 # Determine the linear regression model
-pipe.fit(X_train, y_train)
+pipeline.fit(X_train, y_train)
 
 # Show the selected features
 print()
@@ -228,17 +228,17 @@ print(X_all.columns[selection.get_support()])
 # Display the regression intercept
 print()
 print("Regression intercept")
-print(pipe.named_steps.regressor.intercept_.round(3))
+print(pipeline.named_steps.regressor.intercept_.round(3))
 
 # Display the regression coefficients of the features
 print()
 print("Regression coefficients")
-print(pipe.named_steps.regressor.coef_.round(3))
+print(pipeline.named_steps.regressor.coef_.round(3))
 
 # Cross-validate the updated pipeline
 print()
 print("Cross-validation score")
-print(cross_val_score(pipe, X_train, y_train, cv=5, n_jobs=-1).mean().round(3))
+print(cross_val_score(pipeline, X_train, y_train, cv=5, n_jobs=-1).mean().round(3))
 
 # Set the hyperparameters for optimization
 # Create a dictionary
@@ -246,7 +246,7 @@ print(cross_val_score(pipe, X_train, y_train, cv=5, n_jobs=-1).mean().round(3))
 # followed by the hyperparameter name
 # The dictionary value is the list of values to try per hyperparameter
 # 4 x 3 x 3 x 2 = 72
-hyperparams = [
+hyper_parameters = [
     {
         "transformer": [imp],
         "transformer__strategy": [
@@ -267,7 +267,7 @@ hyperparams = [
     },
 
 ]
-"""hyperparams.append(
+"""hyper_parameters.append(
     {
         "transformer": [imp],
         "transformer__strategy": [
@@ -281,7 +281,7 @@ hyperparams = [
     },
 )"""
 """
-hyperparams.append(
+hyper_parameters.append(
    {
         "transformer": [imp],
         "transformer__strategy": [
@@ -296,7 +296,7 @@ hyperparams.append(
 )
 """
 # 4 x 3 x 2 x 2 = 48
-hyperparams.append(
+hyper_parameters.append(
    {
         "transformer": [imp],
         "transformer__strategy": [
@@ -310,7 +310,7 @@ hyperparams.append(
     },
 )
 """
-hyperparams.append(
+hyper_parameters.append(
 
     {
 
@@ -336,9 +336,11 @@ hyperparams.append(
 
 )
 """
-
+print("hyperparamters:")
+print(hyper_parameters)
+print()
 # Perform a grid search
-grid = GridSearchCV(pipe, hyperparams, n_jobs=-1, cv=5)
+grid = GridSearchCV(pipeline, hyper_parameters, n_jobs=-1, cv=5)
 grid.fit(X_train, y_train)
 
 # Present the results
@@ -378,19 +380,19 @@ selection = SelectFromModel(
 # Create objects to use for regression
 linreg = LinearRegression()
 # Create the workflow object
-pipe = make_pipeline(ct, selection, linreg)
+pipeline = make_pipeline(ct, selection, linreg)
 print()
-print(pipe)
+print(pipeline)
 # Determine the linear regression model
-pipe.fit(X_train, y_train)
+pipeline.fit(X_train, y_train)
 # Show the selected features =
 # selected = pd.DataFrame(X.columns[selection.get_support()])
 selected_features = X_all.columns[selection.get_support()].to_list()
 print()
 print("Selected features")
-selected_coefficients = pipe.named_steps.linearregression.coef_.round(3)
+selected_coefficients = pipeline.named_steps.linearregression.coef_.round(3)
 selected_importances = np.abs(
-    pipe.named_steps.selectfrommodel.estimator_.coef_[selection.get_support()]
+    pipeline.named_steps.selectfrommodel.estimator_.coef_[selection.get_support()]
 ).tolist()
 print()
 print(pd.DataFrame(
@@ -401,15 +403,15 @@ print(pd.DataFrame(
 # Display the regression intercept
 print()
 print("Regression intercept")
-print(pipe.named_steps.linearregression.intercept_.round(3))
+print(pipeline.named_steps.linearregression.intercept_.round(3))
 print()
 print("Cross-validation score")
 print(cross_val_score(
-    pipe, X_train, y_train, cv=5, n_jobs=-1,
+    pipeline, X_train, y_train, cv=5, n_jobs=-1,
     scoring="r2"
 ).mean().round(3))
 # Calculate predicted values
-predicted = cross_val_predict(pipe, X_all, y_all, cv=5, n_jobs=-1)
+predicted = cross_val_predict(pipeline, X_all, y_all, cv=5, n_jobs=-1)
 mse = mean_squared_error(y_all, predicted)
 print()
 print("Mean squared error")
