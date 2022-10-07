@@ -25,6 +25,7 @@ from sklearn.model_selection import GridSearchCV
 from sklearn.pipeline import make_pipeline
 import datasense as ds
 import pandas as pd
+import numpy as np
 
 
 def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
@@ -129,19 +130,29 @@ def main():
         cv=10
     )
     grid_search.fit(X=X, y=y)
-    print("best score:", grid_search.best_score_)
-    print()
-    print("best parameters:")
+    print("best hyperparameters:")
     print(grid_search.best_params_)
     print()
-    print("linear regression intercept:")
-    print(pipeline.named_steps.linearregression.intercept_.round(3))
+    print("best score:", grid_search.best_score_.round(6))
+    print()
+    print(
+        "linear regression intercept:",
+        pipeline.named_steps.linearregression.intercept_.round(6)
+    )
     print()
     print("linear regression coefficients:")
-    print(pipeline.named_steps.linearregression.coef_.round(3))
-    print()
-    print("Selected features")
-    print(X.columns[feature_selection.get_support()])
+    selected_features = X.columns[feature_selection.get_support()].to_list()
+    selected_coefficients = pipeline.named_steps.linearregression.coef_.round(6)
+    selected_importances = np.abs(
+        pipeline.named_steps.selectfrommodel.estimator_.coef_[
+            feature_selection.get_support()
+        ]
+    ).tolist()
+    print(pd.DataFrame(
+        list(zip(
+            selected_features, selected_importances, selected_coefficients)),
+        columns=["Features", "Importance", "Coefficients"]
+    ))
     print()
     predictions_ndarray = grid_search.predict(X=X_new)
     predictions_series = pd.Series(
