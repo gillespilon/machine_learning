@@ -10,9 +10,9 @@ not within pandas, in order to avoid data leakage.
     outliers_masking_pipeline_scikit_learn.txt
 
 TODO:
-- test with X1-X14
+- test with X1-X13
 - how to handle outliers < 0
-- try other imputers than SimpleImputer
+- how to handle y outliers
 - delete diagnostic code
 """
 
@@ -37,8 +37,6 @@ def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
     ----------
     df : pd.DataFrame
         The input DataFrame.
-    maskvalues : List[Tuple[str, float, float]]
-        The feature and mask values.
 
     Returns
     -------
@@ -58,7 +56,8 @@ def main():
     file_predictions = Path("outliers_missing_predictions.csv")
     file_new = Path("outliers_missing_new.csv")
     file_data = Path("outliers_missing.csv")
-    mask_values = [
+    # there is no mask for X14 because the number of NaN is too large
+    maskvalues = [
         ("X1", -20, 20),
         ("X2", -25, 25),
         ("X3", -5, 5),
