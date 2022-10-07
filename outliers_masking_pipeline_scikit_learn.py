@@ -1,19 +1,17 @@
 #! /usr/bin/env python3
 """
-Code to mask outliers with a function, column transformer, and pipeline. It
-also deals with outliers apart from masking, where X values >= 0.
+Mask outliers with a function, column transformer, and pipeline, in order to
+avoid data leakage.
 
-The goal is to mask outliers and then process these within scikit-learn,
-not within pandas, in order to avoid data leakage.
+In this example I use a simulated data set that has seven features (X1-X7)
+that affect the target (Y) and six features (X8-X14) that have zero effect
+on the target.
 
 ./outliers_masking_pipeline_scikit_learn.py >
     outliers_masking_pipeline_scikit_learn.txt
 
 TODO:
-- test with X1-X13
-- how to handle outliers < 0
 - how to handle y outliers
-- delete diagnostic code
 """
 
 from pathlib import Path
@@ -53,6 +51,10 @@ def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
 
 def main():
     global maskvalues
+    features = [
+        "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "X10", "X11",
+        "X12", "X13", "X14"
+    ]
     file_predictions = Path("outliers_missing_predictions.csv")
     file_new = Path("outliers_missing_new.csv")
     file_data = Path("outliers_missing.csv")
@@ -71,10 +73,6 @@ def main():
         ("X11", -16, 17),
         ("X12", -16, 17),
         ("X13", -20, 23)
-    ]
-    features = [
-        "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "X10", "X11",
-        "X12", "X13", "X14"
     ]
     target = "Y"
     print("outliers_masking_pipeline_scikit_learn.py")
@@ -97,23 +95,19 @@ def main():
         file_in=file_new
     )
     X_new = df_new[features]
-    mask_values = FunctionTransformer(mask_outliers)
+    mask = FunctionTransformer(mask_outliers)
     imputer = SimpleImputer()
     # imputer = KNNImputer(n_neighbors=10)
-    imputer_pipeline = make_pipeline(mask_values, imputer)
+    imputer_pipeline = make_pipeline(mask, imputer)
     column_transformer = make_column_transformer(
         (imputer_pipeline, features),
         remainder="drop"
     )
-    # column_transformer.fit_transform(df)
-    # print("mask outliers in df:")
-    # print(column_transformer.fit_transform(df))
-    # print()
     linear_regression = LinearRegression(fit_intercept=True)
     linear_regression_selection = LinearRegression(fit_intercept=True)
     feature_selection = SelectFromModel(
         linear_regression_selection,
-        threshold='median'
+        threshold="median"
     )
     pipeline = make_pipeline(
         column_transformer,
@@ -140,31 +134,24 @@ def main():
     print("best parameters:")
     print(grid_search.best_params_)
     print()
-    # print("linear regression intercept:")
-    # print(pipeline.fit(X=X, y=y).named_steps["linearregression"].intercept_)
-    # print()
-    # print("linear regression coefficients:")
-    # print(pipeline.fit(X=X, y=y).named_steps["linearregression"].coef_)
-    # print()
-    # predictions_ndarray = pipeline.predict(X=X_new)
     print("linear regression intercept:")
     print(pipeline.named_steps.linearregression.intercept_.round(3))
     print()
     print("linear regression coefficients:")
     print(pipeline.named_steps.linearregression.coef_.round(3))
     print()
-    print('nSelected features')
+    print("Selected features")
     print(X.columns[feature_selection.get_support()])
     print()
     predictions_ndarray = grid_search.predict(X=X_new)
     predictions_series = pd.Series(
         data=predictions_ndarray,
         index=X_new.index,
-        name='Y predictions'
+        name="Y predictions"
     )
     X_new_predictions = pd.concat(
         objs=[X_new, predictions_series],
-        axis='columns'
+        axis="columns"
     )
     # X_new_predictions.to_csv(
     #     path_or_buf=file_predictions
