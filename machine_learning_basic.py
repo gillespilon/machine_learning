@@ -220,22 +220,6 @@ print(pipeline)
 # Determine the linear regression model
 pipeline.fit(X_train, y_train)
 
-# Show the selected features
-print()
-print("Selected features")
-print(X_all.columns[selection.get_support()])
-
-# Display the regression intercept
-print()
-print("Regression intercept")
-print(pipeline.named_steps.regressor.intercept_.round(3))
-
-# Display the regression coefficients of the features
-print()
-print("Regression coefficients")
-print(pipeline.named_steps.regressor.coef_.round(3))
-
-
 # Set the hyperparameters for optimization
 # Create a dictionary
 # The dictionary key is the step name, followed by two underscores,
@@ -333,8 +317,10 @@ print()
 grid = GridSearchCV(pipeline, hyper_parameters, n_jobs=-1, cv=5)
 grid.fit(X_train, y_train)
 
-# Present the results
-pd.DataFrame(grid.cv_results_).sort_values("rank_test_score")
+# Access the best hyperparameters
+print()
+print("Best hyperparameters")
+print(grid.best_params_)
 
 # Access the best score
 print()
@@ -342,10 +328,23 @@ print("Hyperparameter optimization")
 print("Best score")
 print(grid.best_score_.round(3))
 
-# Access the best hyperparameters
+# Present the results
+# print(pd.DataFrame(grid.cv_results_).sort_values("rank_test_score"))
+
+# Show the selected features
 print()
-print("Best hyperparameters")
-print(grid.best_params_)
+print("Selected features")
+print(X_all.columns[selection.get_support()])
+
+# Display the regression intercept
+print()
+print("Regression intercept")
+print(pipeline.named_steps.regressor.intercept_.round(3))
+
+# Display the regression coefficients of the features
+print()
+print("Regression coefficients")
+print(pipeline.named_steps.regressor.coef_.round(3))
 
 # Workflow 2
 ds.page_break()
@@ -354,7 +353,7 @@ print("Workflow 2")
 # Select features using SelectFromModel(LassoCV())
 # Fit with LinearRegression()
 # Create the imputer object
-imputer = SimpleImputer()
+imputer = SimpleImputer(strategy="mean")
 # Create the column transformer object
 ct = make_column_transformer(
      (imputer, features),
