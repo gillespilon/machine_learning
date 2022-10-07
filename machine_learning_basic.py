@@ -11,10 +11,10 @@ Fit a model
 Set hyperparameters for tuning
 Tune the model using grid search cross validation
 
-time -f "%e" ./lunch_and_learn_basic.py | tee lunch_and_learn_basic.txt
-time -f "%e" ./lunch_and_learn_basic.py > lunch_and_learn_basic.txt
-./lunch_and_learn_basic.py > lunch_and_learn_basic.txt
-./lunch_and_learn_basic.py
+time -f "%e" ./machine_learning_basic.py | tee machine_learning_basic.txt
+time -f "%e" ./machine_learning_basic.py > machine_learning_basic.txt
+./machine_learning_basic.py > machine_learning_basic.txt
+./machine_learning_basic.py
 """
 
 from multiprocessing import Pool
@@ -42,15 +42,15 @@ features = [
     "X1", "X2", "X3", "X4", "X5", "X6", "X7",
     "X8", "X9", "X10", "X11", "X12", "X13", "X14"
 ]
-output_url = "lunch_and_learn_basic.html"
-header_title = "lunch_and_learn_basic"
+output_url = "machine_learning_basic.html"
+header_title = "machine_learning_basic"
 graph_name = "predicted_versus_measured"
 colour1, colour2 = "#0077bb", "#33bbee"
 pd.options.display.max_columns = None
 header_id = "lunch-and-learn-basic"
 title = "Predicted versus Measured"
 pd.options.display.max_rows = None
-file_name = "lunch_and_learn.csv"
+file_name = "machine_learning.csv"
 percent_empty_features = 60.0
 set_config(display="diagram")
 label_predicted = "Predicted"
