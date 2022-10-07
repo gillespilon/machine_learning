@@ -58,7 +58,21 @@ def main():
     file_predictions = Path("outliers_missing_predictions.csv")
     file_new = Path("outliers_missing_new.csv")
     file_data = Path("outliers_missing.csv")
-    maskvalues = [("X1", -4, 4)]
+    mask_values = [
+        ("X1", -20, 20),
+        ("X2", -25, 25),
+        ("X3", -5, 5),
+        ("X4", -10, 10),
+        ("X5", -3, 3),
+        ("X6", -5, 5),
+        ("X7", -13, 13),
+        ("X8", -9, 15),
+        ("X9", -17, 15),
+        ("X10", -16, 15),
+        ("X11", -16, 17),
+        ("X12", -16, 17),
+        ("X13", -20, 23)
+    ]
     features = [
         "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "X10", "X11",
         "X12", "X13", "X14"
