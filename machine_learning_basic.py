@@ -178,11 +178,11 @@ print("Workflow 1")
 
 # Create the imputer object with
 # the default hyperparameter settings
-imp = SimpleImputer()
+imputer = SimpleImputer()
 
 # Create the column transformer object
 ct = make_column_transformer(
-    (imp, features),
+    (imputer, features),
     remainder="passthrough"
 )
 
@@ -244,7 +244,7 @@ print(pipeline.named_steps.regressor.coef_.round(3))
 # 4 x 3 x 3 x 2 = 72
 hyper_parameters = [
     {
-        "transformer": [imp],
+        "transformer": [imputer],
         "transformer__strategy": [
             "mean", "median", "most_frequent", "constant"
         ],
@@ -265,7 +265,7 @@ hyper_parameters = [
 ]
 """hyper_parameters.append(
     {
-        "transformer": [imp],
+        "transformer": [imputer],
         "transformer__strategy": [
             "mean", "median", "most_frequent", "constant"
         ],
@@ -279,7 +279,7 @@ hyper_parameters = [
 """
 hyper_parameters.append(
    {
-        "transformer": [imp],
+        "transformer": [imputer],
         "transformer__strategy": [
             "mean", "median", "most_frequent", "constant"
         ],
@@ -294,7 +294,7 @@ hyper_parameters.append(
 # 4 x 3 x 2 x 2 = 48
 hyper_parameters.append(
    {
-        "transformer": [imp],
+        "transformer": [imputer],
         "transformer__strategy": [
             "mean", "median", "most_frequent", "constant"
         ],
@@ -310,7 +310,7 @@ hyper_parameters.append(
 
     {
 
-        "transformer": [imp],
+        "transformer": [imputer],
 
         "transformer__strategy": [
 
@@ -360,10 +360,10 @@ print("Workflow 2")
 # Select features using SelectFromModel(LassoCV())
 # Fit with LinearRegression()
 # Create the imputer object
-imp = SimpleImputer()
+imputer = SimpleImputer()
 # Create the column transformer object
 ct = make_column_transformer(
-     (imp, features),
+     (imputer, features),
      remainder="passthrough"
 )
 # Create the object to use for feature selection
