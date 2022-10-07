@@ -253,16 +253,24 @@ hyper_parameters = [
         "selector__estimator__criterion": [
             "squared_error", "friedman_mse", "absolute_error"
         ],
-        # "selector__estimator__splitter": ["best", "random"],
-        # "selector__estimator__max_features": [
-        #     None, "auto", "sqrt", "log2"
-        # ],
-        # "selector__estimator__max_leaf_nodes": [None, 2, 4, 6],
-        "regressor": [linreg],
-        # "regressor__normalize": [False, True]
+        "selector__estimator__splitter": ["best", "random"],
+        "selector__estimator__max_features": [None, "sqrt", "log2"],
+        "regressor": [linreg]
     },
 
 ]
+# 4 x 3 x 2 x 2 = 48
+hyper_parameters.append(
+   {
+        "transformer": [imputer],
+        "transformer__strategy": [
+            "mean", "median", "most_frequent", "constant"
+        ],
+        "selector": [SelectFromModel(estimator=lassocv_selection)],
+        "selector__threshold": [None, "mean", "median"],
+        "regressor": [linreg],
+    },
+)
 """hyper_parameters.append(
     {
         "transformer": [imputer],
@@ -291,20 +299,6 @@ hyper_parameters.append(
     },
 )
 """
-# 4 x 3 x 2 x 2 = 48
-hyper_parameters.append(
-   {
-        "transformer": [imputer],
-        "transformer__strategy": [
-            "mean", "median", "most_frequent", "constant"
-        ],
-        "selector": [SelectFromModel(estimator=lassocv_selection)],
-        "selector__threshold": [None, "mean", "median"],
-        # "selector__estimator__normalize": [False, True],
-        "regressor": [linreg],
-        # "regressor__normalize": [False, True]
-    },
-)
 """
 hyper_parameters.append(
 
