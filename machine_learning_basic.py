@@ -388,7 +388,6 @@ pipe.fit(X_train, y_train)
 selected_features = X_all.columns[selection.get_support()].to_list()
 print()
 print("Selected features")
-print(selected_features)
 selected_coefficients = pipe.named_steps.linearregression.coef_.round(3)
 selected_importances = np.abs(
     pipe.named_steps.selectfrommodel.estimator_.coef_[selection.get_support()]
