@@ -192,7 +192,7 @@ decision_tree_regressor = DecisionTreeRegressor()
 lasso = Lasso()
 lassocv = LassoCV()
 random_forest_regressor = RandomForestRegressor()
-xgb = XGBRegressor()
+xgboost_regressor = XGBRegressor()
 
 # Create the feature selection object
 selection = SelectFromModel(estimator=decision_tree_regressor)
