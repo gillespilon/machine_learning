@@ -186,32 +186,29 @@ ct = make_column_transformer(
     remainder="passthrough"
 )
 
-# Create objects to use for feature selection with
-# the default hyperparameter settings
-linreg_selection = LinearRegression()
+# create selector instances
 dtr_selection = DecisionTreeRegressor()
 lasso_selection = Lasso()
 lassocv_selection = LassoCV()
 rfr_selection = RandomForestRegressor()
 
-# Create the feature selection object
-selection = SelectFromModel(estimator=dtr_selection)
-
-# Create an object to use for regression with
-# the default hyperparameter settings
-linreg = LinearRegression()
+# create estimator and selector instances
+linear_regression = LinearRegression()
 dtr = DecisionTreeRegressor()
 lasso = Lasso()
 lassocv = LassoCV()
 rfr = RandomForestRegressor()
 xgb = XGBRegressor()
 
+# Create the feature selection object
+selection = SelectFromModel(estimator=dtr_selection)
+
 # Create the workflow object
 pipeline = Pipeline(
     steps=[
         ("transformer", ct),
         ("selector", selection),
-        ("regressor", linreg)
+        ("regressor", linear_regression)
     ]
 )
 print()
@@ -239,7 +236,7 @@ hyper_parameters = [
         ],
         "selector__estimator__splitter": ["best", "random"],
         "selector__estimator__max_features": [None, "sqrt", "log2"],
-        "regressor": [linreg]
+        "regressor": [linear_regression]
     },
 
 ]
@@ -252,7 +249,7 @@ hyper_parameters.append(
         ],
         "selector": [SelectFromModel(estimator=lassocv_selection)],
         "selector__threshold": [None, "mean", "median"],
-        "regressor": [linreg],
+        "regressor": [linear_regression],
     },
 )
 """hyper_parameters.append(
@@ -261,10 +258,10 @@ hyper_parameters.append(
         "transformer__strategy": [
             "mean", "median", "most_frequent", "constant"
         ],
-        "selector": [SelectFromModel(estimator=linreg_selection)],
+        "selector": [SelectFromModel(estimator=linear_regression)],
         "selector__threshold": [None, "mean", "median"],
         "selector__estimator__normalize": [False, True],
-        "regressor": [linreg],
+        "regressor": [linear_regression],
         "regressor__normalize": [False, True]
     },
 )"""
@@ -278,7 +275,7 @@ hyper_parameters.append(
         "selector": [SelectFromModel(estimator=lasso_selection)],
         "selector__threshold": [None, "mean", "median"],
         "selector__estimator__normalize": [False, True],
-        "regressor": [linreg],
+        "regressor": [linear_regression],
         "regressor__normalize": [False, True]
     },
 )
@@ -302,7 +299,7 @@ hyper_parameters.append(
 
         "selector__estimator__criterion": ["squared_error", "absolute_error"],
 
-        "regressor": [linreg],
+        "regressor": [linear_regression],
 
         "regressor__normalize": [False, True]
 
@@ -367,9 +364,9 @@ selection = SelectFromModel(
     threshold="median"
 )
 # Create objects to use for regression
-linreg = LinearRegression()
+linear_regression = LinearRegression()
 # Create the workflow object
-pipeline = make_pipeline(ct, selection, linreg)
+pipeline = make_pipeline(ct, selection, linear_regression)
 print()
 print(pipeline)
 # Determine the linear regression model
