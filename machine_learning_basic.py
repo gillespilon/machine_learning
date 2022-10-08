@@ -187,7 +187,6 @@ ct = make_column_transformer(
 )
 
 # create selector instances
-lassocv_selection = LassoCV()
 rfr_selection = RandomForestRegressor()
 
 # create estimator and selector instances
@@ -245,7 +244,7 @@ hyper_parameters.append(
         "transformer__strategy": [
             "mean", "median", "most_frequent", "constant"
         ],
-        "selector": [SelectFromModel(estimator=lassocv_selection)],
+        "selector": [SelectFromModel(estimator=lassocv)],
         "selector__threshold": [None, "mean", "median"],
         "regressor": [linear_regression],
     },
@@ -354,11 +353,9 @@ ct = make_column_transformer(
      (imputer, features),
      remainder="passthrough"
 )
-# Create the object to use for feature selection
-lassocv_selection = LassoCV()
 # Create the feature selection object
 selection = SelectFromModel(
-    estimator=lassocv_selection,
+    estimator=lassocv,
     threshold="median"
 )
 # Create objects to use for regression
