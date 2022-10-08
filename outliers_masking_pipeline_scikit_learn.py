@@ -107,7 +107,7 @@ def main():
     linear_regression = LinearRegression(fit_intercept=True)
     linear_regression_selection = LinearRegression(fit_intercept=True)
     feature_selection = SelectFromModel(
-        linear_regression_selection,
+        estimate=linear_regression_selection,
         threshold="median"
     )
     pipeline = make_pipeline(
