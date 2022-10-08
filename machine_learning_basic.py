@@ -186,15 +186,12 @@ ct = make_column_transformer(
     remainder="passthrough"
 )
 
-# create selector instances
-rfr_selection = RandomForestRegressor()
-
 # create estimator and selector instances
 linear_regression = LinearRegression()
 decision_tree_regressor = DecisionTreeRegressor()
 lasso = Lasso()
 lassocv = LassoCV()
-rfr = RandomForestRegressor()
+random_forest_regressor = RandomForestRegressor()
 xgb = XGBRegressor()
 
 # Create the feature selection object
@@ -290,7 +287,7 @@ hyper_parameters.append(
 
         ],
 
-        "selector": [SelectFromModel(estimator=rfr_selection)],
+        "selector": [SelectFromModel(estimator=random_forest_regressor)],
 
         "selector__threshold": [None, "mean", "median"],
 
