@@ -187,21 +187,20 @@ ct = make_column_transformer(
 )
 
 # create selector instances
-dtr_selection = DecisionTreeRegressor()
 lasso_selection = Lasso()
 lassocv_selection = LassoCV()
 rfr_selection = RandomForestRegressor()
 
 # create estimator and selector instances
 linear_regression = LinearRegression()
-dtr = DecisionTreeRegressor()
+decision_tree_regressor = DecisionTreeRegressor()
 lasso = Lasso()
 lassocv = LassoCV()
 rfr = RandomForestRegressor()
 xgb = XGBRegressor()
 
 # Create the feature selection object
-selection = SelectFromModel(estimator=dtr_selection)
+selection = SelectFromModel(estimator=decision_tree_regressor)
 
 # Create the workflow object
 pipeline = Pipeline(
@@ -229,7 +228,7 @@ hyper_parameters = [
         "transformer__strategy": [
             "mean", "median", "most_frequent", "constant"
         ],
-        "selector": [SelectFromModel(estimator=dtr_selection)],
+        "selector": [SelectFromModel(estimator=decision_tree_regressor)],
         "selector__threshold": [None, "mean", "median"],
         "selector__estimator__criterion": [
             "squared_error", "friedman_mse", "absolute_error"
