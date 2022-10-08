@@ -187,7 +187,6 @@ ct = make_column_transformer(
 )
 
 # create selector instances
-lasso_selection = Lasso()
 lassocv_selection = LassoCV()
 rfr_selection = RandomForestRegressor()
 
@@ -271,7 +270,7 @@ hyper_parameters.append(
         "transformer__strategy": [
             "mean", "median", "most_frequent", "constant"
         ],
-        "selector": [SelectFromModel(estimator=lasso_selection)],
+        "selector": [SelectFromModel(estimator=lasso)],
         "selector__threshold": [None, "mean", "median"],
         "selector__estimator__normalize": [False, True],
         "regressor": [linear_regression],
