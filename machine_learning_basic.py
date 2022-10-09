@@ -25,12 +25,12 @@ import math
 from sklearn.model_selection import cross_val_score, cross_val_predict,\
     GridSearchCV, train_test_split
 from sklearn.linear_model import Lasso, LassoCV, LinearRegression
-from sklearn.metrics import mean_squared_error
 from sklearn.feature_selection import SelectFromModel
 from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.compose import make_column_transformer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
+from sklearn.metrics import mean_squared_error
 from sklearn.impute import SimpleImputer
 from xgboost import XGBRegressor
 from sklearn import set_config
@@ -43,8 +43,8 @@ features = [
     "X8", "X9", "X10", "X11", "X12", "X13", "X14"
 ]
 output_url = "machine_learning_basic.html"
-header_title = "machine_learning_basic"
 graph_name = "predicted_versus_measured"
+header_title = "machine_learning_basic"
 colour1, colour2 = "#0077bb", "#33bbee"
 pd.options.display.max_columns = None
 header_id = "lunch-and-learn-basic"
