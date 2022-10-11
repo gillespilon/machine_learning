@@ -156,10 +156,10 @@ def main():
     print("Features after threshold")
     print(features)
     # Create training and testing datasets
-    X_all = data[features]
-    y_all = data[target]
+    X = data[features]
+    y = data[target]
     X_train, X_test, y_train, y_test = train_test_split(
-        X_all, y_all, test_size=0.33, random_state=42
+        X, y, test_size=0.33, random_state=42
     )
     # Workflow 1
     print()
@@ -306,7 +306,7 @@ def main():
     # Show the selected features
     print()
     print("Selected features")
-    print(X_all.columns[selection.get_support()])
+    print(X.columns[selection.get_support()])
     # Display the regression intercept
     print()
     print("Regression intercept")
@@ -346,7 +346,7 @@ def main():
     )
     # Show the selected features =
     # selected = pd.DataFrame(X.columns[selection.get_support()])
-    selected_features = X_all.columns[selection.get_support()].to_list()
+    selected_features = X.columns[selection.get_support()].to_list()
     print()
     print("Selected features")
     selected_coefficients = pipeline.named_steps.linearregression.\
@@ -379,12 +379,12 @@ def main():
     # Calculate predicted values
     predicted = cross_val_predict(
         estimator=pipeline,
-        X=X_all,
-        y=y_all,
+        X=X,
+        y=y,
         cv=5,
         n_jobs=-1
         )
-    mse = mean_squared_error(y_all, predicted)
+    mse = mean_squared_error(y, predicted)
     print()
     print("Mean squared error")
     print(mse.round(3))
@@ -394,13 +394,13 @@ def main():
     ds.page_break()
     # Scatter plot of predicted versus measured
     fig, ax = ds.plot_scatter_x_y(
-        X=y_all,
+        X=y,
         y=predicted,
         figsize=figsize
     )
     ax.plot(
-        [y_all.min(), y_all.max()],
-        [y_all.min(), y_all.max()],
+        [y.min(), y.max()],
+        [y.min(), y.max()],
         marker=None,
         linestyle="-",
         color=colour2
@@ -419,7 +419,7 @@ def main():
     )
     # Line plot of predicted versus measured
     fig, ax = ds.plot_line_line_y1_y2(
-        y1=y_all,
+        y1=y,
         y2=predicted,
         figsize=figsize,
         labellegendy1=label_measured,
