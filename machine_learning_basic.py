@@ -38,13 +38,20 @@ import datasense as ds
 import pandas as pd
 import numpy as np
 
+
 def plot_scatter_y(t: pd.Series) -> NoReturn:
     y, feature = t
-    fig, ax = ds.plot_scatter_y(y=y, figsize=figsize)
+    fig, ax = ds.plot_scatter_y(
+        y=y,
+        figsize=figsize
+    )
     ax.set_ylabel(ylabel=feature)
     ax.set_title(label="Time Series")
     ds.despine(ax=ax)
-    fig.savefig(fname=f"time_series_{feature}.svg", format="svg")
+    fig.savefig(
+        fname=f"time_series_{feature}.svg",
+        format="svg"
+    )
     ds.html_figure(
         file_name=f"time_series_{feature}.svg",
         caption=f"time_series_{feature}.svg"
@@ -56,6 +63,22 @@ def main():
     features = [
         "X1", "X2", "X3", "X4", "X5", "X6", "X7",
         "X8", "X9", "X10", "X11", "X12", "X13", "X14"
+    ]
+    # Set lower and upper values to remove outliers
+    mask_values = [
+        ("X1", -20, 20),
+        ("X2", -25, 25),
+        ("X3", -5, 5),
+        ("X4", -10, 10),
+        ("X5", -3, 3),
+        ("X6", -5, 5),
+        ("X7", -13, 13),
+        ("X8", -9, 15),
+        ("X9", -17, 15),
+        ("X10", -16, 15),
+        ("X11", -16, 17),
+        ("X12", -16, 17),
+        ("X13", -20, 23)
     ]
     output_url = "machine_learning_basic.html"
     graph_name = "predicted_versus_measured"
@@ -73,8 +96,6 @@ def main():
     figsize = (8, 4.5)
     target = "Y"
     nrows = 200
-
-
     start_time = time.time()
     original_stdout = ds.html_begin(
         output_url=output_url,
@@ -83,22 +104,20 @@ def main():
     )
     ds.page_break()
     print("<pre style='white-space: pre-wrap;'>")
-    # Cleaning the data
     data = ds.read_file(
         file_name=file_name,
         nrows=nrows
     )
-    # df = pd.read_csv(
+    # data = pd.read_csv(
     #     filepath_or_buffer=file_data,
     #     nrows=nrows
     # )
-    # Plot target versus features
-    # With multiprocessing
+    # Plot target versus features with multiprocessing
     t = ((data[feature], feature) for feature in features)
     with Pool() as pool:
         for _ in pool.imap_unordered(plot_scatter_y, t):
             pass
-    # Without multiprocessing
+    # Plot target versus features without multiprocessing
     # for feature in features:
     #     fig, ax = ds.plot_scatter_y(
     #         y=data[feature],
@@ -115,34 +134,15 @@ def main():
     #         file_name=f"time_series_{feature}.svg",
     #         caption=f"time_series_{feature}.svg"
     #     )
-
-    # Set lower and upper values to remove outliers
-    mask_values = [
-        ("X1", -20, 20),
-        ("X2", -25, 25),
-        ("X3", -5, 5),
-        ("X4", -10, 10),
-        ("X5", -3, 3),
-        ("X6", -5, 5),
-        ("X7", -13, 13),
-        ("X8", -9, 15),
-        ("X9", -17, 15),
-        ("X10", -16, 15),
-        ("X11", -16, 17),
-        ("X12", -16, 17),
-        ("X13", -20, 23)
-    ]
-
-    # Replace outliers with NaN
+    # Replace outliers with NaN outside of scikit-learn
+    # This should be done within scikit-learn. This code needs revision.
     for column, lowvalue, highvalue in mask_values:
         data[column] = data[column].mask(
             (data[column] <= lowvalue) |
             (data[column] >= highvalue)
         )
-
     # Delete rows if target is NaN
     data = data.dropna(subset=[target])
-
     ds.page_break()
     print("Features before threshold")
     print(features)
@@ -155,51 +155,35 @@ def main():
     )
     print("Features after threshold")
     print(features)
-
     # Create training and testing datasets
     X_all = data[features]
     y_all = data[target]
     X_train, X_test, y_train, y_test = train_test_split(
         X_all, y_all, test_size=0.33, random_state=42
     )
-
-    # Machine learning workflow
-    # A typical workflow involves several, sequential steps:
-    # - Column transformation such as imputing missing values
-    # - Feature selection
-    # - Modeling
-    # These steps are embedded in a workflow method called a pipeline, which is
-    # simply a series of sequential steps. The output of each step is passed to
-    # the next step.
-
     # Workflow 1
     print()
     print("Workflow 1")
     # Impute using the mean
     # Select features using SelectFromModel(DecisionTreeRegressor)
     # Fit with LinearRegression
-
     # Create the imputer object with
     # the default hyperparameter settings
     imputer = SimpleImputer()
-
     # Create the column transformer object
     ct = make_column_transformer(
         (imputer, features),
         remainder="passthrough"
     )
-
     # create estimator and selector instances
-    linear_regression = LinearRegression()
     decision_tree_regressor = DecisionTreeRegressor()
-    lasso = Lasso()
-    lassocv = LassoCV()
     random_forest_regressor = RandomForestRegressor()
+    linear_regression = LinearRegression()
     xgboost_regressor = XGBRegressor()
-
+    lassocv = LassoCV()
+    lasso = Lasso()
     # Create the feature selection object
     selection = SelectFromModel(estimator=decision_tree_regressor)
-
     # Create the workflow object
     pipeline = Pipeline(
         steps=[
@@ -210,10 +194,8 @@ def main():
     )
     print()
     print(pipeline)
-
     # Determine the linear regression model
     pipeline.fit(X_train, y_train)
-
     # Set the hyperparameters for optimization
     # Create a dictionary
     # The dictionary key is the step name, followed by two underscores,
@@ -235,7 +217,6 @@ def main():
             "selector__estimator__max_features": [None, "sqrt", "log2"],
             "regressor": [linear_regression]
         },
-
     ]
     # 4 x 3 x 2 x 2 = 48
     hyper_parameters.append(
@@ -281,25 +262,18 @@ def main():
     hyper_parameters.append(
 
         {
-
             "transformer": [imputer],
-
             "transformer__strategy": [
-
                 "mean", "median", "most_frequent", "constant"
-
             ],
-
             "selector": [SelectFromModel(estimator=random_forest_regressor)],
 
             "selector__threshold": [None, "mean", "median"],
-
-            "selector__estimator__criterion": ["squared_error", "absolute_error"],
-
+            "selector__estimator__criterion": [
+                "squared_error", "absolute_error"
+            ],
             "regressor": [linear_regression],
-
             "regressor__normalize": [False, True]
-
         },
 
     )
@@ -308,38 +282,39 @@ def main():
     print(hyper_parameters)
     print()
     # Perform a grid search
-    grid = GridSearchCV(pipeline, hyper_parameters, n_jobs=-1, cv=5)
-    grid.fit(X_train, y_train)
-
+    grid = GridSearchCV(
+        estimator=pipeline,
+        param_grid=hyper_parameters,
+        n_jobs=-1,
+        cv=5
+    )
+    grid.fit(
+        X=X_train,
+        y=y_train
+    )
     # Access the best hyperparameters
     print()
     print("Best hyperparameters")
     print(grid.best_params_)
-
     # Access the best score
     print()
     print("Hyperparameter optimization")
     print("Best score")
     print(grid.best_score_.round(3))
-
     # Present the results
     # print(pd.DataFrame(grid.cv_results_).sort_values("rank_test_score"))
-
     # Show the selected features
     print()
     print("Selected features")
     print(X_all.columns[selection.get_support()])
-
     # Display the regression intercept
     print()
     print("Regression intercept")
     print(pipeline.named_steps.regressor.intercept_.round(3))
-
     # Display the regression coefficients of the features
     print()
     print("Regression coefficients")
     print(pipeline.named_steps.regressor.coef_.round(3))
-
     # Workflow 2
     ds.page_break()
     print("Workflow 2")
@@ -365,15 +340,21 @@ def main():
     print()
     print(pipeline)
     # Determine the linear regression model
-    pipeline.fit(X_train, y_train)
+    pipeline.fit(
+        X=X_train,
+        y=y_train
+    )
     # Show the selected features =
     # selected = pd.DataFrame(X.columns[selection.get_support()])
     selected_features = X_all.columns[selection.get_support()].to_list()
     print()
     print("Selected features")
-    selected_coefficients = pipeline.named_steps.linearregression.coef_.round(3)
+    selected_coefficients = pipeline.named_steps.linearregression.\
+        coef_.round(3)
     selected_importances = np.abs(
-        pipeline.named_steps.selectfrommodel.estimator_.coef_[selection.get_support()]
+        pipeline.named_steps.selectfrommodel.estimator_.coef_[
+            selection.get_support()
+        ]
     ).tolist()
     print()
     print(pd.DataFrame(
@@ -396,7 +377,13 @@ def main():
         scoring="r2"
     ).mean().round(3))
     # Calculate predicted values
-    predicted = cross_val_predict(pipeline, X_all, y_all, cv=5, n_jobs=-1)
+    predicted = cross_val_predict(
+        estimator=pipeline,
+        X=X_all,
+        y=y_all,
+        cv=5,
+        n_jobs=-1
+        )
     mse = mean_squared_error(y_all, predicted)
     print()
     print("Mean squared error")
