@@ -135,26 +135,25 @@ def main():
     #         caption=f"time_series_{feature}.svg"
     #     )
     # Replace outliers with NaN outside of scikit-learn
-    # This should be done within scikit-learn. This code needs revision.
+    # TODO: The next five lines should be done within scikit-learn.
     for column, lowvalue, highvalue in mask_values:
         data[column] = data[column].mask(
             (data[column] <= lowvalue) |
             (data[column] >= highvalue)
         )
-    # Delete rows if target is NaN
     data = data.dropna(subset=[target])
     ds.page_break()
     print("Features before threshold")
     print(features)
     print()
     # Remove features if number empty cells > threshold
-    features = ds.feature_percent_empty(
-        df=data,
-        columns=features,
-        threshold=percent_empty_features
-    )
-    print("Features after threshold")
-    print(features)
+    # features = ds.feature_percent_empty(
+    #     df=data,
+    #     columns=features,
+    #     threshold=percent_empty_features
+    # )
+    # print("Features after threshold")
+    # print(features)
     # Create training and testing datasets
     X = data[features]
     y = data[target]
@@ -164,133 +163,97 @@ def main():
         test_size=0.33,
         random_state=42
     )
-    # Workflow 1
-    print()
     print("Workflow 1")
-    # Impute using the mean
-    # Select features using SelectFromModel(DecisionTreeRegressor)
-    # Fit with LinearRegression
-    # Create the imputer object with
-    # the default hyperparameter settings
+    print()
     imputer = SimpleImputer()
-    # Create the column transformer object
-    ct = make_column_transformer(
+    transformer = make_column_transformer(
         (imputer, features),
         remainder="passthrough"
     )
-    # create estimator and selector instances
     decision_tree_regressor = DecisionTreeRegressor()
     random_forest_regressor = RandomForestRegressor()
     linear_regression = LinearRegression()
     xgboost_regressor = XGBRegressor()
     lassocv = LassoCV()
     lasso = Lasso()
-    # Create the feature selection object
-    selection = SelectFromModel(estimator=decision_tree_regressor)
+    selector = SelectFromModel(estimator=decision_tree_regressor)
+    hyperparameters1 = {}
+    hyperparameters1["transformer"] = [imputer]
+    hyperparameters1["transformer__strategy"] = [
+        "mean", "median", "most_frequent", "constant"
+    ]
+    hyperparameters1["selector"] = [
+        SelectFromModel(estimator=decision_tree_regressor)
+    ]
+    hyperparameters1["selector__threshold"] = [None, "mean", "median"]
+    hyperparameters1["selector__estimator__criterion"] = [
+        "squared_error", "friedman_mse", "absolute_error"
+    ]
+    hyperparameters1["selector__estimator__splitter"] = ["best", "random"]
+    hyperparameters1["selector__estimator__max_features"] = [
+        None, "sqrt", "log2"
+    ]
+    hyperparameters1["regressor"] = [linear_regression]
+    hyperparameters2 = {}
+    hyperparameters2["transformer"] = [imputer]
+    hyperparameters2["transformer__strategy"] = [
+        "mean", "median", "most_frequent", "constant"
+    ]
+    hyperparameters2["selector"] = [SelectFromModel(estimator=lassocv)]
+    hyperparameters2["selector__threshold"] = [None, "mean", "median"]
+    hyperparameters2["regressor"] = [linear_regression]
+    # hyperparameters3 = {}
+    # hyperparameters3["transformer"] = [imputer]
+    # hyperparameters3["transformer__strategy"] = [
+    #     "mean", "median", "most_frequent", "constant"
+    # ]
+    # hyperparameters3["selector"] = [
+    #     SelectFromModel(estimator=linear_regression)
+    # ]
+    # hyperparameters3["selector__threshold"] = [None, "mean", "median"]
+    # hyperparameters3["regressor"] = [linear_regression]
+    # hyperparameters4 = {}
+    # hyperparameters4["transformer"] = [imputer]
+    # hyperparameters4["transformer__strategy"] = [
+    #     "mean", "median", "most_frequent", "constant"
+    # ]
+    # hyperparameters4["selector"] = [SelectFromModel(estimator=lasso)]
+    # hyperparameters4["selector__threshold"] = [None, "mean", "median"]
+    # hyperparameters4["regressor"] = [linear_regression]
+    # hyperparameters5 = {}
+    # hyperparameters5["transformer"] = [imputer]
+    # hyperparameters5["transformer__strategy"] = [
+    #     "mean", "median", "most_frequent", "constant"
+    # ]
+    # hyperparameters5["selector"] = [
+    #     SelectFromModel(estimator=random_forest_regressor)
+    # ]
+    # hyperparameters5["selector__threshold"] = [None, "mean", "median"]
+    # hyperparameters5["selector__estimator__criterion"] = [
+    #     "squared_error", "absolute_error"
+    # ]
+    # hyperparameters5["regressor"] = [linear_regression]
+    hyperparameters = [hyperparameters1, hyperparameters2]
     # Create the workflow object
     pipeline = Pipeline(
         steps=[
-            ("transformer", ct),
-            ("selector", selection),
+            ("transformer", transformer),
+            ("selector", selector),
             ("regressor", linear_regression)
         ]
     )
-    print()
     print(pipeline)
-    # Determine the linear regression model
     pipeline.fit(
         X=X_train,
         y=y_train
     )
-    # Set the hyperparameters for optimization
-    # Create a dictionary
-    # The dictionary key is the step name, followed by two underscores,
-    # followed by the hyperparameter name
-    # The dictionary value is the list of values to try per hyperparameter
-    # 4 x 3 x 3 x 2 = 72
-    hyper_parameters = [
-        {
-            "transformer": [imputer],
-            "transformer__strategy": [
-                "mean", "median", "most_frequent", "constant"
-            ],
-            "selector": [SelectFromModel(estimator=decision_tree_regressor)],
-            "selector__threshold": [None, "mean", "median"],
-            "selector__estimator__criterion": [
-                "squared_error", "friedman_mse", "absolute_error"
-            ],
-            "selector__estimator__splitter": ["best", "random"],
-            "selector__estimator__max_features": [None, "sqrt", "log2"],
-            "regressor": [linear_regression]
-        },
-    ]
-    # 4 x 3 x 2 x 2 = 48
-    hyper_parameters.append(
-       {
-            "transformer": [imputer],
-            "transformer__strategy": [
-                "mean", "median", "most_frequent", "constant"
-            ],
-            "selector": [SelectFromModel(estimator=lassocv)],
-            "selector__threshold": [None, "mean", "median"],
-            "regressor": [linear_regression],
-        },
-    )
-    """hyper_parameters.append(
-        {
-            "transformer": [imputer],
-            "transformer__strategy": [
-                "mean", "median", "most_frequent", "constant"
-            ],
-            "selector": [SelectFromModel(estimator=linear_regression)],
-            "selector__threshold": [None, "mean", "median"],
-            "selector__estimator__normalize": [False, True],
-            "regressor": [linear_regression],
-            "regressor__normalize": [False, True]
-        },
-    )"""
-    """
-    hyper_parameters.append(
-       {
-            "transformer": [imputer],
-            "transformer__strategy": [
-                "mean", "median", "most_frequent", "constant"
-            ],
-            "selector": [SelectFromModel(estimator=lasso)],
-            "selector__threshold": [None, "mean", "median"],
-            "selector__estimator__normalize": [False, True],
-            "regressor": [linear_regression],
-            "regressor__normalize": [False, True]
-        },
-    )
-    """
-    """
-    hyper_parameters.append(
-
-        {
-            "transformer": [imputer],
-            "transformer__strategy": [
-                "mean", "median", "most_frequent", "constant"
-            ],
-            "selector": [SelectFromModel(estimator=random_forest_regressor)],
-
-            "selector__threshold": [None, "mean", "median"],
-            "selector__estimator__criterion": [
-                "squared_error", "absolute_error"
-            ],
-            "regressor": [linear_regression],
-            "regressor__normalize": [False, True]
-        },
-
-    )
-    """
-    print("hyperparamters:")
-    print(hyper_parameters)
     print()
-    # Perform a grid search
+    print("hyperparamters:")
+    print(hyperparameters)
+    print()
     grid = GridSearchCV(
         estimator=pipeline,
-        param_grid=hyper_parameters,
+        param_grid=hyperparameters,
         n_jobs=-1,
         cv=5
     )
@@ -298,77 +261,53 @@ def main():
         X=X_train,
         y=y_train
     )
-    # Access the best hyperparameters
-    print()
     print("Best hyperparameters")
     print(grid.best_params_)
-    # Access the best score
     print()
-    print("Hyperparameter optimization")
     print("Best score")
     print(grid.best_score_.round(3))
-    # Present the results
-    # print(pd.DataFrame(grid.cv_results_).sort_values("rank_test_score"))
-    # Show the selected features
     print()
     print("Selected features")
-    print(X.columns[selection.get_support()])
-    # Display the regression intercept
+    print(X.columns[selector.get_support()])
     print()
     print("Regression intercept")
     print(pipeline.named_steps.regressor.intercept_.round(3))
-    # Display the regression coefficients of the features
     print()
     print("Regression coefficients")
     print(pipeline.named_steps.regressor.coef_.round(3))
-    # Workflow 2
     ds.page_break()
     print("Workflow 2")
-    # Impute using the mean
-    # Select features using SelectFromModel(LassoCV())
-    # Fit with LinearRegression()
-    # Create the imputer object
+    print()
     imputer = SimpleImputer(strategy="mean")
-    # Create the column transformer object
-    ct = make_column_transformer(
+    transformer = make_column_transformer(
          (imputer, features),
          remainder="passthrough"
     )
-    # Create the feature selection object
-    selection = SelectFromModel(
+    selector = SelectFromModel(
         estimator=lassocv,
         threshold="median"
     )
-    # Create objects to use for regression
-    linear_regression = LinearRegression()
-    # Create the workflow object
-    pipeline = make_pipeline(ct, selection, linear_regression)
-    print()
+    pipeline = make_pipeline(transformer, selector, linear_regression)
     print(pipeline)
-    # Determine the linear regression model
+    print()
     pipeline.fit(
         X=X_train,
         y=y_train
     )
-    # Show the selected features =
-    # selected = pd.DataFrame(X.columns[selection.get_support()])
-    selected_features = X.columns[selection.get_support()].to_list()
-    print()
+    selected_features = X.columns[selector.get_support()].to_list()
     print("Selected features")
     selected_coefficients = pipeline.named_steps.linearregression.\
         coef_.round(3)
     selected_importances = np.abs(
         pipeline.named_steps.selectfrommodel.estimator_.coef_[
-            selection.get_support()
+            selector.get_support()
         ]
     ).tolist()
-    print()
     print(pd.DataFrame(
         list(zip(
             selected_features, selected_importances, selected_coefficients)),
         columns=["Features", "Importance", "Coefficients"]
     ))
-    # Display the regression intercept
     print()
     print("Regression intercept")
     print(pipeline.named_steps.linearregression.intercept_.round(3))
@@ -382,7 +321,7 @@ def main():
         n_jobs=-1,
         scoring="r2"
     ).mean().round(3))
-    # Calculate predicted values
+    print()
     predicted = cross_val_predict(
         estimator=pipeline,
         X=X,
@@ -391,14 +330,13 @@ def main():
         n_jobs=-1
         )
     mse = mean_squared_error(y, predicted)
-    print()
     print("Mean squared error")
     print(mse.round(3))
     print()
     print("Root mean squared error")
     print(round(math.sqrt(mse), 3))
+    print()
     ds.page_break()
-    # Scatter plot of predicted versus measured
     fig, ax = ds.plot_scatter_x_y(
         X=y,
         y=predicted,
@@ -423,7 +361,6 @@ def main():
         file_name=f"{graph_name}_scatter.svg",
         caption=f"{graph_name}_scatter.svg"
     )
-    # Line plot of predicted versus measured
     fig, ax = ds.plot_line_line_y1_y2(
         y1=y,
         y2=predicted,
