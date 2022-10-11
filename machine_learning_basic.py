@@ -159,7 +159,10 @@ def main():
     X = data[features]
     y = data[target]
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.33, random_state=42
+        X,
+        y,
+        test_size=0.33,
+        random_state=42
     )
     # Workflow 1
     print()
@@ -195,7 +198,10 @@ def main():
     print()
     print(pipeline)
     # Determine the linear regression model
-    pipeline.fit(X_train, y_train)
+    pipeline.fit(
+        X=X_train,
+        y=y_train
+    )
     # Set the hyperparameters for optimization
     # Create a dictionary
     # The dictionary key is the step name, followed by two underscores,
