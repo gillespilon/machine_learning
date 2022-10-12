@@ -23,7 +23,6 @@ def main():
         file_name=file_data,
         nrows=10
     )
-    df = df.dropna(subset=[target])
     X = df[features]
     y = df[target]
     df_new = ds.read_file(
