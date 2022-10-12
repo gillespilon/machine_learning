@@ -19,13 +19,15 @@ time -f "%e" ./machine_learning_basic.py > machine_learning_basic.txt
 
 from multiprocessing import Pool
 from typing import NoReturn
+from pathlib import Path
 import time
 import math
 
 from sklearn.model_selection import cross_val_score, cross_val_predict,\
-    GridSearchCV, train_test_split
+    GridSearchCV
 from sklearn.linear_model import Lasso, LassoCV, LinearRegression
 from sklearn.feature_selection import SelectFromModel
+from sklearn.preprocessing import FunctionTransformer
 from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.compose import make_column_transformer
 from sklearn.ensemble import RandomForestRegressor
@@ -58,44 +60,68 @@ def plot_scatter_y(t: pd.Series) -> NoReturn:
     )
 
 
+def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Mask outliers.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The input DataFrame.
+
+    Returns
+    -------
+    df : pd.DataFrame
+        The output DataFrame.
+    """
+    for column, lowvalue, highvalue in maskvalues:
+        df[column] = df[column].mask(
+            cond=(df[column] <= lowvalue) | (df[column] >= highvalue),
+            other=pd.NA
+        )
+    return pd.DataFrame(data=df)
+
+
 def main():
-    global figsize
+    global figsize, maskvalues
+    file_predictions = Path("outliers_missing_predictions.csv")
     features = [
         "X1", "X2", "X3", "X4", "X5", "X6", "X7",
         "X8", "X9", "X10", "X11", "X12", "X13", "X14"
     ]
     # Set lower and upper values to remove outliers
-    mask_values = [
-        ("X1", -20, 20),
+    maskvalues = [
+        ("X1", -10, 10),
         ("X2", -25, 25),
         ("X3", -5, 5),
-        ("X4", -10, 10),
+        ("X4", -7, 7),
         ("X5", -3, 3),
-        ("X6", -5, 5),
+        ("X6", -2, 2),
         ("X7", -13, 13),
-        ("X8", -9, 15),
-        ("X9", -17, 15),
-        ("X10", -16, 15),
-        ("X11", -16, 17),
+        ("X8", -8, 8),
+        ("X9", -9, 9),
+        ("X10", -10, 10),
+        ("X11", -9, 9),
         ("X12", -16, 17),
         ("X13", -20, 23)
     ]
+    file_new = Path("outliers_missing_new.csv")
     output_url = "machine_learning_basic.html"
+    file_data = Path("outliers_missing.csv")
     graph_name = "predicted_versus_measured"
     header_title = "machine_learning_basic"
-    colour1, colour2 = "#0077bb", "#33bbee"
     pd.options.display.max_columns = None
     header_id = "lunch-and-learn-basic"
     title = "Predicted versus Measured"
     pd.options.display.max_rows = None
-    file_name = "machine_learning.csv"
     percent_empty_features = 60.0
     set_config(display="diagram")
     label_predicted = "Predicted"
     label_measured = "Measured"
+    colour = "#33bbee"
     figsize = (8, 4.5)
     target = "Y"
-    nrows = 200
+    nrows=200
     start_time = time.time()
     original_stdout = ds.html_begin(
         output_url=output_url,
@@ -104,23 +130,38 @@ def main():
     )
     ds.page_break()
     print("<pre style='white-space: pre-wrap;'>")
-    data = ds.read_file(
-        file_name=file_name,
+    df = ds.read_file(
+        file_name=file_data,
+        skip_blank_lines=False,
         nrows=nrows
     )
-    # data = pd.read_csv(
-    #     filepath_or_buffer=file_data,
-    #     nrows=nrows
-    # )
+    # df = pd.read_csv(filepath_or_buffer=file_data, skip_blank_lines=False)
+    df = df.dropna(subset=[target])
+    print("Features before threshold")
+    print(features)
+    print()
+    features = ds.feature_percent_empty(
+        df=df,
+        columns=features,
+        threshold=percent_empty_features
+    )
+    print("Features after threshold")
+    print(features)
+    print()
+    X = df[features]
+    y = df[target]
+    df_new = ds.read_file(file_name=file_new, skip_blank_lines=False)
+    # df_new = pd.read_csv(filepath_or_buffer=file_new, skip_blank_lines=False)
+    X_new = df_new[features]
     # Plot target versus features with multiprocessing
-    t = ((data[feature], feature) for feature in features)
-    with Pool() as pool:
-        for _ in pool.imap_unordered(plot_scatter_y, t):
-            pass
+    # t = ((df[feature], feature) for feature in features)
+    # with Pool() as pool:
+    #     for _ in pool.imap_unordered(plot_scatter_y, t):
+    #         pass
     # Plot target versus features without multiprocessing
     # for feature in features:
     #     fig, ax = ds.plot_scatter_y(
-    #         y=data[feature],
+    #         y=df[feature],
     #         figsize=figsize
     #     )
     #     ax.set_ylabel(ylabel=feature)
@@ -134,41 +175,16 @@ def main():
     #         file_name=f"time_series_{feature}.svg",
     #         caption=f"time_series_{feature}.svg"
     #     )
-    # Replace outliers with NaN outside of scikit-learn
-    # TODO: The next five lines should be done within scikit-learn.
-    for column, lowvalue, highvalue in mask_values:
-        data[column] = data[column].mask(
-            (data[column] <= lowvalue) |
-            (data[column] >= highvalue)
-        )
-    data = data.dropna(subset=[target])
     ds.page_break()
-    print("Features before threshold")
-    print(features)
-    print()
-    # Remove features if number empty cells > threshold
-    # features = ds.feature_percent_empty(
-    #     df=data,
-    #     columns=features,
-    #     threshold=percent_empty_features
-    # )
-    # print("Features after threshold")
-    # print(features)
-    # Create training and testing datasets
-    X = data[features]
-    y = data[target]
-    X_train, X_test, y_train, y_test = train_test_split(
-        X,
-        y,
-        test_size=0.33,
-        random_state=42
-    )
     print("Workflow 1")
     print()
+    mask = FunctionTransformer(mask_outliers)
     imputer = SimpleImputer()
+    # imputer = KNNImputer(n_neighbors=10)
+    imputer_pipeline = make_pipeline(mask, imputer)
     transformer = make_column_transformer(
-        (imputer, features),
-        remainder="passthrough"
+        (imputer_pipeline, features),
+        remainder="drop"
     )
     decision_tree_regressor = DecisionTreeRegressor()
     random_forest_regressor = RandomForestRegressor()
@@ -244,8 +260,8 @@ def main():
     )
     print(pipeline)
     pipeline.fit(
-        X=X_train,
-        y=y_train
+        X=X,
+        y=y
     )
     print()
     print("hyperparamters:")
@@ -258,8 +274,8 @@ def main():
         cv=5
     )
     grid.fit(
-        X=X_train,
-        y=y_train
+        X=X,
+        y=y
     )
     print("Best hyperparameters")
     print(grid.best_params_)
@@ -291,8 +307,8 @@ def main():
     print(pipeline)
     print()
     pipeline.fit(
-        X=X_train,
-        y=y_train
+        X=X,
+        y=y
     )
     selected_features = X.columns[selector.get_support()].to_list()
     print("Selected features")
@@ -315,70 +331,94 @@ def main():
     print("Cross-validation score")
     print(cross_val_score(
         estimator=pipeline,
-        X=X_train,
-        y=y_train,
+        X=X,
+        y=y,
         cv=5,
         n_jobs=-1,
         scoring="r2"
     ).mean().round(3))
     print()
-    predicted = cross_val_predict(
-        estimator=pipeline,
-        X=X,
-        y=y,
-        cv=5,
-        n_jobs=-1
-        )
-    mse = mean_squared_error(y, predicted)
-    print("Mean squared error")
-    print(mse.round(3))
+    # predicted = cross_val_predict(
+    #     estimator=pipeline,
+    #     X=X_new,
+    #     y=y,
+    #     cv=5,
+    #     n_jobs=-1
+    #     )
+    predictions_ndarray = grid.predict(X=X_new)
+    predictions_series = pd.Series(
+        data=predictions_ndarray,
+        index=X_new.index,
+        name="Y predictions"
+    )
+    X_new_predictions = pd.concat(
+        objs=[X_new, predictions_series],
+        axis="columns"
+    )
+    print("shape of y_true:", y.shape)
     print()
-    print("Root mean squared error")
-    print(round(math.sqrt(mse), 3))
+    print("shape of predictions_series:", predictions_series.shape)
     print()
+    # mse = mean_squared_error(
+    #     y_true=y,
+    #     y_pred=predictions_series
+    # )
+    # print("Mean squared error")
+    # print(mse.round(3))
+    # print()
+    # print("Root mean squared error")
+    # print(round(math.sqrt(mse), 3))
+    # print()
+    # X_new_predictions.to_csv(
+    #     path_or_buf=file_predictions
+    # )
+    ds.save_file(
+        df=X_new_predictions,
+        file_name=file_predictions
+    )
     ds.page_break()
-    fig, ax = ds.plot_scatter_x_y(
-        X=y,
-        y=predicted,
-        figsize=figsize
-    )
-    ax.plot(
-        [y.min(), y.max()],
-        [y.min(), y.max()],
-        marker=None,
-        linestyle="-",
-        color=colour2
-    )
-    ax.set_ylabel(ylabel=label_predicted)
-    ax.set_xlabel(xlabel=label_measured)
-    ax.set_title(label=title)
-    ds.despine(ax=ax)
-    fig.savefig(
-        fname=f"{graph_name}_scatter.svg",
-        format="svg"
-    )
-    ds.html_figure(
-        file_name=f"{graph_name}_scatter.svg",
-        caption=f"{graph_name}_scatter.svg"
-    )
-    fig, ax = ds.plot_line_line_y1_y2(
-        y1=y,
-        y2=predicted,
-        figsize=figsize,
-        labellegendy1=label_measured,
-        labellegendy2=label_predicted
-    )
-    ax.legend(frameon=False)
-    ax.set_title(label=title)
-    ds.despine(ax=ax)
-    fig.savefig(
-        fname=f"{graph_name}_lines.svg",
-        format="svg"
-    )
-    ds.html_figure(
-        file_name=f"{graph_name}_lines.svg",
-        caption=f"{graph_name}_lines.svg"
-    )
+    # fig, ax = ds.plot_scatter_x_y(
+    #     X=y,
+    #     y=predicted,
+    #     figsize=figsize
+    # )
+    # ax.plot(
+    #     [y.min(), y.max()],
+    #     [y.min(), y.max()],
+    #     marker=None,
+    #     linestyle="-",
+    #     color=colour
+    # )
+    # ax.set_ylabel(ylabel=label_predicted)
+    # ax.set_xlabel(xlabel=label_measured)
+    # ax.set_title(label=title)
+    # ds.despine(ax=ax)
+    # fig.savefig(
+    #     fname=f"{graph_name}_scatter.svg",
+    #     format="svg"
+    # )
+    # ds.html_figure(
+    #     file_name=f"{graph_name}_scatter.svg",
+    #     caption=f"{graph_name}_scatter.svg"
+    # )
+    # fig, ax = ds.plot_line_line_y1_y2(
+    #     y1=y,
+    #     y2=predicted,
+    #     figsize=figsize,
+    #     labellegendy1=label_measured,
+    #     labellegendy2=label_predicted
+    # )
+    # ax.legend(frameon=False)
+    # ax.set_title(label=title)
+    # ds.despine(ax=ax)
+    # fig.savefig(
+    #     fname=f"{graph_name}_lines.svg",
+    #     format="svg"
+    # )
+    # ds.html_figure(
+    #     file_name=f"{graph_name}_lines.svg",
+    #     caption=f"{graph_name}_lines.svg"
+    # )
     stop_time = time.time()
     ds.page_break()
     ds.report_summary(
