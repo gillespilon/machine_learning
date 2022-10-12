@@ -78,7 +78,10 @@ def main():
     target = "Y"
     print("outliers_masking_pipeline_scikit_learn.py")
     print()
-    df = ds.read_file(file_name=file_data, skip_blank_lines=False)
+    df = ds.read_file(
+        file_name=file_data,
+        skip_blank_lines=False
+    )
     # df = pd.read_csv(filepath_or_buffer=file_data, skip_blank_lines=False)
     ds.dataframe_info(
         df=df,
@@ -117,7 +120,10 @@ def main():
     )
     print(pipeline)
     print()
-    pipeline.fit(X=X, y=y)
+    pipeline.fit(
+        X=X,
+        y=y
+    )
     print()
     hyper_parameters = {}
     hyper_parameters[
