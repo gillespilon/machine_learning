@@ -92,7 +92,10 @@ def main():
     # df[target] = df[target].fillna(df[target].mean())
     X = df[features]
     y = df[target]
-    df_new = ds.read_file(file_name=file_new, skip_blank_lines=False)
+    df_new = ds.read_file(
+        file_name=file_new,
+        skip_blank_lines=False
+    )
     # df_new = pd.read_csv(filepath_or_buffer=file_new, skip_blank_lines=False)
     ds.dataframe_info(
         df=df_new,
@@ -110,7 +113,7 @@ def main():
     linear_regression = LinearRegression(fit_intercept=True)
     linear_regression_selection = LinearRegression(fit_intercept=True)
     feature_selection = SelectFromModel(
-        estimate=linear_regression_selection,
+        estimator=linear_regression_selection,
         threshold="median"
     )
     pipeline = make_pipeline(
