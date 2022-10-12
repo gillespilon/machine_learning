@@ -270,8 +270,9 @@ def main():
     grid_search = GridSearchCV(
         estimator=pipeline,
         param_grid=hyperparameters,
+        scoring="r2",
         n_jobs=-1,
-        cv=5
+        cv=10
     )
     grid_search.fit(
         X=X,
@@ -325,16 +326,16 @@ def main():
         estimator=pipeline,
         X=X,
         y=y,
-        cv=5,
-        n_jobs=-1,
-        scoring="r2"
+        scoring="r2",
+        cv=10,
+        n_jobs=-1
     ).mean().round(3))
     print()
     # predicted = cross_val_predict(
     #     estimator=pipeline,
     #     X=X_new,
     #     y=y,
-    #     cv=5,
+    #     cv=10,
     #     n_jobs=-1
     #     )
     predictions_ndarray = grid_search.predict(X=X_new)
