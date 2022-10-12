@@ -131,7 +131,11 @@ def main():
         skip_blank_lines=False,
         nrows=nrows
     )
-    # df = pd.read_csv(filepath_or_buffer=file_data, skip_blank_lines=False)
+    # df = pd.read_csv(
+    #     filepath_or_buffer=file_data,
+    #     skip_blank_lines=False,
+    #     nrows=nrows
+    # )
     df = df.dropna(subset=[target])
     print("Features before threshold")
     print(features)
@@ -366,48 +370,6 @@ def main():
         file_name=file_predictions
     )
     ds.page_break()
-    # fig, ax = ds.plot_scatter_x_y(
-    #     X=y,
-    #     y=predictions_series,
-    #     figsize=figsize
-    # )
-    # ax.plot(
-    #     [y.min(), y.max()],
-    #     [y.min(), y.max()],
-    #     marker=None,
-    #     linestyle="-",
-    #     color=colour
-    # )
-    # ax.set_ylabel(ylabel=label_predicted)
-    # ax.set_xlabel(xlabel=label_measured)
-    # ax.set_title(label=title)
-    # ds.despine(ax=ax)
-    # fig.savefig(
-    #     fname=f"{graph_name}_scatter.svg",
-    #     format="svg"
-    # )
-    # ds.html_figure(
-    #     file_name=f"{graph_name}_scatter.svg",
-    #     caption=f"{graph_name}_scatter.svg"
-    # )
-    # fig, ax = ds.plot_line_line_y1_y2(
-    #     y1=y,
-    #     y2=predicted,
-    #     figsize=figsize,
-    #     labellegendy1=label_measured,
-    #     labellegendy2=label_predicted
-    # )
-    # ax.legend(frameon=False)
-    # ax.set_title(label=title)
-    # ds.despine(ax=ax)
-    # fig.savefig(
-    #     fname=f"{graph_name}_lines.svg",
-    #     format="svg"
-    # )
-    # ds.html_figure(
-    #     file_name=f"{graph_name}_lines.svg",
-    #     caption=f"{graph_name}_lines.svg"
-    # )
     stop_time = time.time()
     ds.page_break()
     ds.report_summary(
