@@ -267,21 +267,21 @@ def main():
     print("hyperparamters:")
     print(hyperparameters)
     print()
-    grid = GridSearchCV(
+    grid_search = GridSearchCV(
         estimator=pipeline,
         param_grid=hyperparameters,
         n_jobs=-1,
         cv=5
     )
-    grid.fit(
+    grid_search.fit(
         X=X,
         y=y
     )
     print("Best hyperparameters")
-    print(grid.best_params_)
+    print(grid_search.best_params_)
     print()
     print("Best score")
-    print(grid.best_score_.round(3))
+    print(grid_search.best_score_.round(3))
     print()
     ds.page_break()
     print("Workflow 2")
@@ -337,7 +337,7 @@ def main():
     #     cv=5,
     #     n_jobs=-1
     #     )
-    predictions_ndarray = grid.predict(X=X_new)
+    predictions_ndarray = grid_search.predict(X=X_new)
     predictions_series = pd.Series(
         data=predictions_ndarray,
         index=X_new.index,
