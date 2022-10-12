@@ -1,15 +1,11 @@
 #! /usr/bin/env python3
 """
-Example of scikit-learn for supervised machine learning, Xs are measurements
+Example of scikit-learn for supervised machine learning
 
-Create training and testing datasets
-Create a workflow pipeline
-Add a column transformer object
-Add a feature selection object
-Add a regression object
-Fit a model
-Set hyperparameters for tuning
-Tune the model using grid search cross validation
+- Xs are measurements
+- Ys are measurements
+- Process missing X values within scikit-learn
+- Tune hyperparameters
 
 time -f "%e" ./machine_learning_basic.py | tee machine_learning_basic.txt
 time -f "%e" ./machine_learning_basic.py > machine_learning_basic.txt
@@ -150,14 +146,20 @@ def main():
     print()
     X = df[features]
     y = df[target]
-    df_new = ds.read_file(file_name=file_new, skip_blank_lines=False)
-    # df_new = pd.read_csv(filepath_or_buffer=file_new, skip_blank_lines=False)
+    df_new = ds.read_file(
+        file_name=file_new,
+        skip_blank_lines=False
+    )
+    # df_new = pd.read_csv(
+    #     filepath_or_buffer=file_new,
+    #     skip_blank_lines=False
+    # )
     X_new = df_new[features]
     # Plot target versus features with multiprocessing
-    # t = ((df[feature], feature) for feature in features)
-    # with Pool() as pool:
-    #     for _ in pool.imap_unordered(plot_scatter_y, t):
-    #         pass
+    t = ((df[feature], feature) for feature in features)
+    with Pool() as pool:
+        for _ in pool.imap_unordered(plot_scatter_y, t):
+            pass
     # Plot target versus features without multiprocessing
     # for feature in features:
     #     fig, ax = ds.plot_scatter_y(
@@ -180,7 +182,6 @@ def main():
     print()
     mask = FunctionTransformer(mask_outliers)
     imputer = SimpleImputer()
-    # imputer = KNNImputer(n_neighbors=10)
     imputer_pipeline = make_pipeline(mask, imputer)
     transformer = make_column_transformer(
         (imputer_pipeline, features),
@@ -250,7 +251,6 @@ def main():
     # ]
     # hyperparameters5["regressor"] = [linear_regression]
     hyperparameters = [hyperparameters1, hyperparameters2]
-    # Create the workflow object
     pipeline = Pipeline(
         steps=[
             ("transformer", transformer),
@@ -283,14 +283,6 @@ def main():
     print("Best score")
     print(grid.best_score_.round(3))
     print()
-    print("Selected features")
-    print(X.columns[selector.get_support()])
-    print()
-    print("Regression intercept")
-    print(pipeline.named_steps.regressor.intercept_.round(3))
-    print()
-    print("Regression coefficients")
-    print(pipeline.named_steps.regressor.coef_.round(3))
     ds.page_break()
     print("Workflow 2")
     print()
@@ -355,10 +347,6 @@ def main():
         objs=[X_new, predictions_series],
         axis="columns"
     )
-    print("shape of y_true:", y.shape)
-    print()
-    print("shape of predictions_series:", predictions_series.shape)
-    print()
     # mse = mean_squared_error(
     #     y_true=y,
     #     y_pred=predictions_series
@@ -379,7 +367,7 @@ def main():
     ds.page_break()
     # fig, ax = ds.plot_scatter_x_y(
     #     X=y,
-    #     y=predicted,
+    #     y=predictions_series,
     #     figsize=figsize
     # )
     # ax.plot(
