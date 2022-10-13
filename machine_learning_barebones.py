@@ -27,7 +27,7 @@ import numpy as np
 
 def mask_outliers(
     df: pd.DataFrame,
-    maskvalues: List[Tuple[str, float, float]]
+    mask: List[Tuple[str, float, float]]
 ) -> pd.DataFrame:
     """
     Mask outliers within a scikit-learn pipeline.
@@ -36,7 +36,7 @@ def mask_outliers(
     ----------
     df : pd.DataFrame
         The input DataFrame.
-    maskvalues : List[Tuple[str, float, float]]
+    mask : List[Tuple[str, float, float]]
         The list of mask values.
 
     Returns
@@ -48,7 +48,7 @@ def mask_outliers(
     -------
     Create a transformer to be used in a scikit-learn pipeline.
     >>> from sklearn.preprocessing import FunctionTransformer
-    >>> maskvalues = [
+    >>> mask = [
     >>>     ("X1", -10, 10),
     >>>     ("X2", -25, 25),
     >>>     ("X3", -5, 5),
@@ -65,7 +65,7 @@ def mask_outliers(
     >>> ]
     >>> mask = FunctionTransformer(
     >>>     mask_outliers,
-    >>>     kw_args={"maskvalues": maskvalues}
+    >>>     kw_args={"mask": mask}
     >>> )
     >>> imputer = SimpleImputer()
     >>> imputer_pipeline = make_pipeline(mask, imputer)
@@ -74,7 +74,7 @@ def mask_outliers(
     >>>     remainder="drop"
     >>> )
     """
-    for column, lowvalue, highvalue in maskvalues:
+    for column, lowvalue, highvalue in mask:
         df[column] = df[column].mask(
             cond=(df[column] <= lowvalue) | (df[column] >= highvalue),
             other=pd.NA
@@ -88,7 +88,7 @@ def main():
         "X1", "X2", "X3", "X4", "X5", "X6", "X7",
         "X8", "X9", "X10", "X11", "X12", "X13", "X14"
     ]
-    maskvalues = [
+    mask = [
         ("X1", -10, 10),
         ("X2", -25, 25),
         ("X3", -5, 5),
@@ -126,7 +126,7 @@ def main():
     print()
     mask = FunctionTransformer(
         mask_outliers,
-        kw_args={"maskvalues": maskvalues}
+        kw_args={"mask": mask}
     )
     imputer = SimpleImputer()
     imputer_pipeline = make_pipeline(mask, imputer)
