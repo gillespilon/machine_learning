@@ -7,6 +7,8 @@ Example of scikit-learn for supervised machine learning
 - Process missing X values within scikit-learn
 - Tune hyperparameters
 
+Requires datasense: https://github.com/gillespilon/datasense
+
 time -f "%e" ./machine_learning_basic.py | tee machine_learning_basic.txt
 time -f "%e" ./machine_learning_basic.py > machine_learning_basic.txt
 ./machine_learning_basic.py > machine_learning_basic.txt
@@ -14,6 +16,7 @@ time -f "%e" ./machine_learning_basic.py > machine_learning_basic.txt
 """
 
 from multiprocessing import Pool
+from typing import List, Tuple
 from typing import NoReturn
 from pathlib import Path
 import time
@@ -52,7 +55,10 @@ def plot_scatter_y(t: pd.Series) -> NoReturn:
     )
 
 
-def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
+def mask_outliers(
+    df: pd.DataFrame,
+    maskvalues: List[Tuple[str, float, float]]
+) -> pd.DataFrame:
     """
     Mask outliers.
 
@@ -75,7 +81,7 @@ def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main():
-    global figsize, maskvalues
+    global figsize
     file_predictions = Path("outliers_missing_predictions.csv")
     features = [
         "X1", "X2", "X3", "X4", "X5", "X6", "X7",
@@ -113,7 +119,6 @@ def main():
         header_title=header_title,
         header_id=header_id
     )
-    ds.page_break()
     print("<pre style='white-space: pre-wrap;'>")
     df = ds.read_file(
         file_name=file_data,
@@ -170,10 +175,12 @@ def main():
     #         file_name=f"time_series_{feature}.svg",
     #         caption=f"time_series_{feature}.svg"
     #     )
-    ds.page_break()
     print("Workflow 1")
     print()
-    mask = FunctionTransformer(mask_outliers)
+    mask = FunctionTransformer(
+        mask_outliers,
+        kw_args={"maskvalues": maskvalues}
+    )
     imputer = SimpleImputer()
     imputer_pipeline = make_pipeline(mask, imputer)
     transformer = make_column_transformer(
@@ -277,7 +284,6 @@ def main():
     print("Best score")
     print(grid_search.best_score_.round(3))
     print()
-    ds.page_break()
     print("Workflow 2")
     print()
     imputer = SimpleImputer(strategy="mean")
@@ -339,9 +345,7 @@ def main():
         file_name=file_predictions
     )
     # X_new_predictions.to_csv(path_or_buf=file_predictions)
-    ds.page_break()
     stop_time = time.time()
-    ds.page_break()
     ds.report_summary(
         start_time=start_time,
         stop_time=stop_time
