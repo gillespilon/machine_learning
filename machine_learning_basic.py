@@ -55,63 +55,6 @@ def plot_scatter_y(t: pd.Series) -> NoReturn:
     )
 
 
-def mask_outliers(
-    df: pd.DataFrame,
-    mask: List[Tuple[str, float, float]]
-) -> pd.DataFrame:
-    """
-    Mask outliers within a scikit-learn pipeline.
-
-    Parameters
-    ----------
-    df : pd.DataFrame
-        The input DataFrame.
-    mask : List[Tuple[str, float, float]]
-        The list of mask values.
-
-    Returns
-    -------
-    df : pd.DataFrame
-        The output DataFrame.
-
-    Example
-    -------
-    Create a transformer to be used in a scikit-learn pipeline.
-    >>> from sklearn.preprocessing import FunctionTransformer
-    >>> mask = [
-    >>>     ("X1", -10, 10),
-    >>>     ("X2", -25, 25),
-    >>>     ("X3", -5, 5),
-    >>>     ("X4", -7, 7),
-    >>>     ("X5", -3, 3),
-    >>>     ("X6", -2, 2),
-    >>>     ("X7", -13, 13),
-    >>>     ("X8", -8, 8),
-    >>>     ("X9", -9, 9),
-    >>>     ("X10", -10, 10),
-    >>>     ("X11", -9, 9),
-    >>>     ("X12", -16, 17),
-    >>>     ("X13", -20, 23)
-    >>> ]
-    >>> mask = FunctionTransformer(
-    >>>     mask_outliers,
-    >>>     kw_args={"mask": mask}
-    >>> )
-    >>> imputer = SimpleImputer()
-    >>> imputer_pipeline = make_pipeline(mask, imputer)
-    >>> transformer = make_column_transformer(
-    >>>     (imputer_pipeline, features),
-    >>>     remainder="drop"
-    >>> )
-    """
-    for column, lowvalue, highvalue in mask:
-        df[column] = df[column].mask(
-            cond=(df[column] <= lowvalue) | (df[column] >= highvalue),
-            other=pd.NA
-        )
-    return pd.DataFrame(data=df)
-
-
 def main():
     global figsize
     file_predictions = Path("outliers_missing_predictions.csv")
@@ -210,7 +153,7 @@ def main():
     print("Workflow 1")
     print()
     mask = FunctionTransformer(
-        mask_outliers,
+        ds.mask_outliers,
         kw_args={"mask": mask}
     )
     imputer = SimpleImputer()
