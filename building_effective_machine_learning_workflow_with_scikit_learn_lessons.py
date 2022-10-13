@@ -80,7 +80,7 @@ def main():
     print()
     vectorizer = CountVectorizer()
     document_term_matrix = vectorizer.fit_transform(
-        df[vectorizer_feature]
+        raw_documents=df[vectorizer_feature]
     )
     features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
     passthrough_features = ["Parch"]
