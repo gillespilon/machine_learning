@@ -12,6 +12,7 @@ from sklearn.feature_selection import SelectFromModel
 from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import RobustScaler
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 import datasense as ds
@@ -23,15 +24,16 @@ def main():
     features = ["Parch", "Fare", "Embarked", "Sex"]
     one_hot_encoder_features = ["Embarked", "Sex"]
     imputer_constant_feature = ["Embarked"]
-    passthrough_features = ["Parch"]
     imputer_feature = ["Age", "Fare"]
     features_two = ["Parch", "Fare"]
+    passthrough_features = ["Parch"]
     # kaggle dataset
     file_data = Path("titanic_data.csv")
-    # kaggle new dataset`
+    # kaggle new dataset
     file_new = Path("titanic_new.csv")
     vectorizer_feature = "Name"
     target = "Survived"
+    # Review of the basic machine learning workflow
     df = ds.read_file(
         file_name=file_data,
         nrows=10
@@ -60,6 +62,7 @@ def main():
     predictions = logistic_regression.predict(X=X_new)
     print("Predictions:", predictions)
     print()
+    # Encoding categorical data
     one_hot_encoder = OneHotEncoder()
     one_hot_encoder.fit_transform(X=df[one_hot_encoder_features])
     # Now use ColumnTransformer and Pipeline on four features
