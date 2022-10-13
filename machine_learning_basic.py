@@ -17,21 +17,17 @@ from multiprocessing import Pool
 from typing import NoReturn
 from pathlib import Path
 import time
-import math
 
-from sklearn.model_selection import cross_val_score, cross_val_predict,\
-    GridSearchCV
 from sklearn.linear_model import Lasso, LassoCV, LinearRegression
+from sklearn.model_selection import cross_val_score, GridSearchCV
 from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import FunctionTransformer
 from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.compose import make_column_transformer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.metrics import mean_squared_error
 from sklearn.impute import SimpleImputer
 from xgboost import XGBRegressor
-from sklearn import set_config
 import datasense as ds
 import pandas as pd
 import numpy as np
@@ -85,7 +81,6 @@ def main():
         "X1", "X2", "X3", "X4", "X5", "X6", "X7",
         "X8", "X9", "X10", "X11", "X12", "X13", "X14"
     ]
-    # Set lower and upper values to remove outliers
     maskvalues = [
         ("X1", -10, 10),
         ("X2", -25, 25),
@@ -104,20 +99,14 @@ def main():
     file_new = Path("outliers_missing_new.csv")
     output_url = "machine_learning_basic.html"
     file_data = Path("outliers_missing.csv")
-    graph_name = "predicted_versus_measured"
     header_title = "machine_learning_basic"
     pd.options.display.max_columns = None
     header_id = "lunch-and-learn-basic"
-    title = "Predicted versus Measured"
     pd.options.display.max_rows = None
     percent_empty_features = 60.0
-    set_config(display="diagram")
-    label_predicted = "Predicted"
-    label_measured = "Measured"
-    colour = "#33bbee"
     figsize = (8, 4.5)
     target = "Y"
-    nrows=200
+    nrows = 200
     start_time = time.time()
     original_stdout = ds.html_begin(
         output_url=output_url,
@@ -335,13 +324,6 @@ def main():
         n_jobs=-1
     ).mean().round(3))
     print()
-    # predicted = cross_val_predict(
-    #     estimator=pipeline,
-    #     X=X_new,
-    #     y=y,
-    #     cv=10,
-    #     n_jobs=-1
-    #     )
     predictions_ndarray = grid_search.predict(X=X_new)
     predictions_series = pd.Series(
         data=predictions_ndarray,
@@ -352,23 +334,11 @@ def main():
         objs=[X_new, predictions_series],
         axis="columns"
     )
-    # mse = mean_squared_error(
-    #     y_true=y,
-    #     y_pred=predictions_series
-    # )
-    # print("Mean squared error")
-    # print(mse.round(3))
-    # print()
-    # print("Root mean squared error")
-    # print(round(math.sqrt(mse), 3))
-    # print()
-    # X_new_predictions.to_csv(
-    #     path_or_buf=file_predictions
-    # )
     ds.save_file(
         df=X_new_predictions,
         file_name=file_predictions
     )
+    # X_new_predictions.to_csv(path_or_buf=file_predictions)
     ds.page_break()
     stop_time = time.time()
     ds.page_break()
