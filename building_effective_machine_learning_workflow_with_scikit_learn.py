@@ -21,11 +21,11 @@ import joblib
 def main():
     features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
     one_hot_encoder_features = ["Embarked", "Sex"]
-    passthrough_features = ["Parch"]
     titanic_joblib = Path("pipeline.joblib")
     file_data = Path("titanic_data.csv")
     file_new = Path("titanic_new.csv")
     imputer_feature = ["Age", "Fare"]
+    passthrough_features = ["Parch"]
     vectorizer_feature = "Name"
     target = "Survived"
     df = ds.read_file(
