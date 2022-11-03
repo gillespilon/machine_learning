@@ -3,6 +3,7 @@
 Essential code for Kevin Markham's "Master machine learning with scikit-learn."
 """
 
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import OneHotEncoder
