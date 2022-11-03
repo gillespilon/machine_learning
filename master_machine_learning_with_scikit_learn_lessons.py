@@ -3,6 +3,7 @@
 Lesson code for Kevin Markham's "Master machine learning with scikit-learn."
 """
 
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
@@ -19,6 +20,7 @@ def main():
     features_two = ["Parch", "Fare"]
     file_data = "titanic_data.csv"
     file_new = "titanic_new.csv"
+    feature_name = "Name"
     target = "Survived"
     print("master_machine_learning_with_scikit_learn_lessons.py")
     print()
@@ -164,6 +166,36 @@ def main():
     set_config(display="text")
     print(pipeline)
     print()
+    print("6. Encoding text data")
+    print("6.1 Vectorizing text")
+    df = ds.read_file(
+        file_name=file_data,
+        nrows=10
+    )
+    y = df[target]
+    df_new = ds.read_file(
+        file_name=file_new,
+        nrows=10
+    )
+    ohe = OneHotEncoder()
+    logistic_regression = LogisticRegression(
+        solver="liblinear",
+        random_state=1
+    )
+    set_config(display="diagram")
+    vectorizer = CountVectorizer()
+    document_term_matrix = vectorizer.fit_transform(df[feature_name])
+    print("document_term_matrix")
+    print(document_term_matrix)
+    print()
+    print("feature names:")
+    print(vectorizer.get_feature_names_out())
+    print()
+    print(
+        pd.DataFrame(
+            data=document_term_matrix.toarray(),
+            columns=vectorizer.get_feature_names_out())
+    )
 
 
 if __name__ == "__main__":
