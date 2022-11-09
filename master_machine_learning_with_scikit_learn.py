@@ -12,11 +12,12 @@ import datasense as ds
 
 
 def main():
-    features = ["Parch", "Fare", "Embarked", "Sex"]
+    features = ["Parch", "Fare", "Embarked", "Sex", "Name"]
     one_hot_encoder_features = ["Embarked", "Sex"]
     passthrough_features = ["Parch", "Fare"]
     file_data = "titanic_data.csv"
     file_new = "titanic_new.csv"
+    vectorizer_features = "Name"
     target = "Survived"
     print("master_machine_learning_with_scikit_learn.py")
     print()
@@ -32,9 +33,11 @@ def main():
     )
     X_new = df_new[features]
     one_hot_encoder = OneHotEncoder()
+    vectorizer = CountVectorizer()
     # option 1
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
+        (vectorizer, vectorizer_features),
         ("passthrough", passthrough_features)
     )
     # option 2
