@@ -196,6 +196,20 @@ def main():
             data=document_term_matrix.toarray(),
             columns=vectorizer.get_feature_names_out())
     )
+    features_five = ["Parch", "Fare", "Embarked", "Sex", "Name"]
+    X = df[features_five]
+    column_transformer = make_column_transformer(
+        (ohe, ["Embarked", "Sex"]),
+        (vectorizer, "Name"),
+        ("passthrough", ["Parch", "Fare"])
+    )
+    column_transformer.fit_transform(X)
+    print(column_transformer.get_feature_names_out())
+    pipeline = make_pipeline(column_transformer, logistic_regression)
+    pipeline.fit(X=X, y=y)
+    X_new = df_new[features_five]
+    pipeline.predict(X=X_new)
+    print("pipeline.predict(X=X_new):", pipeline.predict(X=X_new))
 
 
 if __name__ == "__main__":
