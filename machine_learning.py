@@ -16,7 +16,6 @@ time -f "%e" ./machine_learning_basic.py > machine_learning_basic.txt
 """
 
 from multiprocessing import Pool
-from typing import List, Tuple
 from typing import NoReturn
 from pathlib import Path
 import time
