@@ -4,7 +4,7 @@ Example of scikit-learn for supervised machine learning
 
 - Xs are measurements
 - Ys are measurements
-- Process missing X values within scikit-learn
+- Process outliers and missing X values within scikit-learn
 - Tune hyperparameters
 """
 
