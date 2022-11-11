@@ -324,7 +324,6 @@ def main():
         start_time=start_time,
         stop_time=stop_time
     )
-    print("</pre>")
     ds.html_end(
         original_stdout=original_stdout,
         output_url=output_url
