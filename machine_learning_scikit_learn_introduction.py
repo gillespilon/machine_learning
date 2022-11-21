@@ -13,7 +13,7 @@ from sklearn import metrics
 import datasense as ds
 import seaborn as sns
 import pandas as pd
-import numpy as np
+import math
 
 
 def main():
@@ -141,7 +141,9 @@ def main():
     print(linreg.intercept_, list(zip(feature_columns, linreg.coef_)))
     y_predicted = linreg.predict(X=X_test)
     print(
-        np.sqrt(metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted))
+        math.sqrt(
+            metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted)
+        )
     )
     # fit a model with two features
     feature_columns = ["TV", "Radio"]
@@ -150,7 +152,9 @@ def main():
     linreg.fit(X=X_train, y=y_train)
     y_predicted = linreg.predict(X=X_test)
     print(
-        np.sqrt(metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted))
+        math.sqrt(
+            metrics.mean_squared_error(y_true=y_test, y_pred=y_predicted)
+        )
     )
     # Lesson 07
     print("Lesson 07")
