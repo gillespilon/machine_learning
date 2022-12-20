@@ -104,7 +104,10 @@ def main():
     #     skip_blank_lines=False,
     #     nrows=nrows
     # )
-    df = df.dropna(subset=[target])
+    df = ds.delete_empty_rows(
+        df=df,
+        list_columns=[target]
+    )
     print("Features before threshold")
     print(features)
     print()
