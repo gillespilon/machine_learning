@@ -88,7 +88,10 @@ def main():
         file_in=file_data
     )
     # delete empty rows for the target or impute missing values
-    df = df.dropna(subset=[target])
+    df = ds.delete_empty_rows(
+        df=df,
+        list_columns=[target]
+    )
     # df[target] = df[target].fillna(df[target].mean())
     X = df[features]
     y = df[target]
