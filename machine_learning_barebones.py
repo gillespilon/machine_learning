@@ -6,6 +6,8 @@ Example of scikit-learn for supervised machine learning
 - Ys are measurements
 - Process outliers and missing X values within scikit-learn
 - Tune hyperparameters
+
+Requires datasense: https://github.com/gillespilon/datasense
 """
 
 from typing import List, Tuple
@@ -21,6 +23,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.impute import SimpleImputer
 from xgboost import XGBRegressor
+import datasense as ds
 import pandas as pd
 import numpy as np
 
@@ -114,7 +117,10 @@ def main():
         skip_blank_lines=False,
         nrows=nrows
     )
-    df = df.dropna(subset=[target])
+    df = ds.delete_empty_rows(
+        df=df,
+        list_columns=[target]
+    )
     X = df[features]
     y = df[target]
     df_new = pd.read_csv(
