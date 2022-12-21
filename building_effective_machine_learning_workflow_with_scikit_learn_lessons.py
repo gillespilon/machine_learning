@@ -16,6 +16,7 @@ from sklearn.preprocessing import RobustScaler
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 import datasense as ds
+import numpy as np
 # import sklearn
 
 
@@ -102,9 +103,25 @@ def main():
     # Now use the full dataset`
     df = ds.read_file(
         file_name=file_data
+    ).replace(
+        r"^\s*$",
+        np.NaN,
+        regex=True
+    ).replace(
+        "",
+        np.NaN,
+        regex=True
     )
     df_new = ds.read_file(
         file_name=file_new
+    ).replace(
+        r"^\s*$",
+        np.NaN,
+        regex=True
+    ).replace(
+        "",
+        np.NaN,
+        regex=True
     )
     print("Missing values in df?")
     print(df.isna().sum())
