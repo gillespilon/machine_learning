@@ -4,20 +4,22 @@ Essential code for Kevin Markham's "Master machine learning with scikit-learn."
 """
 
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LogisticRegression
+from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
+from sklearn.impute import SimpleImputer
 import datasense as ds
 
 
 def main():
-    features = ["Parch", "Fare", "Embarked", "Sex", "Name"]
+    features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
     one_hot_encoder_features = ["Embarked", "Sex"]
     passthrough_features = ["Parch", "Fare"]
     file_data = "titanic_data.csv"
     file_new = "titanic_new.csv"
     vectorizer_features = "Name"
+    imputer_features = ["Age"]
     target = "Survived"
     print("master_machine_learning_with_scikit_learn.py")
     print()
@@ -34,10 +36,12 @@ def main():
     X_new = df_new[features]
     one_hot_encoder = OneHotEncoder()
     vectorizer = CountVectorizer()
+    imputer = SimpleImputer()
     # option 1
     column_transformer = make_column_transformer(
         (one_hot_encoder, one_hot_encoder_features),
         (vectorizer, vectorizer_features),
+        (imputer, imputer_features),
         ("passthrough", passthrough_features)
     )
     # option 2
