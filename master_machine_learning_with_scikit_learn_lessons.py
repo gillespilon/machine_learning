@@ -9,6 +9,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import make_pipeline
+from sklearn.impute import SimpleImputer
 from sklearn import set_config
 import datasense as ds
 import pandas as pd
@@ -16,6 +17,8 @@ import sklearn
 
 
 def main():
+    features_six = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
+    features_five = ["Parch", "Fare", "Embarked", "Sex", "Name"]
     features_four = ["Parch", "Fare", "Embarked", "Sex"]
     features_two = ["Parch", "Fare"]
     file_data = "titanic_data.csv"
@@ -196,18 +199,30 @@ def main():
             data=document_term_matrix.toarray(),
             columns=vectorizer.get_feature_names_out())
     )
-    features_five = ["Parch", "Fare", "Embarked", "Sex", "Name"]
-    X = df[features_five]
+    X = df[features_six]
+    imputer = SimpleImputer()
+    imputer.fit_transform(X[["Age"]])
+    print(
+        "Impute missing values for 'Age'", imputer.fit_transform(X[["Age"]])
+    )
+    # print("Confirm what value was imputed", imputer.statistics_)
     column_transformer = make_column_transformer(
         (ohe, ["Embarked", "Sex"]),
         (vectorizer, "Name"),
+        (imputer, ["Age"]),
         ("passthrough", ["Parch", "Fare"])
     )
+    # print(column_transformer.get_feature_names_out())
     column_transformer.fit_transform(X)
-    print(column_transformer.get_feature_names_out())
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X, y=y)
-    X_new = df_new[features_five]
+    print(
+        "Confirm what value was imputed",
+        pipeline.named_steps["columntransformer"]
+                .named_transformers_["simpleimputer"]
+                .statistics_
+    )
+    X_new = df_new[features_six]
     pipeline.predict(X=X_new)
     print("pipeline.predict(X=X_new):", pipeline.predict(X=X_new))
 
