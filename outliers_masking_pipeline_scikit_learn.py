@@ -30,7 +30,7 @@ import numpy as np
 
 def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Mask outliers.
+    Mask outliers
 
     Parameters
     ----------
@@ -42,7 +42,7 @@ def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
     df : pd.DataFrame
         The output DataFrame.
     """
-    for column, lowvalue, highvalue in maskvalues:
+    for column, lowvalue, highvalue in MASK_VALUES:
         df[column] = df[column].mask(
             cond=(df[column] <= lowvalue) | (df[column] >= highvalue),
             other=pd.NA
@@ -51,16 +51,16 @@ def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main():
-    global maskvalues
-    features = [
+    global MASK_VALUES
+    FEATURES = [
         "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "X10", "X11",
         "X12", "X13", "X14"
     ]
-    file_predictions = Path("outliers_missing_predictions.csv")
-    file_new = Path("outliers_missing_new.csv")
-    file_data = Path("outliers_missing.csv")
+    FILE_PREDICTIONS = Path("outliers_missing_predictions.csv")
+    FILE_NEW = Path("outliers_missing_new.csv")
+    FILE_DATA = Path("outliers_missing.csv")
     # there is no mask for X14 because the number of NaN is too large
-    maskvalues = [
+    MASK_VALUES = [
         ("X1", -20, 20),
         ("X2", -25, 25),
         ("X3", -5, 5),
@@ -75,42 +75,45 @@ def main():
         ("X12", -16, 17),
         ("X13", -20, 23)
     ]
-    target = "Y"
+    TARGET = "Y"
     print("outliers_masking_pipeline_scikit_learn.py")
     print()
     df = ds.read_file(
-        file_name=file_data,
+        file_name=FILE_DATA,
         skip_blank_lines=False
     )
-    # df = pd.read_csv(filepath_or_buffer=file_data, skip_blank_lines=False)
+    # df = pd.read_csv(filepath_or_buffer=FILE_DATA, skip_blank_lines=False)
     ds.dataframe_info(
         df=df,
-        file_in=file_data
+        file_in=FILE_DATA
     )
-    # delete empty rows for the target or impute missing values
+    # delete empty rows for the TARGET or impute missing values
     df = ds.delete_empty_rows(
         df=df,
-        list_columns=[target]
+        list_columns=[TARGET]
     )
-    # df[target] = df[target].fillna(df[target].mean())
-    X = df[features]
-    y = df[target]
+    # df[TARGET] = df[TARGET].fillna(df[TARGET].mean())
+    # X is two-dimensional
+    X = df[FEATURES]
+    # y is one-dimensional
+    y = df[TARGET]
     df_new = ds.read_file(
-        file_name=file_new,
+        file_name=FILE_NEW,
         skip_blank_lines=False
     )
-    # df_new = pd.read_csv(filepath_or_buffer=file_new, skip_blank_lines=False)
+    # df_new = pd.read_csv(filepath_or_buffer=FILE_NEW, skip_blank_lines=False)
     ds.dataframe_info(
         df=df_new,
-        file_in=file_new
+        file_in=FILE_NEW
     )
-    X_new = df_new[features]
-    mask = FunctionTransformer(mask_outliers)
+    # X_new is two-dimensional
+    X_new = df_new[FEATURES]
+    mask = FunctionTransformer(func=mask_outliers)
     imputer = SimpleImputer()
     # imputer = KNNImputer(n_neighbors=10)
     imputer_pipeline = make_pipeline(mask, imputer)
     column_transformer = make_column_transformer(
-        (imputer_pipeline, features),
+        (imputer_pipeline, FEATURES),
         remainder="drop"
     )
     linear_regression = LinearRegression(fit_intercept=True)
@@ -154,7 +157,9 @@ def main():
     print()
     print("linear regression coefficients:")
     selected_features = X.columns[feature_selection.get_support()].to_list()
-    selected_coefficients = pipeline.named_steps.linearregression.coef_.round(6)
+    selected_coefficients = (
+        pipeline.named_steps.linearregression.coef_.round(6)
+    )
     selected_importances = np.abs(
         pipeline.named_steps.selectfrommodel.estimator_.coef_[
             feature_selection.get_support()
@@ -177,11 +182,11 @@ def main():
         axis="columns"
     )
     # X_new_predictions.to_csv(
-    #     path_or_buf=file_predictions
+    #     path_or_buf=FILE_PREDICTIONS
     # )
     ds.save_file(
         df=X_new_predictions,
-        file_name=file_predictions
+        file_name=FILE_PREDICTIONS
     )
 
 
