@@ -15,6 +15,7 @@ TODO:
 """
 
 from pathlib import Path
+import time
 
 from sklearn.feature_selection import SelectFromModel
 from sklearn.preprocessing import FunctionTransformer
@@ -51,14 +52,18 @@ def mask_outliers(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main():
+    start_time = time.perf_counter()
     global MASK_VALUES
     FEATURES = [
         "X1", "X2", "X3", "X4", "X5", "X6", "X7", "X8", "X9", "X10", "X11",
         "X12", "X13", "X14"
     ]
     FILE_PREDICTIONS = Path("outliers_missing_predictions.csv")
+    OUTPUT_URL = "outliers_masking_pipeline_scikit_learn.html"
     FILE_NEW = Path("outliers_missing_new.csv")
     FILE_DATA = Path("outliers_missing.csv")
+    HEADER_TITle = "Masking outliers"
+    HEADER_ID = "Masking outliers"
     # there is no mask for X14 because the number of NaN is too large
     MASK_VALUES = [
         ("X1", -20, 20),
@@ -76,6 +81,15 @@ def main():
         ("X13", -20, 23)
     ]
     TARGET = "Y"
+    original_stdout = ds.html_begin(
+        output_url=OUTPUT_URL,
+        header_title=HEADER_TITle,
+        header_id=HEADER_ID
+    )
+    ds.script_summary(
+        script_path=Path(__file__),
+        action="started at"
+    )
     print("outliers_masking_pipeline_scikit_learn.py")
     print()
     df = ds.read_file(
@@ -187,6 +201,19 @@ def main():
     ds.save_file(
         df=X_new_predictions,
         file_name=FILE_PREDICTIONS
+    )
+    stop_time = time.perf_counter()
+    ds.script_summary(
+        script_path=Path(__file__),
+        action="finished at"
+    )
+    ds.report_summary(
+        start_time=start_time,
+        stop_time=stop_time
+    )
+    ds.html_end(
+        original_stdout=original_stdout,
+        output_url=OUTPUT_URL
     )
 
 
