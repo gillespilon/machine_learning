@@ -96,6 +96,7 @@ def main():
         file_name=FILE_DATA,
         skip_blank_lines=False
     )
+    df = ds.optimize_columns(df=df)
     # df = pd.read_csv(filepath_or_buffer=FILE_DATA, skip_blank_lines=False)
     ds.dataframe_info(
         df=df,
@@ -115,6 +116,7 @@ def main():
         file_name=FILE_NEW,
         skip_blank_lines=False
     )
+    df_new = ds.optimize_columns(df=df_new)
     # df_new = pd.read_csv(filepath_or_buffer=FILE_NEW, skip_blank_lines=False)
     ds.dataframe_info(
         df=df_new,
