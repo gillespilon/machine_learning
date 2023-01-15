@@ -5,37 +5,45 @@ Example of simple linear regression using scikit-learn
 ./anscombes_quartet_1.py
 """
 
+from pathlib import Path
+
 from sklearn.linear_model import LinearRegression
 import datasense as ds
 import pandas as pd
 
-feature = ['x']
-target = 'y'
-data = pd.read_csv('anscombes_quartet_1.csv')
-X = data[feature]
-y = data[target]
-linreg = LinearRegression()
-linreg.fit(X, y)
-print('intercept  :', linreg.intercept_)
-print('coefficient:', linreg.coef_)
-y_predicted = pd.Series(linreg.predict(X))
-data_all = X
-data_all = pd.concat(
-    [data_all, y, y_predicted],
-    axis='columns',
-    sort=False
-).set_axis(
-    labels=['x', 'y', 'y_predicted'],
-    axis='columns'
-)
-fig, ax = ds.plot_scatter_line_x_y1_y2(
-    X=data_all['x'],
-    y1=data_all['y'],
-    y2=data_all['y_predicted'],
-    figsize=(8, 6)
-)
-ds.despine(ax=ax)
-fig.savefig(
-    fname='anscombes_quartet_1.svg',
-    format='svg'
-)
+
+def main():
+    FILE_NAME = Path("anscombes_quartet_1.csv")
+    FNAME = Path("anscombes_quartet_1.svg")
+    FEATURE = "x"
+    FORMAT = "svg"
+    TARGET = "y"
+    df = ds.read_file(file_name=FILE_NAME)
+    # X must be two-dimensional, such as a pandas DataFrame
+    X = df[[FEATURE]]
+    # y must be one-dimensional, such as a pandas Series
+    y = df[TARGET]
+    model = LinearRegression()
+    model = model.fit(X=X, y=y)
+    # convert numpy ndarray to pandas Series
+    predictions = pd.Series(data=model.predict(X=X))
+    intercept = model.intercept_
+    coefficients = model.coef_
+    print("intercept  ", intercept.round(decimals=3))
+    print("coefficient", coefficients.round(decimals=3))
+    # X must be a Series
+    fig, ax = ds.plot_scatter_line_x_y1_y2(
+        X=X.squeeze(),
+        y1=y,
+        y2=predictions,
+        figsize=(8, 6)
+    )
+    ds.despine(ax=ax)
+    fig.savefig(
+        fname=FNAME,
+        format=FORMAT
+    )
+
+
+if __name__ == "__main__":
+    main()
