@@ -2,7 +2,9 @@
 """
 Example of simple linear regression using scikit-learn
 
-./anscombes_quartet_1.py
+Requires:
+- datasense: https://github.com/gillespilon/datasense
+- scikit-learn: https://scikit-learn.org/stable/index.html
 """
 
 from pathlib import Path
