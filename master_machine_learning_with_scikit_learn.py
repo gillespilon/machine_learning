@@ -111,9 +111,18 @@ def main():
     print(pipeline)
     print()
     stop_time = time.perf_counter()
-    ds.script_summary(script_path=Path(__file__), action="finished at")
-    ds.report_summary(start_time=start_time, stop_time=stop_time)
-    ds.html_end(original_stdout=original_stdout, output_url=OUTPUT_URL)
+    ds.script_summary(
+        script_path=Path(__file__),
+        action="finished at"
+    )
+    ds.report_summary(
+        start_time=start_time,
+        stop_time=stop_time
+    )
+    ds.html_end(
+        original_stdout=original_stdout,
+        output_url=OUTPUT_URL
+    )
 
 
 if __name__ == "__main__":
