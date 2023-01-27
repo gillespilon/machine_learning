@@ -7,9 +7,6 @@ In this example I use a simulated data set that has seven features (X1-X7)
 that affect the target (Y) and six features (X8-X14) that have zero effect
 on the target.
 
-./outliers_masking_pipeline_scikit_learn.py >
-    outliers_masking_pipeline_scikit_learn.txt
-
 TODO:
 - how to handle y outliers
 """
@@ -106,6 +103,10 @@ def main():
     df = ds.delete_empty_rows(
         df=df,
         list_columns=[TARGET]
+    )
+    ds.dataframe_info(
+        df=df,
+        file_in=FILE_DATA
     )
     # df[TARGET] = df[TARGET].fillna(df[TARGET].mean())
     # X is two-dimensional
