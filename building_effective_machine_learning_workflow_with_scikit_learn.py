@@ -19,35 +19,35 @@ import joblib
 
 
 def main():
-    features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
-    one_hot_encoder_features = ["Embarked", "Sex"]
-    titanic_joblib = Path("pipeline.joblib")
-    file_data = Path("titanic_data.csv")
+    FEATURES = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
+    ONE_HOT_ENCODER_FEATURES = ["Embarked", "Sex"]
+    TITANIC_JOBLIB = Path("pipeline.joblib")
+    FILE_DATA = Path("titanic_data.csv")
     file_new = Path("titanic_new.csv")
-    imputer_feature = ["Age", "Fare"]
-    passthrough_features = ["Parch"]
-    vectorizer_feature = "Name"
-    target = "Survived"
+    IMPUTER_FEATURE = ["Age", "Fare"]
+    PASSTHROUGH_FEATURES = ["Parch"]
+    VECTORIZER_FEATURE = "Name"
+    TARGET = "Survived"
     df = ds.read_file(
-        file_name=file_data
+        file_name=FILE_DATA
     )
     ds.dataframe_info(
         df=df,
-        file_in=file_data
+        file_in=FILE_DATA
     )
     # above showed that Age, Embarked had missing values
-    X = df[features]
-    y = df[target]
+    X = df[FEATURES]
+    y = df[TARGET]
     df_new = ds.read_file(
         file_name=file_new
     )
     ds.dataframe_info(
         df=df_new,
-        file_in=file_data
+        file_in=FILE_DATA
     )
     # above shows that Age, Fare had missing values
     # the next line is unnecessary because I use titanic_predict.py
-    X_new = df_new[features]
+    X_new = df_new[FEATURES]
     # impute for NaN in Embarked, Sex before one-hot encoding
     imputer_constant = SimpleImputer(strategy="constant", fill_value="missing")
     one_hot_encoder = OneHotEncoder()
@@ -58,10 +58,10 @@ def main():
     imputer = SimpleImputer()
     # create a transformer that also includes the pipeline of two transformers
     column_transformer = make_column_transformer(
-        (imputer_one_hot_encoder, one_hot_encoder_features),
-        (vectorizer, vectorizer_feature),
-        (imputer, imputer_feature),
-        ("passthrough", passthrough_features)
+        (imputer_one_hot_encoder, ONE_HOT_ENCODER_FEATURES),
+        (vectorizer, VECTORIZER_FEATURE),
+        (imputer, IMPUTER_FEATURE),
+        ("passthrough", PASSTHROUGH_FEATURES)
     )
     logistic_regression = LogisticRegression(
         solver="liblinear",
@@ -114,7 +114,7 @@ def main():
     # Save the model to a joblib file
     joblib.dump(
         value=grid,
-        filename=titanic_joblib
+        filename=TITANIC_JOBLIB
     )
 
 
