@@ -11,34 +11,35 @@ import joblib
 
 
 def main():
-    features = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
-    file_predictions = Path("titanic_predictions.csv")
-    titanic_joblib = Path("pipeline.joblib")
-    file_new = Path("titanic_new.csv")
-    pipeline_from_joblib = joblib.load(filename=titanic_joblib)
+    FEATURES = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
+    FILE_PREDICTIONS = Path("titanic_predictions.csv")
+    TITANIC_JOBLIB = Path("pipeline.joblib")
+    SERIES_NAME = "Survived prediction"
+    FILE_NEW = Path("titanic_new.csv")
+    pipeline_from_joblib = joblib.load(filename=TITANIC_JOBLIB)
     # df_new = pd.read_csv(
-    #     filepath_or_buffer=file_new
+    #     filepath_or_buffer=FILE_NEW
     # )
     df_new = ds.read_file(
-        file_name=file_new
+        file_name=FILE_NEW
     )
-    X_new = df_new[features]
+    X_new = df_new[FEATURES]
     predictions_ndarray = pipeline_from_joblib.predict(X=X_new)
     predictions_series = pd.Series(
         data=predictions_ndarray,
         index=X_new.index,
-        name='Survived prediction'
+        name=SERIES_NAME
     )
     X_new_predictions = pd.concat(
         objs=[X_new, predictions_series],
-        axis='columns'
+        axis="columns"
     )
     # X_new_predictions.to_csv(
-    #     path_or_buf=file_predictions
+    #     path_or_buf=FILE_PREDICTIONS
     # )
     ds.save_file(
         df=X_new_predictions,
-        file_name=file_predictions
+        file_name=FILE_PREDICTIONS
     )
 
 
