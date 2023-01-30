@@ -1,6 +1,8 @@
 # Machine Learning Repository
 
-This repository contains:
+This repository contains scripts for machine learning.
 
-- Code snippets for scikit-learn
-- Code scripts for various online courses
+| Python script                                        | Description                                 |
+| :---                                                 | :---                                        |
+| master_machine_learning_with_scikit_learn.py         | Create model (pipeline) and save as joblib. |
+| master_machine_learning_with_scikit_learn_predict.py | Load joblib and predict values              |
