@@ -14,11 +14,14 @@ from pandas.api.types import CategoricalDtype
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 import datasense as ds
+import pandas as pd
+import joblib
 
 
 def main():
     start_time = time.perf_counter()
     FEATURES = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
+    MASTER_ML_JOBLIB = Path("master_ml_pipeline.joblib")
     ONE_HOT_ENCODER_FEATURES = ["Embarked", "Sex"]
     OUTPUT_URL = "master_machine_learning.html"
     HEADER_TITLE = "Master Machine Learning"
@@ -50,6 +53,7 @@ def main():
     )
     X = df[FEATURES]
     y = df[TARGET]
+    # the next line is unnecessary because I use master_ml_pipeline.py
     # Read new data, define X_new
     df_new = ds.read_file(
         file_name=FILE_NEW,
@@ -98,10 +102,17 @@ def main():
     # Create two-step pipeline, fit the pipeline, make predictions
     pipeline = make_pipeline(column_transformer, logistic_regression)
     pipeline.fit(X=X, y=y)
+    # the next line is unnecessary because I use master_ml_pipeline.py
     pipeline.predict(X=X_new)
     print("pipeline.predict(X=X_new)")
-    print(pipeline.predict(X=X_new))
+    predictions = pipeline.predict(X=X_new)
+    print(predictions)
     print()
+    # Save the model to a joblib file
+    joblib.dump(
+        value=pipeline,
+        filename=MASTER_ML_JOBLIB
+    )
     # The following code throws an error
     # print(
     #     "Feature names",
