@@ -38,6 +38,7 @@ def main():
     # above showed that Age, Embarked had missing values
     X = df[FEATURES]
     y = df[TARGET]
+    # the next line is unnecessary because I use titanic_predict.py
     df_new = ds.read_file(
         file_name=file_new
     )
@@ -46,7 +47,6 @@ def main():
         file_in=FILE_DATA
     )
     # above shows that Age, Fare had missing values
-    # the next line is unnecessary because I use titanic_predict.py
     X_new = df_new[FEATURES]
     # impute for NaN in Embarked, Sex before one-hot encoding
     imputer_constant = SimpleImputer(strategy="constant", fill_value="missing")
