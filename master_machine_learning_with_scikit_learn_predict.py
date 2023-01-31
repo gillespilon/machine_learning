@@ -12,8 +12,8 @@ import joblib
 
 def main():
     FEATURES = ["Parch", "Fare", "Embarked", "Sex", "Name", "Age"]
-    FILE_PREDICTIONS = Path("titanic_predictions.csv")
     MASTER_ML_JOBLIB = Path("master_ml_pipeline.joblib")
+    FILE_PREDICTIONS = Path("titanic_predictions.csv")
     SERIES_NAME = "Survived prediction"
     FILE_NEW = Path("titanic_new.csv")
     pipeline_from_joblib = joblib.load(filename=MASTER_ML_JOBLIB)
@@ -41,6 +41,7 @@ def main():
         df=X_new_predictions,
         file_name=FILE_PREDICTIONS
     )
+    print(f"File {FILE_PREDICTIONS} created.")
 
 
 if __name__ == "__main__":
