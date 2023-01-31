@@ -14,7 +14,6 @@ from pandas.api.types import CategoricalDtype
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 import datasense as ds
-import pandas as pd
 import joblib
 
 
@@ -46,7 +45,9 @@ def main():
         file_name=FILE_DATA,
         # nrows=10
     ).astype(dtype={"Embarked": CategoricalDtype()})
+    print("df.info():")
     print(df.info())
+    print()
     ds.dataframe_info(
         df=df,
         file_in=FILE_DATA
@@ -59,7 +60,9 @@ def main():
         file_name=FILE_NEW,
         # nrows=10
     ).astype(dtype={"Embarked": CategoricalDtype()})
+    print("df.info():")
     print(df.info())
+    print()
     ds.dataframe_info(
         df=df_new,
         file_in=FILE_NEW
