@@ -7,8 +7,9 @@ from pathlib import Path
 import time
 
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.linear_model import LogisticRegression
 from sklearn.compose import make_column_transformer
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import OneHotEncoder
 from pandas.api.types import CategoricalDtype
 from sklearn.pipeline import make_pipeline
@@ -111,11 +112,6 @@ def main():
     predictions = pipeline.predict(X=X_new)
     print(predictions)
     print()
-    # Save the model to a joblib file
-    joblib.dump(
-        value=pipeline,
-        filename=MASTER_ML_JOBLIB
-    )
     # The following code throws an error
     # print(
     #     "Feature names",
@@ -124,6 +120,21 @@ def main():
     # print()
     print(pipeline)
     print()
+    print("cross validation score")
+    cross_validation_score = cross_val_score(
+        estimator=pipeline,
+        X=X,
+        y=y,
+        scoring="accuracy",
+        cv=5,
+    ).mean()
+    print(cross_validation_score)
+    print()
+    # Save the model to a joblib file
+    joblib.dump(
+        value=pipeline,
+        filename=MASTER_ML_JOBLIB
+    )
     stop_time = time.perf_counter()
     ds.script_summary(
         script_path=Path(__file__),
