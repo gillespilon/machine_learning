@@ -262,9 +262,16 @@ def main():
         title="best parameters:"
     )
     print()
+    print("best estimator (pipeline):")
+    print(gridsearchcv_fitted.best_estimator_)
+    print()
+    print("use the best pipeline to make predictions:")
+    print(gridsearchcv_fitted.predict(X_new))
+    print()
     # Save the model to a joblib file
     joblib.dump(
-        value=pipeline,
+        # value=pipeline,
+        value=gridsearchcv_fitted.best_estimator_,
         filename=MASTER_ML_JOBLIB
     )
     stop_time = time.perf_counter()
