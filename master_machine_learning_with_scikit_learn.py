@@ -6,15 +6,16 @@ Essential code for Kevin Markham's "Master machine learning with scikit-learn."
 from pathlib import Path
 import time
 
+from sklearn.model_selection import cross_val_score, GridSearchCV
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.compose import make_column_transformer
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import cross_val_score
 from sklearn.preprocessing import OneHotEncoder
 from pandas.api.types import CategoricalDtype
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 import datasense as ds
+import pandas as pd
 import joblib
 
 
@@ -100,6 +101,8 @@ def main():
     )
     # Create instance of logistic regression
     logistic_regression = LogisticRegression(
+        penalty="l2",
+        C=1.0,
         solver="liblinear",
         random_state=1
     )
@@ -120,7 +123,7 @@ def main():
     # print()
     print(pipeline)
     print()
-    print("cross validation score")
+    print("cross validation score:")
     cross_validation_score = cross_val_score(
         estimator=pipeline,
         X=X,
@@ -129,6 +132,131 @@ def main():
         cv=5,
     ).mean()
     print(cross_validation_score)
+    print()
+    print("names of the pipeline steps from the named_steps attribute:")
+    print(pipeline.named_steps.keys())
+    print()
+    pipeline_parameters = list(pipeline.get_params().keys())
+    ds.print_list_by_item(
+        list_to_print=pipeline_parameters,
+        title="pipeline parameters:"
+    )
+    print()
+    print("tune the logistic regression step")
+    print()
+    # Create a dictionary for GridSearchCV.
+    gridsearchcv_parameters = {}
+    gridsearchcv_parameters["logisticregression__penalty"] = ["l1", "l2"]
+    gridsearchcv_parameters["logisticregression__C"] = [0.1, 1.0, 10.0]
+    ds.print_dictionary_by_key(
+        dictionary_to_print=gridsearchcv_parameters,
+        title="parameters to tune for the logistic regression step:"
+    )
+    print()
+    gridsearchcv = GridSearchCV(
+        estimator=pipeline,
+        param_grid=gridsearchcv_parameters,
+        scoring="accuracy",
+        cv=5
+    )
+    gridsearchcv_fitted = gridsearchcv.fit(
+        X=X,
+        y=y
+    )
+    # gridsearchcv_fitted_df = (
+    #     pd.DataFrame(data=gridsearchcv_fitted.cv_results_)
+    #     .sort_values("rank_test_score")
+    # )
+    # print("grid search fitted results")
+    # print(gridsearchcv_fitted_df)
+    # print()
+    # print("gridsearchcv_fitted_df columns:")
+    # print(gridsearchcv_fitted_df.columns)
+    # print(
+    #     "optimal values of "
+    #     "logisticregression__penalty, "
+    #     "logisticregression__C:"
+    # )
+    # print(gridsearchcv_fitted_df[[
+    #     "rank_test_score",
+    #     "mean_test_score",
+    #     "param_logisticregression__C",
+    #     "param_logisticregression__penalty"
+    # ]])
+    # print()
+    print("best score:")
+    print(gridsearchcv_fitted.best_score_)
+    print()
+    ds.print_dictionary_by_key(
+        dictionary_to_print=gridsearchcv_fitted.best_params_,
+        title="best parameters:"
+    )
+    print()
+    print("tune the logistic regression step and the transformers")
+    print()
+    print("names of the transformer names")
+    print(pipeline.named_steps["columntransformer"].named_transformers_)
+    print()
+    gridsearchcv_parameters[
+        "columntransformer__pipeline__onehotencoder__drop"
+    ] = [None, "first"]
+    gridsearchcv_parameters[
+        "columntransformer__countvectorizer__ngram_range"
+    ] = [(1, 1), (1, 2)]
+    gridsearchcv_parameters[
+        "columntransformer__simpleimputer__add_indicator"
+    ] = [False, True]
+    ds.print_dictionary_by_key(
+        dictionary_to_print=gridsearchcv_parameters,
+        title=(
+            "parameters to tune for the logistic regression step and the "
+            "transformers:"
+        )
+    )
+    print()
+    gridsearchcv = GridSearchCV(
+        estimator=pipeline,
+        param_grid=gridsearchcv_parameters,
+        scoring="accuracy",
+        cv=5
+    )
+    gridsearchcv_fitted = gridsearchcv.fit(
+        X=X,
+        y=y
+    )
+    # gridsearchcv_fitted_df = (
+    #     pd.DataFrame(data=gridsearchcv_fitted.cv_results_)
+    #     .sort_values("rank_test_score")
+    # )
+    # print("grid search fitted results")
+    # print(gridsearchcv_fitted_df)
+    # print()
+    # print("gridsearchcv_fitted_df columns:")
+    # print(gridsearchcv_fitted_df.columns)
+    # print(
+    #     "optimal values of "
+    #     "columntransformer__countvectorizer__ngram_range, "
+    #     "columntransformer__pipeline__onehotencoder__drop, "
+    #     "columntransformer__simpleimputer__add_indicator, "
+    #     "logisticregression__penalty, "
+    #     "logisticregression__C:")
+    # print(gridsearchcv_fitted_df[[
+    #     "rank_test_score",
+    #     "mean_test_score",
+    #     "param_columntransformer__countvectorizer__ngram_range",
+    #     "param_columntransformer__pipeline__onehotencoder__drop",
+    #     "param_columntransformer__simpleimputer__add_indicator",
+    #     "param_logisticregression__C",
+    #     "param_logisticregression__penalty"
+    # ]])
+    # print()
+    print("best score:")
+    print(gridsearchcv_fitted.best_score_)
+    print()
+    ds.print_dictionary_by_key(
+        dictionary_to_print=gridsearchcv_fitted.best_params_,
+        title="best parameters:"
+    )
     print()
     # Save the model to a joblib file
     joblib.dump(
