@@ -62,8 +62,8 @@ def main():
         file_name=FILE_NEW,
         # nrows=10
     ).astype(dtype={"Embarked": CategoricalDtype()})
-    print("df.info():")
-    print(df.info())
+    print("df_new.info():")
+    print(df_new.info())
     print()
     ds.dataframe_info(
         df=df_new,
@@ -121,8 +121,8 @@ def main():
     #     pipeline[:-1].get_feature_names_out()
     # )
     # print()
-    print(pipeline)
-    print()
+    # print(pipeline)
+    # print()
     print("cross validation score:")
     cross_validation_score = cross_val_score(
         estimator=pipeline,
@@ -142,27 +142,27 @@ def main():
         title="pipeline parameters:"
     )
     print()
-    print("tune the logistic regression step")
-    print()
-    # Create a dictionary for GridSearchCV.
-    gridsearchcv_parameters = {}
-    gridsearchcv_parameters["logisticregression__penalty"] = ["l1", "l2"]
-    gridsearchcv_parameters["logisticregression__C"] = [0.1, 1.0, 10.0]
-    ds.print_dictionary_by_key(
-        dictionary_to_print=gridsearchcv_parameters,
-        title="parameters to tune for the logistic regression step:"
-    )
-    print()
-    gridsearchcv = GridSearchCV(
-        estimator=pipeline,
-        param_grid=gridsearchcv_parameters,
-        scoring="accuracy",
-        cv=5
-    )
-    gridsearchcv_fitted = gridsearchcv.fit(
-        X=X,
-        y=y
-    )
+    # print("tune the logistic regression step")
+    # print()
+    # # Create a dictionary for GridSearchCV.
+    # gridsearchcv_parameters = {}
+    # gridsearchcv_parameters["logisticregression__penalty"] = ["l1", "l2"]
+    # gridsearchcv_parameters["logisticregression__C"] = [0.1, 1.0, 10.0]
+    # ds.print_dictionary_by_key(
+    #     dictionary_to_print=gridsearchcv_parameters,
+    #     title="parameters to tune for the logistic regression step:"
+    # )
+    # print()
+    # gridsearchcv = GridSearchCV(
+    #     estimator=pipeline,
+    #     param_grid=gridsearchcv_parameters,
+    #     scoring="accuracy",
+    #     cv=5
+    # )
+    # gridsearchcv_fitted = gridsearchcv.fit(
+    #     X=X,
+    #     y=y
+    # )
     # gridsearchcv_fitted_df = (
     #     pd.DataFrame(data=gridsearchcv_fitted.cv_results_)
     #     .sort_values("rank_test_score")
@@ -184,19 +184,23 @@ def main():
     #     "param_logisticregression__penalty"
     # ]])
     # print()
-    print("best score:")
-    print(gridsearchcv_fitted.best_score_)
-    print()
-    ds.print_dictionary_by_key(
-        dictionary_to_print=gridsearchcv_fitted.best_params_,
-        title="best parameters:"
-    )
-    print()
+    # print("best score:")
+    # print(gridsearchcv_fitted.best_score_)
+    # print()
+    # ds.print_dictionary_by_key(
+    #     dictionary_to_print=gridsearchcv_fitted.best_params_,
+    #     title="best parameters:"
+    # )
+    # print()
     print("tune the logistic regression step and the transformers")
+    print("======================================================")
     print()
-    print("names of the transformer names")
+    print("names of the transformer names:")
     print(pipeline.named_steps["columntransformer"].named_transformers_)
     print()
+    gridsearchcv_parameters = {}
+    gridsearchcv_parameters["logisticregression__penalty"] = ["l1", "l2"]
+    gridsearchcv_parameters["logisticregression__C"] = [0.1, 1.0, 10.0]
     gridsearchcv_parameters[
         "columntransformer__pipeline__onehotencoder__drop"
     ] = [None, "first"]
