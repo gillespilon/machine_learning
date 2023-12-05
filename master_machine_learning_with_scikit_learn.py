@@ -123,7 +123,7 @@ def main():
     # print()
     # print(pipeline)
     # print()
-    print("cross validation score:")
+    print("cross validation score, no tuning:")
     cross_validation_score = cross_val_score(
         estimator=pipeline,
         X=X,
@@ -132,15 +132,6 @@ def main():
         cv=5,
     ).mean()
     print(cross_validation_score)
-    print()
-    print("names of the pipeline steps from the named_steps attribute:")
-    print(pipeline.named_steps.keys())
-    print()
-    pipeline_parameters = list(pipeline.get_params().keys())
-    ds.print_list_by_item(
-        list_to_print=pipeline_parameters,
-        title="pipeline parameters:"
-    )
     print()
     # print("tune the logistic regression step")
     # print()
@@ -194,6 +185,15 @@ def main():
     # print()
     print("tune the logistic regression step and the transformers")
     print("======================================================")
+    print()
+    print("names of the pipeline steps from the named_steps attribute:")
+    print(pipeline.named_steps.keys())
+    print()
+    pipeline_parameters = list(pipeline.get_params().keys())
+    ds.print_list_by_item(
+        list_to_print=pipeline_parameters,
+        title="pipeline parameters:"
+    )
     print()
     print("names of the transformer names:")
     print(pipeline.named_steps["columntransformer"].named_transformers_)
@@ -266,7 +266,7 @@ def main():
     print(gridsearchcv_fitted.best_estimator_)
     print()
     print("use the best pipeline to make predictions:")
-    print(gridsearchcv_fitted.predict(X_new))
+    print(gridsearchcv_fitted.predict(X=X_new))
     print()
     # Save the model to a joblib file
     joblib.dump(
