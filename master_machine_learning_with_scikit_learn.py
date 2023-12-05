@@ -222,7 +222,9 @@ def main():
         estimator=pipeline,
         param_grid=gridsearchcv_parameters,
         scoring="accuracy",
-        cv=5
+        n_jobs=-1,
+        cv=5,
+        verbose=1
     )
     gridsearchcv_fitted = gridsearchcv.fit(
         X=X,
