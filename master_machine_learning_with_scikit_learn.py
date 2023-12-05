@@ -15,7 +15,6 @@ from pandas.api.types import CategoricalDtype
 from sklearn.pipeline import make_pipeline
 from sklearn.impute import SimpleImputer
 import datasense as ds
-import pandas as pd
 import joblib
 
 
@@ -34,14 +33,9 @@ def main():
     VECTORIZER_FEATURES = "Name"
     TARGET = "Survived"
     original_stdout = ds.html_begin(
-        output_url=OUTPUT_URL,
-        header_title=HEADER_TITLE,
-        header_id=HEADER_ID
+        output_url=OUTPUT_URL, header_title=HEADER_TITLE, header_id=HEADER_ID
     )
-    ds.script_summary(
-        script_path=Path(__file__),
-        action="started at"
-    )
+    ds.script_summary(script_path=Path(__file__), action="started at")
     # Read training data, define X and y
     df = ds.read_file(
         file_name=FILE_DATA,
@@ -50,10 +44,7 @@ def main():
     print("df.info():")
     print(df.info())
     print()
-    ds.dataframe_info(
-        df=df,
-        file_in=FILE_DATA
-    )
+    ds.dataframe_info(df=df, file_in=FILE_DATA)
     X = df[FEATURES]
     y = df[TARGET]
     # the next line is unnecessary because I use master_ml_pipeline.py
@@ -65,10 +56,7 @@ def main():
     print("df_new.info():")
     print(df_new.info())
     print()
-    ds.dataframe_info(
-        df=df_new,
-        file_in=FILE_NEW
-    )
+    ds.dataframe_info(df=df_new, file_in=FILE_NEW)
     X_new = df_new[FEATURES]
     print("Missing data")
     print("============")
@@ -83,10 +71,7 @@ def main():
     print()
     # Create four instances of transformers
     imputer = SimpleImputer()
-    imputer_constant = SimpleImputer(
-        strategy="constant",
-        fill_value="missing"
-    )
+    imputer_constant = SimpleImputer(strategy="constant", fill_value="missing")
     one_hot_encoder = OneHotEncoder()
     vectorizer = CountVectorizer()
     # Create two-step transformer pipeline of constant value imputation and
@@ -97,14 +82,11 @@ def main():
         (pipeline_imputer_ohe, ONE_HOT_ENCODER_FEATURES),
         (vectorizer, VECTORIZER_FEATURES),
         (imputer, IMPUTER_FEATURES),
-        ("passthrough", PASSTHROUGH_FEATURES)
+        ("passthrough", PASSTHROUGH_FEATURES),
     )
     # Create instance of logistic regression
     logistic_regression = LogisticRegression(
-        penalty="l2",
-        C=1.0,
-        solver="liblinear",
-        random_state=1
+        penalty="l2", C=1.0, solver="liblinear", random_state=1
     )
     # Create two-step pipeline, fit the pipeline, make predictions
     pipeline = make_pipeline(column_transformer, logistic_regression)
@@ -191,8 +173,7 @@ def main():
     print()
     pipeline_parameters = list(pipeline.get_params().keys())
     ds.print_list_by_item(
-        list_to_print=pipeline_parameters,
-        title="pipeline parameters:"
+        list_to_print=pipeline_parameters, title="pipeline parameters:"
     )
     print()
     print("names of the transformer names:")
@@ -200,22 +181,39 @@ def main():
     print()
     gridsearchcv_parameters = {}
     gridsearchcv_parameters["logisticregression__penalty"] = ["l1", "l2"]
-    gridsearchcv_parameters["logisticregression__C"] = [0.1, 1.0, 10.0]
+    # gridsearchcv_parameters["logisticregression__C"] = [0.1, 1.0, 10.0]
+    gridsearchcv_parameters["logisticregression__C"] = [
+        0.01,
+        0.1,
+        1.0,
+        10.0,
+        100.0,
+        1000.0,
+    ]
     gridsearchcv_parameters[
         "columntransformer__pipeline__onehotencoder__drop"
-    ] = [None, "first"]
+    ] = [
+        None,
+        "first",
+    ]
     gridsearchcv_parameters[
         "columntransformer__countvectorizer__ngram_range"
-    ] = [(1, 1), (1, 2)]
+    ] = [
+        (1, 1),
+        (1, 2),
+    ]
     gridsearchcv_parameters[
         "columntransformer__simpleimputer__add_indicator"
-    ] = [False, True]
+    ] = [
+        False,
+        True,
+    ]
     ds.print_dictionary_by_key(
         dictionary_to_print=gridsearchcv_parameters,
         title=(
             "parameters to tune for the logistic regression step and the "
             "transformers:"
-        )
+        ),
     )
     print()
     gridsearchcv = GridSearchCV(
@@ -224,12 +222,9 @@ def main():
         scoring="accuracy",
         n_jobs=-1,
         cv=5,
-        verbose=1
+        verbose=1,
     )
-    gridsearchcv_fitted = gridsearchcv.fit(
-        X=X,
-        y=y
-    )
+    gridsearchcv_fitted = gridsearchcv.fit(X=X, y=y)
     # gridsearchcv_fitted_df = (
     #     pd.DataFrame(data=gridsearchcv_fitted.cv_results_)
     #     .sort_values("rank_test_score")
@@ -261,7 +256,7 @@ def main():
     print()
     ds.print_dictionary_by_key(
         dictionary_to_print=gridsearchcv_fitted.best_params_,
-        title="best parameters:"
+        title="best parameters:",
     )
     print()
     print("best estimator (pipeline):")
@@ -274,21 +269,12 @@ def main():
     joblib.dump(
         # value=pipeline,
         value=gridsearchcv_fitted.best_estimator_,
-        filename=MASTER_ML_JOBLIB
+        filename=MASTER_ML_JOBLIB,
     )
     stop_time = time.perf_counter()
-    ds.script_summary(
-        script_path=Path(__file__),
-        action="finished at"
-    )
-    ds.report_summary(
-        start_time=start_time,
-        stop_time=stop_time
-    )
-    ds.html_end(
-        original_stdout=original_stdout,
-        output_url=OUTPUT_URL
-    )
+    ds.script_summary(script_path=Path(__file__), action="finished at")
+    ds.report_summary(start_time=start_time, stop_time=stop_time)
+    ds.html_end(original_stdout=original_stdout, output_url=OUTPUT_URL)
 
 
 if __name__ == "__main__":
