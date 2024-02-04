@@ -16,7 +16,6 @@ time -f "%e" ./machine_learning_basic.py > machine_learning_basic.txt
 """
 
 from multiprocessing import Pool
-from typing import NoReturn
 from pathlib import Path
 import time
 
@@ -35,7 +34,7 @@ import pandas as pd
 import numpy as np
 
 
-def plot_scatter_y(t: pd.Series) -> NoReturn:
+def plot_scatter_y(t: pd.Series) -> None:
     y, feature = t
     fig, ax = ds.plot_scatter_y(
         y=y,
