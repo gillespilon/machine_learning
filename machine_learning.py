@@ -18,6 +18,8 @@ time -f "%e" ./machine_learning_basic.py > machine_learning_basic.txt
 from multiprocessing import Pool
 from pathlib import Path
 import time
+import sys
+sys.path.append("/home/gilles/.local/lib/python3.10/site-packages")
 
 from sklearn.linear_model import Lasso, LassoCV, LinearRegression
 from sklearn.model_selection import cross_val_score, GridSearchCV
@@ -28,7 +30,8 @@ from sklearn.compose import make_column_transformer
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.impute import SimpleImputer
-from xgboost import XGBRegressor
+import xgboost as xgb
+# from xgboost import XGBRegressor
 import datasense as ds
 import pandas as pd
 import numpy as np
@@ -166,7 +169,7 @@ def main():
     decision_tree_regressor = DecisionTreeRegressor()
     random_forest_regressor = RandomForestRegressor()
     linear_regression = LinearRegression()
-    xgboost_regressor = XGBRegressor()
+    xgboost_regressor = xgb.XGBRegressor()
     lassocv = LassoCV()
     lasso = Lasso()
     selector = SelectFromModel(estimator=decision_tree_regressor)
